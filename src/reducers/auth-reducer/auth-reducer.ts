@@ -36,11 +36,9 @@ const authSlice = createSlice({
       state.profile = null;
     });
 
-
     builder.addMatcher(authApi.endpoints.logIn.matchFulfilled, (state, { payload: { data } }) => {
       state.profile = data;
     });
-
   },
 });
 

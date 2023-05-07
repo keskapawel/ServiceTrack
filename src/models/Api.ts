@@ -8,5 +8,4 @@ export interface IPaginationApiData<T> extends IApiData<T> {
   meta: IMeta;
 }
 
-export interface IQuery {
-}
+export interface IQuery {}

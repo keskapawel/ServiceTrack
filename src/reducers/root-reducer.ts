@@ -8,7 +8,6 @@ export const resetState = createAction('root/resetState');
 const combinedReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   [authReducerReducerName]: authReducer,
-
 });
 
 export const rootReducer: typeof combinedReducer = (state, action) => {

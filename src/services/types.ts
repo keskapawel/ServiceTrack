@@ -11,13 +11,7 @@ export type TDeviseError = {
   data: { errors: Record<string, string[]> };
 };
 
-export type TBaseQueryFunc = BaseQueryFn<
-  string | FetchArgs,
-  unknown,
-  TApiError,
-  unknown,
-  { request: Request; response: Response }
->;
+export type TBaseQueryFunc = BaseQueryFn<string | FetchArgs, unknown, TApiError, unknown, { request: Request; response: Response }>;
 
 export type TBaseQueryWithResult = TBaseQueryFunc extends (...a: infer U) => infer R
   ? (defaultResult: ReturnType<TBaseQueryFunc>, ...a: U) => R

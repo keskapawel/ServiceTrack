@@ -87,12 +87,7 @@ const waitForUnlockAndRunQueryAsync: TBaseQueryFunc = async (args, api, extraOpt
   return await baseQueryCamelize(args, api, extraOptions);
 };
 
-const reauthenticateAsync: TBaseQueryWithResult = async (
-  previousResult,
-  args,
-  api,
-  extraOptions,
-) => {
+const reauthenticateAsync: TBaseQueryWithResult = async (previousResult, args, api, extraOptions) => {
   if (mutex.isLocked()) {
     return await waitForUnlockAndRunQueryAsync(args, api, extraOptions);
   }
@@ -105,11 +100,7 @@ const refreshTokenAsync: TBaseQueryWithResult = async (previousResult, args, api
 
   // try to get a new token
   try {
-    const refreshResult = await baseQueryCamelize(
-      { url: 'api/v1/refresh_tokens', method: 'POST' },
-      api,
-      extraOptions,
-    );
+    const refreshResult = await baseQueryCamelize({ url: 'api/v1/refresh_tokens', method: 'POST' }, api, extraOptions);
 
     if (refreshResult.data) {
       setTokenFromResponse(refreshResult, api);
@@ -127,10 +118,7 @@ const refreshTokenAsync: TBaseQueryWithResult = async (previousResult, args, api
   return previousResult;
 };
 
-const setTokenFromResponse = (
-  result: UnwrapPromise<ReturnType<TBaseQueryFunc>>,
-  api: BaseQueryApi,
-): void => {
+const setTokenFromResponse = (result: UnwrapPromise<ReturnType<TBaseQueryFunc>>, api: BaseQueryApi): void => {
   const { meta } = result ?? {};
 
   if (meta && meta.response) {

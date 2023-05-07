@@ -46,12 +46,7 @@ const isFetchBaseQueryError = (error: unknown): error is FetchBaseQueryError => 
 };
 
 const isErrorWithMessage = (error: unknown): error is { message: string } => {
-  return (
-    typeof error === 'object' &&
-    error != null &&
-    'message' in error &&
-    typeof (error as any).message === 'string'
-  );
+  return typeof error === 'object' && error != null && 'message' in error && typeof (error as any).message === 'string';
 };
 
 export const getErrorMessage = (error: TRequestError): ReactNode => {
@@ -66,8 +61,7 @@ export const getErrorMessage = (error: TRequestError): ReactNode => {
       </>
     ));
 
-  if (isFetchBaseQueryError(error))
-    return 'error' in error ? error.error : 'Unknown Error has occurred';
+  if (isFetchBaseQueryError(error)) return 'error' in error ? error.error : 'Unknown Error has occurred';
 
   if (isErrorWithMessage(error)) return error.message;
 
@@ -82,12 +76,9 @@ export const getUrlFromArgs = (args: string | FetchArgs) => {
   return args.url;
 };
 
-export const isAuthRequiredForUrl = (url: string) =>
-  !REAUTHENTICATE_SKIP.some((skipUrl) => url.endsWith(skipUrl));
+export const isAuthRequiredForUrl = (url: string) => !REAUTHENTICATE_SKIP.some((skipUrl) => url.endsWith(skipUrl));
 
-export const shouldReauthenticate = (
-  result: UnwrapPromise<ReturnType<TBaseQueryFunc>>,
-): boolean => {
+export const shouldReauthenticate = (result: UnwrapPromise<ReturnType<TBaseQueryFunc>>): boolean => {
   const { error, meta } = result;
 
   if (meta && error?.status === 401) {
@@ -119,11 +110,7 @@ export type CacheList<T extends BASE_TAGS, ID extends string | number> = (
 /**
  * Inner function returned by `providesList` to be passed to the `provides` property of a query
  */
-type InnerProvidesList<
-  T extends BASE_TAGS,
-  Result extends { id: ID },
-  ID extends string | number,
-> = <Results extends { id: ID }[]>(
+type InnerProvidesList<T extends BASE_TAGS, Result extends { id: ID }, ID extends string | number> = <Results extends { id: ID }[]>(
   type: T,
   results: Result[] | undefined,
 ) => CacheList<T, Results[number]['id']>;
@@ -191,15 +178,8 @@ export const providesList =
  * ```
  */
 export const invalidatesList =
-  <T extends BASE_TAGS>(
-    type: T | (T | { type: T; parentIdArgsKey: string })[],
-    { parentIdArgsKey }: { parentIdArgsKey?: string } = {},
-  ) =>
-  (
-    results: any,
-    error: FetchBaseQueryError | undefined,
-    args: any,
-  ): readonly CacheItem<T, EBaseId.LIST>[] => {
+  <T extends BASE_TAGS>(type: T | (T | { type: T; parentIdArgsKey: string })[], { parentIdArgsKey }: { parentIdArgsKey?: string } = {}) =>
+  (results: any, error: FetchBaseQueryError | undefined, args: any): readonly CacheItem<T, EBaseId.LIST>[] => {
     if (Array.isArray(type))
       return type.map((item) => {
         if (typeof item === 'object')
@@ -268,11 +248,8 @@ export const invalidatesItem =
     return [createTag(type, result.data?.id ?? '') as CacheItem<T, string | number>] as const;
   };
 
-export const createTag = <T extends BASE_TAGS, ID extends string | number>(
-  type: T,
-  id?: ID,
-  { parentId }: { parentId?: string } = {},
-) => (id ? ({ type, id: parentId ? `${id}-${parentId}` : (id as string) } as const) : type);
+export const createTag = <T extends BASE_TAGS, ID extends string | number>(type: T, id?: ID, { parentId }: { parentId?: string } = {}) =>
+  id ? ({ type, id: parentId ? `${id}-${parentId}` : (id as string) } as const) : type;
 
 export const bytesToMegaBytes = (bytes: number) => bytes / 1024 ** 2;
 

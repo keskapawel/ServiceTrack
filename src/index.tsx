@@ -6,17 +6,19 @@ import reportWebVitals from './reportWebVitals';
 import { CssBaseline } from '@mui/material';
 
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <CssBaseline />
-      <App />
-    </ErrorBoundary>
-  </React.StrictMode>
+    <Provider store={store}>
+      <ErrorBoundary>
+        <CssBaseline />
+        <App />
+      </ErrorBoundary>
+    </Provider>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

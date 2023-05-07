@@ -10,7 +10,7 @@ import { deleteToken, setToken } from '../reducers/auth-reducer/actions';
 import { TBaseQueryFunc, TBaseQueryWithResult } from './types';
 import { getUrlFromArgs, isAuthRequiredForUrl, mutex, shouldReauthenticate } from './utils';
 import { AUTH_HEADER } from './constants';
-import { stringify } from 'query-string/base';
+import { stringify } from 'query-string';
 
 const getToken = ({ getState }: Partial<BaseQueryApi>) => (getState?.() as RootState).auth.token;
 

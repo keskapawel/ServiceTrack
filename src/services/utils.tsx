@@ -20,7 +20,7 @@ export const mutex = new Mutex();
 const isApiError = (error: unknown): error is TApiError => {
   return (
     error != null &&
-    error != undefined &&
+    error !== undefined &&
     typeof error === 'object' &&
     'status' in error &&
     'data' in error &&
@@ -155,29 +155,29 @@ const concatErrorCache = <T extends BASE_TAGS, ID extends string | number>(
  */
 export const providesList =
   <T extends BASE_TAGS>(type: T, { parentIdArgsKey }: { parentIdArgsKey?: string } = {}) =>
-    <Result extends { id: ID }, ID extends string | number>(
-      results: IApiData<Result[]> | Result[] | undefined,
-      error: FetchBaseQueryError | undefined,
-      args: any,
-    ): ReturnType<InnerProvidesList<T, Result, ID>> => {
-      if (!results) return concatErrorCache([createTag(type, EBaseId.LIST)], error);
+  <Result extends { id: ID }, ID extends string | number>(
+    results: IApiData<Result[]> | Result[] | undefined,
+    error: FetchBaseQueryError | undefined,
+    args: any,
+  ): ReturnType<InnerProvidesList<T, Result, ID>> => {
+    if (!results) return concatErrorCache([createTag(type, EBaseId.LIST)], error);
 
-      let list: Result[];
+    let list: Result[];
 
-      if ('data' in results) list = results.data;
-      else list = results;
+    if ('data' in results) list = results.data;
+    else list = results;
 
-      return [
-        createTag(type, EBaseId.LIST, {
-          parentId: parentIdArgsKey ? args[parentIdArgsKey] : undefined,
-        }),
-        ...list.map(({ id }) => {
-          const [item] = providesItem(type)({ data: { id } }, error, args);
+    return [
+      createTag(type, EBaseId.LIST, {
+        parentId: parentIdArgsKey ? args[parentIdArgsKey] : undefined,
+      }),
+      ...list.map(({ id }) => {
+        const [item] = providesItem(type)({ data: { id } }, error, args);
 
-          return item!;
-        }),
-      ];
-    };
+        return item!;
+      }),
+    ];
+  };
 
 /**
  * HOF to create an entity cache to invalidate a LIST.
@@ -195,29 +195,29 @@ export const invalidatesList =
     type: T | (T | { type: T; parentIdArgsKey: string })[],
     { parentIdArgsKey }: { parentIdArgsKey?: string } = {},
   ) =>
-    (
-      results: any,
-      error: FetchBaseQueryError | undefined,
-      args: any,
-    ): readonly CacheItem<T, EBaseId.LIST>[] => {
-      if (Array.isArray(type))
-        return type.map((item) => {
-          if (typeof item === 'object')
-            return createTag(item.type, EBaseId.LIST, {
-              parentId: args[item.parentIdArgsKey],
-            }) as CacheItem<T, EBaseId.LIST>;
-
-          return createTag(item, EBaseId.LIST, {
-            parentId: parentIdArgsKey ? args[parentIdArgsKey] : undefined,
+  (
+    results: any,
+    error: FetchBaseQueryError | undefined,
+    args: any,
+  ): readonly CacheItem<T, EBaseId.LIST>[] => {
+    if (Array.isArray(type))
+      return type.map((item) => {
+        if (typeof item === 'object')
+          return createTag(item.type, EBaseId.LIST, {
+            parentId: args[item.parentIdArgsKey],
           }) as CacheItem<T, EBaseId.LIST>;
-        });
 
-      return [
-        createTag(type, EBaseId.LIST, {
+        return createTag(item, EBaseId.LIST, {
           parentId: parentIdArgsKey ? args[parentIdArgsKey] : undefined,
-        }) as CacheItem<T, EBaseId.LIST>,
-      ];
-    };
+        }) as CacheItem<T, EBaseId.LIST>;
+      });
+
+    return [
+      createTag(type, EBaseId.LIST, {
+        parentId: parentIdArgsKey ? args[parentIdArgsKey] : undefined,
+      }) as CacheItem<T, EBaseId.LIST>,
+    ];
+  };
 
 /**
  * HOF to create an entity cache for a single item using the query argument as the ID.
@@ -231,20 +231,20 @@ export const invalidatesList =
  */
 export const providesItem =
   <T extends BASE_TAGS>(type: T) =>
-    <Result extends { id: ID }, ID extends string | number>(
-      result: IApiData<Result> | undefined,
-      error: FetchBaseQueryError | undefined,
-      args: any,
-    ): readonly [CacheItem<T, Result['id']>] | readonly [BASE_TAGS.ERROR] => {
-      if (!result) return concatErrorCache<T, ID>(undefined, error) as [BASE_TAGS.ERROR];
+  <Result extends { id: ID }, ID extends string | number>(
+    result: IApiData<Result> | undefined,
+    error: FetchBaseQueryError | undefined,
+    args: any,
+  ): readonly [CacheItem<T, Result['id']>] | readonly [BASE_TAGS.ERROR] => {
+    if (!result) return concatErrorCache<T, ID>(undefined, error) as [BASE_TAGS.ERROR];
 
-      let item: Result;
+    let item: Result;
 
-      if ('data' in result) item = result.data;
-      else item = result;
+    if ('data' in result) item = result.data;
+    else item = result;
 
-      return [createTag(type, item.id) as CacheItem<T, Result['id']>] as const;
-    };
+    return [createTag(type, item.id) as CacheItem<T, Result['id']>] as const;
+  };
 
 /**
  * HOF to create an entity cache to invalidate a single item using the query argument as the ID.
@@ -258,15 +258,15 @@ export const providesItem =
  */
 export const invalidatesItem =
   <T extends BASE_TAGS>(type: T) =>
-    <Result extends { id: ID }, ID extends string | number>(
-      result: IApiData<Result> | undefined,
-      error: FetchBaseQueryError | undefined,
-      args: any,
-    ): readonly [CacheItem<T, string | number>] | [] => {
-      if (!result) return [];
+  <Result extends { id: ID }, ID extends string | number>(
+    result: IApiData<Result> | undefined,
+    error: FetchBaseQueryError | undefined,
+    args: any,
+  ): readonly [CacheItem<T, string | number>] | [] => {
+    if (!result) return [];
 
-      return [createTag(type, result.data?.id ?? '') as CacheItem<T, string | number>] as const;
-    };
+    return [createTag(type, result.data?.id ?? '') as CacheItem<T, string | number>] as const;
+  };
 
 export const createTag = <T extends BASE_TAGS, ID extends string | number>(
   type: T,

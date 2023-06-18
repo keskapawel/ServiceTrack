@@ -1,10 +1,11 @@
 import { HelmetTags } from 'components/common/HelmetTags';
+import { HomePageContainer } from 'containers/HomePageContainer';
 
 const HomePage = () => {
   return (
     <>
-      <HelmetTags title={'Onasys'} />
-      Hello, World! HomePage
+      <HelmetTags title={'Service Track'} />
+      <HomePageContainer />
     </>
   );
 };

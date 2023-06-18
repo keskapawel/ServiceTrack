@@ -1,10 +1,11 @@
 import { HelmetTags } from 'components/common/HelmetTags';
+import { PageNotFundContainer } from 'containers/PageNotFundContainer';
 
 const PageNotFoundPage = () => {
   return (
     <>
       <HelmetTags title={'Page not found'} />
-      Page not found!
+      <PageNotFundContainer />
     </>
   );
 };

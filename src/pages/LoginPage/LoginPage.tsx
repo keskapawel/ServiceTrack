@@ -1,10 +1,11 @@
 import { HelmetTags } from 'components/common/HelmetTags';
+import { LoginContainer } from 'containers/LoginContainer';
 
 const LoginPage = () => {
   return (
     <>
       <HelmetTags title={'Login Page'} />
-      Login Page
+      <LoginContainer />
     </>
   );
 };

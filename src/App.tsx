@@ -7,18 +7,20 @@ import UnauthorizedOnlyLayout from 'layouts/UnauthorizedOnlyLayout';
 import { LoginPage } from 'pages/LoginPage';
 import { ProtectedLayout } from 'components/ProtectedLayout/ProtectedLayout';
 import { HomePage } from 'pages/HomePage';
+import { RegisterPage } from 'pages/RegisterPage';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<GlobalLayout />}>
-          <Route element={<Layout />}>
-            <Route path='*' element={<PageNotFoundPage />} />
-          </Route>
+          {/* <Route element={<Layout />}> */}
+          <Route path='*' element={<PageNotFoundPage />} />
+          {/* </Route> */}
 
           <Route element={<UnauthorizedOnlyLayout />}>
             <Route path='/login' element={<LoginPage />} />
+            <Route path='/register' element={<RegisterPage />} />
           </Route>
 
           <Route element={<ProtectedLayout />}>

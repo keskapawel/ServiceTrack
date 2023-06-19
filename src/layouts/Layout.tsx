@@ -2,8 +2,13 @@ import { Outlet } from 'react-router-dom';
 import { Footer } from './Footer';
 import { Box } from '@mui/material';
 import { Header } from './Header';
+import { NavigationBar } from './NavigationBar/NavigationBar';
 
-export const Layout = () => {
+interface IProps {
+  hideNavigation?: boolean;
+}
+
+export const Layout = ({ hideNavigation }: IProps) => {
   return (
     <>
       <Box
@@ -15,6 +20,7 @@ export const Layout = () => {
         }}
       >
         <Header>
+          {!hideNavigation && <NavigationBar />}
           <Outlet />
         </Header>
         <Footer />

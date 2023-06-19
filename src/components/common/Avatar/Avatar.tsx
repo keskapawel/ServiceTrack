@@ -20,7 +20,7 @@ const AvatarDetails: FC<IProps> = (props) => {
       {picture ? (
         <S.CurrentUserProfilePicture src={picture} alt='User picture' $size={size || 32} />
       ) : (
-        <S.TextWrapper bgColor={palette.outline} $size={size || 32}>
+        <S.TextWrapper $bgColor={palette.outline} $size={size || 32}>
           <div>
             {firstName?.slice(0, 1)}
             {lastName?.slice(0, 1)}

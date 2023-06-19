@@ -13,7 +13,6 @@ export const StyledLink = styled(LinkMui)`
 
     &:hover {
       color: ${palette.dark};
-      font-weight: 600;
     }
 
     Icon,

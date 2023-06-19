@@ -24,3 +24,7 @@ export const formatAppDate = (date: string | Date | Dayjs | undefined | null, da
 
   return dayjs(date).format(dateFormat);
 };
+
+export const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};

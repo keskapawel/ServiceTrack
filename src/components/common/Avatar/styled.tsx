@@ -40,7 +40,7 @@ export const CurrentUserProfilePicture = styled.img<{ $size: number }>`
     `}
 `;
 
-export const TextWrapper = styled.div<{ bgColor: string; $size: number }>`
+export const TextWrapper = styled.div<{ $bgColor: string; $size: number }>`
   ${(props) =>
     props.$size &&
     css`
@@ -51,9 +51,9 @@ export const TextWrapper = styled.div<{ bgColor: string; $size: number }>`
   justify-content: center;
   border-radius: 100%;
   ${(props) =>
-    props.bgColor &&
+    props.$bgColor &&
     css`
-      background: ${props.bgColor};
+      background: ${props.$bgColor};
     `}
   > div {
     margin: auto 0;

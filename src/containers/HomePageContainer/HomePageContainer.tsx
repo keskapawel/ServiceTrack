@@ -12,9 +12,11 @@ const dummyData = [
     description: 'Adjust settings',
   },
   {
-    name: '2 title',
+    name: 'Tickets',
     id: '2',
-    icon: 'BookmarkIcon',
+    icon: 'ClipboardIcon',
+    link: `${EPageType.TICKETS}`,
+    description: 'Another day in paradise...',
   },
   {
     name: '3 title',

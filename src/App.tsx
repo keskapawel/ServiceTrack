@@ -8,15 +8,17 @@ import { LoginPage } from 'pages/LoginPage';
 import { ProtectedLayout } from 'components/ProtectedLayout/ProtectedLayout';
 import { HomePage } from 'pages/HomePage';
 import { RegisterPage } from 'pages/RegisterPage';
+import { EPageType } from 'pages/PageType';
+import { ManageUsersPage } from 'pages/ManageUsersPage';
+import { SingleUserPage } from 'pages/SingleUserPage';
+import { SettingsPage } from 'pages/SettingsPage/SettingsPage';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<GlobalLayout />}>
-          {/* <Route element={<Layout />}> */}
           <Route path='*' element={<PageNotFoundPage />} />
-          {/* </Route> */}
 
           <Route element={<UnauthorizedOnlyLayout />}>
             <Route path='/login' element={<LoginPage />} />
@@ -26,6 +28,12 @@ function App() {
           <Route element={<ProtectedLayout />}>
             <Route element={<Layout />}>
               <Route index element={<HomePage />} />
+
+              <Route path={`/${EPageType.SETTINGS}`}>
+                <Route index element={<SettingsPage />} />
+                <Route path={`${EPageType.MANAGE_USERS}`} element={<ManageUsersPage />} />
+                <Route path={`${EPageType.MANAGE_USERS}/:id`} element={<SingleUserPage />} />
+              </Route>
             </Route>
           </Route>
         </Route>

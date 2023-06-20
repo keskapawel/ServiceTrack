@@ -18,16 +18,6 @@ const dummyData = [
     link: `${EPageType.TICKETS}`,
     description: 'Another day in paradise...',
   },
-  {
-    name: '3 title',
-    id: '3',
-    icon: 'BookmarkIcon',
-  },
-  {
-    name: '4 title',
-    id: '4',
-    icon: 'BookmarkIcon',
-  },
 ];
 
 export const HomePageContainer = () => {

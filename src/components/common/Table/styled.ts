@@ -102,7 +102,6 @@ export const StyledTableHeaderCell = styled(TableCell)<{
     !$isWidthInfinite &&
     css`
       flex: 0 auto !important;
-      border-top: 1px solid rgba(224, 224, 224, 1);
       border-bottom: none !important;
 
       &:last-child {

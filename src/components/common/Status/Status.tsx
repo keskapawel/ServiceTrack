@@ -15,7 +15,6 @@ export const Status = ({ status, subTitle }: IProps) => {
 };
 
 const StatusWithoutTooltip = ({ status }: IProps) => {
-  console.log(status, Colors[StatusesList[status.toLowerCase()]]?.[1], StatusesList[status.toLowerCase()]);
   return (
     <S.Wrapper>
       <S.Title

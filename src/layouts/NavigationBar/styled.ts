@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
   color: ${palette.lockedTextAndPlaceholder};
   font-size: ${fontSize[14]};
   margin-bottom: 10px;
+  margin-top: 10px;
 `;
 
 export const StyledLink = styled(Link)<{ $preventHover?: boolean }>`

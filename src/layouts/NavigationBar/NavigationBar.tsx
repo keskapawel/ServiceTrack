@@ -37,7 +37,6 @@ export const NavigationBar = () => {
           </S.StyledLink>
         )}
         {pathnames.map((name, index) => {
-          console.log(name, 'name');
           const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
           const isLast = index === pathnames.length - 1;
           return isLast ? undefined : (

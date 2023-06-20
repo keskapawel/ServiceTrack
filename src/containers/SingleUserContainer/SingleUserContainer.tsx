@@ -13,8 +13,6 @@ export const SingleUserContainer = () => {
   const dispatch = useAppDispatch();
   const { selectedUser } = useUserSelector();
 
-  console.log(selectedUser, 'selectedUser');
-
   const isLoading = false;
 
   useEffect(() => {

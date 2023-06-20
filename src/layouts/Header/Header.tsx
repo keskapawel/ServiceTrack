@@ -177,7 +177,7 @@ export const Header = ({ children }: any) => {
           ))}
         </List>
       </Drawer>
-      <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+      <Box component='main' sx={{ flexGrow: 1, padding: '4px 24px', overflow: 'hidden' }}>
         <DrawerHeader />
         {children}
       </Box>

@@ -5,18 +5,18 @@ import { EPageType } from 'pages/PageType';
 
 const dummyData = [
   {
-    name: 'Settings',
-    id: '1',
-    icon: 'AdjustmentsIcon',
-    link: `${EPageType.SETTINGS}`,
-    description: 'Adjust settings',
-  },
-  {
     name: 'Tickets',
-    id: '2',
+    id: '1',
     icon: 'ClipboardIcon',
     link: `${EPageType.TICKETS}`,
     description: 'Another day in paradise...',
+  },
+  {
+    name: 'Settings',
+    id: '2',
+    icon: 'AdjustmentsIcon',
+    link: `${EPageType.SETTINGS}`,
+    description: 'Adjust settings',
   },
 ];
 

@@ -10,7 +10,7 @@ import { TextInput } from 'components/common/TextInput';
 import { SingleBox } from '../SingleBox';
 
 import * as S from './styled';
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useAppDispatch } from 'hooks/store-hook';
 import { validationSchema, initialFormValues, requiredFields } from './constants';
 import { clearSelection, setIsValid, useNavigationButtonsSelector } from 'reducers/navigationButtons-reducer';
@@ -31,9 +31,9 @@ export const MainSection = ({ data }: IProps) => {
     };
   }, []);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = useCallback((data: any) => {
     console.log(data, 'data');
-  };
+  }, []);
 
   const formik = useFormik({
     validationSchema,

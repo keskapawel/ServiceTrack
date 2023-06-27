@@ -5,6 +5,7 @@ import { ITicket } from 'models/Ticket';
 
 export type TTicketState = {
   selectedTicket?: ITicket | null;
+  isEditMode?: boolean;
 };
 
 const initialState: TTicketState = {};
@@ -16,10 +17,13 @@ const ticketSlice = createSlice({
     setSelectedTicket: (state, action: PayloadAction<TTicketState>) => {
       state.selectedTicket = action.payload.selectedTicket;
     },
+    toggleEditMode: (state, action: PayloadAction<{ editMode: boolean }>) => {
+      state.isEditMode = action.payload.editMode;
+    },
   },
 });
 
-export const { setSelectedTicket } = ticketSlice.actions;
+export const { setSelectedTicket, toggleEditMode } = ticketSlice.actions;
 export const useTicketSelector = () => useAppSelector((state) => state.ticket);
 export const ticketReducer = ticketSlice.reducer;
 export default ticketReducer;

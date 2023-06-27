@@ -4,6 +4,7 @@ import { Icon } from 'components/common/Icon';
 
 export enum EOptions {
   EDIT_USER = 'editUser',
+  EDIT_TICKET = 'editTicket',
 }
 
 export const options = {
@@ -11,6 +12,13 @@ export const options = {
     {
       id: EOptions.EDIT_USER,
       label: 'Edit User',
+      icon: 'PencilIcon',
+    },
+  ],
+  ticketActions: [
+    {
+      id: EOptions.EDIT_TICKET,
+      label: 'Edit Ticket',
       icon: 'PencilIcon',
     },
   ],

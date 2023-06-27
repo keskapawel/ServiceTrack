@@ -12,6 +12,7 @@ export enum EOption {
   Settings = 'settings',
   SingleUserHeader = 'SingleUserHeader',
   UserActions = 'UserActions',
+  TicketActions = 'TicketActions',
   Cancel = 'cancel',
   Save = 'save',
 }
@@ -88,7 +89,7 @@ const locationSlice = createSlice({
           }
           if (customDetails.pageType === EPageType.TICKETS) {
             state.locationHeader = customHeader;
-            // state.options = [EOption.SingleUserHeader, EOption.UserActions];
+            state.options = [EOption.TicketActions];
           }
           break;
 

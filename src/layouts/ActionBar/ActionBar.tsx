@@ -3,6 +3,7 @@ import { EOption, useLocationSelector } from 'reducers/location-reducer';
 import { UserActions } from './components/UserActions';
 
 import * as S from './styled';
+import { TicketActions } from './components/TicketActions';
 
 export const ActionBar = () => {
   const { locationHeader, options, path } = useLocationSelector();
@@ -11,7 +12,10 @@ export const ActionBar = () => {
       <Typography variant='h1' ellipsis tabIndex={-1}>
         {locationHeader}
       </Typography>
-      <S.ButtonsContainer>{options.includes(EOption.UserActions) && <UserActions />}</S.ButtonsContainer>
+      <S.ButtonsContainer>
+        {options.includes(EOption.UserActions) && <UserActions />}
+        {options.includes(EOption.TicketActions) && <TicketActions />}
+      </S.ButtonsContainer>
     </S.Wrapper>
   );
 };

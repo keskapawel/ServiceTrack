@@ -28,3 +28,9 @@ export const formatAppDate = (date: string | Date | Dayjs | undefined | null, da
 export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+export const getParentPath = (currentPath: string) => {
+  const splitPath = currentPath.split('/');
+  const parentPath = splitPath.splice(1, splitPath.length - 2).join('/');
+  return `/${parentPath}`;
+};

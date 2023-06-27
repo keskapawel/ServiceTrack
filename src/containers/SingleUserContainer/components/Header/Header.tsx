@@ -1,6 +1,6 @@
 import { Typography } from 'components/common/Typography';
 
-import { formatAppDate } from 'utils/common';
+import { EDateFormat, formatAppDate } from 'utils/common';
 
 import * as S from './styled';
 
@@ -18,12 +18,12 @@ export const Header = ({ data }: IProps) => {
     <S.Wrapper>
       <S.SingleItem>
         <Typography type='secondary'>User added:&nbsp;</Typography>
-        <Typography>{formatAppDate(createdAt)}</Typography>
+        <Typography>{formatAppDate(createdAt, EDateFormat.YEAR)}</Typography>
       </S.SingleItem>
 
       <S.SingleItem>
         <Typography type='secondary'>Last login:&nbsp;</Typography>
-        <Typography>{formatAppDate(lastLogin)}</Typography>
+        <Typography>{formatAppDate(lastLogin, EDateFormat.YEAR)}</Typography>
       </S.SingleItem>
     </S.Wrapper>
   );

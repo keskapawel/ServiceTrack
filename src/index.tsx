@@ -4,6 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+
+import { theme } from 'styles/theme';
 
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 import { Provider } from 'react-redux';
@@ -14,8 +17,10 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ErrorBoundary>
-        <CssBaseline />
-        <App />
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <App />
+        </ThemeProvider>
       </ErrorBoundary>
     </Provider>
   </React.StrictMode>,

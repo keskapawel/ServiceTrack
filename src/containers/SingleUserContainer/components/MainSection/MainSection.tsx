@@ -6,6 +6,10 @@ import { TextInput } from 'components/common/TextInput';
 
 import { SingleBox } from '../SingleBox';
 
+import { setSelectedUser, toggleEditMode, useUserSelector } from 'reducers/user-reducer';
+import { useEffect } from 'react';
+import { useAppDispatch } from 'hooks/store-hook';
+
 import * as S from './styled';
 
 interface IProps {
@@ -13,6 +17,15 @@ interface IProps {
 }
 
 export const MainSection = ({ data }: IProps) => {
+  const dispatch = useAppDispatch();
+  const { isEditMode = false } = useUserSelector();
+
+  useEffect(() => {
+    return () => {
+      dispatch(toggleEditMode({ editMode: false }));
+    };
+  }, []);
+
   return (
     <S.Wrapper>
       <Grid item sx={{ gridColumn: '1 / 4', gridRow: '1 / 2' }}>
@@ -26,9 +39,9 @@ export const MainSection = ({ data }: IProps) => {
                   horizontalLabel
                   label='Name:'
                   value={data?.firstName}
-                  disabled
                   name='firstName'
                   // onChange={handleChange}
+                  disabled={!isEditMode}
                   showNa
                 />
               </Grid>
@@ -40,9 +53,9 @@ export const MainSection = ({ data }: IProps) => {
                   showRequiredAfter
                   label='Surname:'
                   value={data?.lastName}
-                  disabled
                   name='lastName'
                   // onChange={handleChange}
+                  disabled={!isEditMode}
                   showNa
                 />
               </Grid>
@@ -54,9 +67,9 @@ export const MainSection = ({ data }: IProps) => {
                   horizontalLabel
                   label='E-mail:'
                   value={data?.email}
-                  disabled
                   name='email'
                   // onChange={handleChange}
+                  disabled={!isEditMode}
                   showNa
                 />
               </Grid>

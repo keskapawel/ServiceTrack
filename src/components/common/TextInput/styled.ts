@@ -44,6 +44,7 @@ export const StyledTextField = styled(TextField)<{
     }
 
     .Mui-focused {
+      color: ${palette.baseColor};
       .MuiOutlinedInput-notchedOutline {
         border: 2px solid ${palette.baseColor};
       }

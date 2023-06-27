@@ -10,9 +10,9 @@ import { Status } from 'components/common/Status';
 export const columns: Column<ITicket>[] = [
   {
     Header: 'Ticket Id',
-    id: 'ticket_id',
+    id: 'id',
     border: 'right',
-    accessor: 'ticketId',
+    accessor: 'id',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
   },
   {
@@ -45,6 +45,13 @@ export const columns: Column<ITicket>[] = [
     Header: 'Creation date',
     id: 'ticket_created_date',
     accessor: 'ticketCreatedDate',
+    Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
+    width: 220,
+  },
+  {
+    Header: 'Last edit date',
+    id: 'ticket_edit_date',
+    accessor: 'ticketEditDate',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
     width: 220,
   },

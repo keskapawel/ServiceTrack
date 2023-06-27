@@ -13,6 +13,7 @@ import { ManageUsersPage } from 'pages/ManageUsersPage';
 import { SingleUserPage } from 'pages/SingleUserPage';
 import { SettingsPage } from 'pages/SettingsPage/SettingsPage';
 import { TicketsPage } from 'pages/TicketsPage';
+import { SingleTicketPage } from 'pages/SingleTicketPage';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
 
               <Route path={`/${EPageType.TICKETS}`}>
                 <Route index element={<TicketsPage />} />
+                <Route path={`:id`} element={<SingleTicketPage />} />
               </Route>
             </Route>
           </Route>

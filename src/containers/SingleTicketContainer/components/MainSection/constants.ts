@@ -5,9 +5,9 @@ export const validationSchema = yup.object({
   ticketSubject: yup.string().required('Subject is required'),
   ticketDescription: yup.string().required('Description is required'),
   ticketNotes: yup.string(),
-  ticketPriority: yup.string().required('Name is required') /* TBD */,
-  ticketStatus: yup.string().required('Name is required') /* TBD */,
-  ticketAssignedTo: yup.string().required('Name is required') /* TBD */,
+  ticketPriority: yup.string().required('Priority status is required') /* TBD */,
+  ticketStatus: yup.string() /* TBD */,
+  ticketAssignedTo: yup.string() /* TBD */,
 });
 
 export const initialFormValues: {

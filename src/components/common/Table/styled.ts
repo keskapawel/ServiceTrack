@@ -70,7 +70,8 @@ export const StyledTableContainer = styled(TableContainer)<{ $fullHeight?: boole
 
   overflow-y: auto;
   overflow-x: auto;
-  max-height: calc(100vh - 198px);
+  margin-top: 20px;
+  max-height: calc(100vh - 198px - 20px);
   height: 100%;
   ::-webkit-scrollbar {
     width: 6px;

@@ -14,13 +14,16 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useAppDispatch } from 'hooks/store-hook';
 import { validationSchema, initialFormValues, requiredFields } from './constants';
 import { clearSelection, setIsValid, useNavigationButtonsSelector } from 'reducers/navigationButtons-reducer';
-import { EOption } from 'reducers/location-reducer';
+import { EOption, EPageType } from 'reducers/location-reducer';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
-  data: ITicket | undefined;
+  data?: ITicket | null;
+  createNewMode?: boolean;
 }
 
-export const MainSection = ({ data }: IProps) => {
+export const MainSection = ({ data, createNewMode }: IProps) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isEditMode } = useTicketSelector();
   const { selectedButton } = useNavigationButtonsSelector();
@@ -72,9 +75,13 @@ export const MainSection = ({ data }: IProps) => {
       dispatch(clearSelection());
       dispatch(toggleEditMode({ editMode: false }));
       resetForm();
-      // createNewMode && navigate(`/${EPageType.SETTINGS}/${EPageType.GROUPS}`);
+      createNewMode && navigate(`/${EPageType.TICKETS}`);
     }
-  }, [dispatch, isValid, onSubmit, resetForm, selectedButton, values]);
+  }, [createNewMode, dispatch, isValid, navigate, onSubmit, resetForm, selectedButton, values]);
+
+  const isDisabled = createNewMode ? !createNewMode : !isEditMode;
+
+  console.log(errors, 'errors');
 
   return (
     <S.Wrapper>
@@ -89,7 +96,7 @@ export const MainSection = ({ data }: IProps) => {
                   horizontalLabel
                   label='Reporter name:'
                   value={values?.customerName}
-                  disabled={!isEditMode}
+                  disabled={isDisabled}
                   name='customerName'
                   onChange={handleChange}
                   showNa
@@ -97,21 +104,23 @@ export const MainSection = ({ data }: IProps) => {
                   helperText={touched.customerName && errors.customerName}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextInput
-                  horizontalLabel
-                  required={isEditMode && requiredFields.ticketAssignedTo}
-                  showRequiredAfter
-                  label='Assigned to:'
-                  value={values?.ticketAssignedTo}
-                  disabled={!isEditMode}
-                  name='ticketAssignedTo'
-                  onChange={handleChange}
-                  showNa
-                  error={touched.ticketAssignedTo && Boolean(errors.ticketAssignedTo)}
-                  helperText={touched.ticketAssignedTo && errors.ticketAssignedTo}
-                />
-              </Grid>
+              {!createNewMode && (
+                <Grid item xs={12}>
+                  <TextInput
+                    horizontalLabel
+                    required={isEditMode && requiredFields.ticketAssignedTo}
+                    showRequiredAfter
+                    label='Assigned to:'
+                    value={values?.ticketAssignedTo}
+                    disabled={isDisabled}
+                    name='ticketAssignedTo'
+                    onChange={handleChange}
+                    showNa
+                    error={touched.ticketAssignedTo && Boolean(errors.ticketAssignedTo)}
+                    helperText={touched.ticketAssignedTo && errors.ticketAssignedTo}
+                  />
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <TextInput
                   required={isEditMode && requiredFields.ticketSubject}
@@ -119,7 +128,7 @@ export const MainSection = ({ data }: IProps) => {
                   horizontalLabel
                   label='Subject:'
                   value={values?.ticketSubject}
-                  disabled={!isEditMode}
+                  disabled={isDisabled}
                   name='ticketSubject'
                   onChange={handleChange}
                   showNa
@@ -135,7 +144,7 @@ export const MainSection = ({ data }: IProps) => {
                   horizontalLabel
                   label='Description:'
                   value={values?.ticketDescription}
-                  disabled={!isEditMode}
+                  disabled={isDisabled}
                   name='ticketDescription'
                   onChange={handleChange}
                   showNa
@@ -151,7 +160,7 @@ export const MainSection = ({ data }: IProps) => {
                   horizontalLabel
                   label='Notes:'
                   value={values?.ticketNotes}
-                  disabled={!isEditMode}
+                  disabled={isDisabled}
                   name='ticketNotes'
                   onChange={handleChange}
                   showNa

@@ -14,6 +14,7 @@ import { SingleUserPage } from 'pages/SingleUserPage';
 import { SettingsPage } from 'pages/SettingsPage/SettingsPage';
 import { TicketsPage } from 'pages/TicketsPage';
 import { SingleTicketPage } from 'pages/SingleTicketPage';
+import { CreateTicketPage } from 'pages/CreateTicketPage';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
               <Route path={`/${EPageType.TICKETS}`}>
                 <Route index element={<TicketsPage />} />
                 <Route path={`:id`} element={<SingleTicketPage />} />
+                <Route path={`${EPageType.CREATE_TICKET}`} element={<CreateTicketPage />} />
               </Route>
             </Route>
           </Route>

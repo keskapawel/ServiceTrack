@@ -6,6 +6,7 @@ export enum EMenuItem {
   Settings = 'Settings',
   NanageUsers = 'Manage Users',
   Tickets = 'Tickets',
+  CreteTicket = 'Create Ticket',
 }
 
 export enum EOption {
@@ -13,6 +14,7 @@ export enum EOption {
   SingleUserHeader = 'SingleUserHeader',
   UserActions = 'UserActions',
   TicketActions = 'TicketActions',
+  TicketsActions = 'TicketsActions',
   Cancel = 'cancel',
   Save = 'save',
 }
@@ -31,6 +33,7 @@ export enum EPageType {
   MANAGE_USERS = 'manageUsers',
   TICKETS = 'tickets',
   SINGLE_USER = 'singleUser',
+  CREATE_TICKET = 'createTicket',
 }
 
 const initialState: TLocationState = {
@@ -78,7 +81,13 @@ const locationSlice = createSlice({
         case EPageType.TICKETS:
           state.pageType = EPageType.TICKETS;
           state.locationHeader = EMenuItem.Tickets;
-          // state.options = [EOption.SearchBar, EOption.Filters, EOption.AddNewUser];
+          state.options = [EOption.TicketsActions];
+          break;
+
+        case EPageType.CREATE_TICKET:
+          state.pageType = EPageType.CREATE_TICKET;
+          state.locationHeader = EMenuItem.CreteTicket;
+          state.options = [EOption.Save, EOption.Cancel];
           break;
 
         case id:

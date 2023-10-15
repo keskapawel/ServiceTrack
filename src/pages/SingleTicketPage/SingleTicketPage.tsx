@@ -10,12 +10,10 @@ const SingleTicketPage = () => {
 
   const { data } = useGetSingleTicketQuery({ id: id ?? selectedTicket?.id ?? '' });
 
-  console.log(data, 'data selectedTicket', selectedTicket);
-
   return (
     <>
       <HelmetTags title={'Ticket'} />
-      <SingleTicketContainer data={selectedTicket ?? data?.data?.ticket} />
+      <SingleTicketContainer data={data?.data?.ticket ?? selectedTicket} />
     </>
   );
 };

@@ -13,17 +13,7 @@ interface IProps {
 }
 
 export const SingleTicketContainer = ({ createNew, data }: IProps) => {
-  // const { selectedTicket } = useTicketSelector();
-
-  console.log(data, 'data XDD');
-
   const showLoader = createNew ? !createNew : !data?.id;
-
-  console.log(showLoader, 'showLoader', createNew, !createNew, !data, data);
-
-  useEffect(() => {
-    console.log(data, 'data uef');
-  }, [data]);
 
   const commentsList = [
     {
@@ -54,7 +44,7 @@ export const SingleTicketContainer = ({ createNew, data }: IProps) => {
         />
       )}
       <MainSection data={data} createNewMode={createNew} />
-      <Comments commentsList={commentsList} />
+      {!createNew && <Comments commentsList={commentsList} />}
     </>
   );
 };

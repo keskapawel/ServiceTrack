@@ -1,7 +1,7 @@
 import { IApiData } from 'models/Api';
 import { api } from 'services/api';
 import { BASE_TAGS } from 'services/tags';
-import { ISIngleUser, IUsers } from 'models/User';
+import { ISIngleUser, ISIngleUserUpdate, IUsers } from 'models/User';
 import { providesList } from 'services/utils';
 
 export const usersApi = api.injectEndpoints({
@@ -12,26 +12,38 @@ export const usersApi = api.injectEndpoints({
           url: `adminModule/users`,
         };
       },
-      providesTags: providesList[BASE_TAGS.TICKETS],
+      providesTags: providesList[BASE_TAGS.USERS],
     }),
-    getUserTickets: build.query<IApiData<IUsers>, { id: string }>({
+    getSingleUser: build.query<IApiData<{ user: ISIngleUser }>, { id: string }>({
       query: ({ id }) => {
         return {
-          url: `serviceModule/tickets/${id}`,
+          url: `adminModule/user/${id}`,
         };
       },
-      providesTags: providesList[BASE_TAGS.USER_TICKETS],
+      providesTags: providesList[BASE_TAGS.SINGLE_USER],
     }),
-    getSingleTicket: build.query<IApiData<{ ticket: ISIngleUser }>, { id: string }>({
-      query: ({ id }) => {
+    updateSingleUser: build.mutation<IApiData<{ user: ISIngleUser }>, ISIngleUserUpdate>({
+      query: (data) => {
         return {
-          url: `serviceModule/ticket/${id}`,
+          url: `adminModule/user`,
+          method: 'POST',
+          body: data,
         };
       },
-      providesTags: providesList[BASE_TAGS.TICKET],
+      invalidatesTags: [BASE_TAGS.SINGLE_USER],
+    }),
+    createSingleUser: build.mutation<IApiData<{ user: ISIngleUser }>, ISIngleUserUpdate>({
+      query: (data) => {
+        return {
+          url: `adminModule/users`,
+          method: 'PUT',
+          body: data,
+        };
+      },
+      invalidatesTags: [BASE_TAGS.SINGLE_USER],
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useUsersQuery, useGetUserTicketsQuery, useGetSingleTicketQuery } = usersApi;
+export const { useUsersQuery, useGetSingleUserQuery, useUpdateSingleUserMutation, useCreateSingleUserMutation } = usersApi;

@@ -19,7 +19,6 @@ const getToken = (data: any) => 'Basic dXNlcjpmZjhjNDA1Mi01ZTk5LTRlMTUtOTkwNS1jY
 export const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_URL,
   paramsSerializer: (params) => {
-    console.log(params, 'params');
     const snakeKeysParams = decamelizeKeys(params) as typeof params;
 
     // sort param array values
@@ -65,8 +64,6 @@ export const baseQueryWithReauth: TBaseQueryFunc = async (args, api, extraOption
   // }
 
   setTokenFromResponse(result, api);
-
-  console.log(result, 'result');
 
   return result;
 };

@@ -16,3 +16,5 @@ export interface ISingleTicket {
   editDate: string;
   notes: string;
 }
+
+export interface ISingleTicketUpdate extends Pick<ISingleTicket, 'id' | 'title' | 'description' | 'userId' | 'state' | 'priority' | 'client'> {} // ad notes

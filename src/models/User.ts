@@ -17,7 +17,9 @@ export interface ISIngleUser {
   isExpired: boolean;
   isCredentialExpired: boolean;
   password: string;
-  roles: Roles[] | unknown[];
+  roles: Roles[];
   createdAt: string;
   lastModified: string;
 }
+
+export interface ISIngleUserUpdate extends Pick<ISIngleUser, 'id' | 'username' | 'name' | 'surname' | 'email' | 'roles'> {}

@@ -13,9 +13,13 @@ import * as S from './styled';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useAppDispatch } from 'hooks/store-hook';
 import { validationSchema, initialFormValues, requiredFields } from './constants';
-import { clearSelection, setIsValid, useNavigationButtonsSelector } from 'reducers/navigationButtons-reducer';
+import { clearSelection, setIsValid, setSelectedButton, useNavigationButtonsSelector } from 'reducers/navigationButtons-reducer';
 import { EOption, EPageType } from 'reducers/location-reducer';
 import { useNavigate } from 'react-router-dom';
+import { AlertMessages } from 'components/common/PopupAlert';
+import { showAlertPopup } from 'reducers/popup-alert-reducer';
+import { useCreateSingleTicketMutation, useUpdateSingleTicketMutation } from 'services/tickets';
+import { AlertVariants } from 'components/common/PopupAlert/constants';
 
 interface IProps {
   data?: ISingleTicket | null;
@@ -23,6 +27,8 @@ interface IProps {
 }
 
 export const MainSection = ({ data, createNewMode }: IProps) => {
+  const [updateSingleTicket, { isSuccess, error }] = useUpdateSingleTicketMutation();
+  const [createSingleTicket, { isSuccess: isCreateSuccess, error: isCreateError }] = useCreateSingleTicketMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isEditMode } = useTicketSelector();
@@ -34,9 +40,13 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
     };
   }, []);
 
-  const onSubmit = useCallback((data: any) => {
-    console.log(data, 'data');
-  }, []);
+  const onSubmit = useCallback(
+    (data: any) => {
+      createNewMode ? createSingleTicket(data) : updateSingleTicket(data);
+      console.log(data, 'data');
+    },
+    [createNewMode, createSingleTicket, updateSingleTicket],
+  );
 
   const formik = useFormik({
     validationSchema,
@@ -60,10 +70,10 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
   }, [initialValues, values]);
 
   useEffect(() => {
-    if (isEditMode) {
+    if (isEditMode || createNewMode) {
       dispatch(setIsValid({ isValid: !isEqualToInitial && isValid }));
     }
-  }, [dispatch, errors, isEditMode, isEqualToInitial, isValid, values]);
+  }, [createNewMode, dispatch, errors, isEditMode, isEqualToInitial, isValid, values]);
 
   useEffect(() => {
     if (selectedButton === EOption.Save && isValid) {
@@ -78,6 +88,20 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
       createNewMode && navigate(`/${EPageType.TICKETS}`);
     }
   }, [createNewMode, dispatch, isValid, navigate, onSubmit, resetForm, selectedButton, values]);
+
+  useEffect(() => {
+    if (isSuccess || isCreateSuccess) {
+      dispatch(setSelectedButton({ selectedButton: EOption.Cancel }));
+      dispatch(showAlertPopup({ variant: AlertVariants.SUCCESS, message: isCreateSuccess ? AlertMessages.TICKET_CREATED : AlertMessages.UPDATED }));
+      dispatch(toggleEditMode({ editMode: false }));
+    }
+    if (error || isCreateError) {
+      dispatch(clearSelection());
+      validateForm();
+    }
+  }, [isSuccess, error, validateForm, dispatch, isCreateSuccess, isCreateError]);
+
+  console.log(errors, 'err', isEditMode);
 
   const isDisabled = createNewMode ? !createNewMode : !isEditMode;
 

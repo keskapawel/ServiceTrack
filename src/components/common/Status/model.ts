@@ -12,6 +12,12 @@ export enum StatusesList {
   low = 'low',
   medium = 'medium',
   high = 'high',
+
+  ADMIN_MODULE = 'ADMIN_MODULE',
+  BASE_MODULE = 'BASE_MODULE',
+
+  false = 'false',
+  true = 'true',
 }
 
 const { orange, red, green, grey } = {
@@ -34,4 +40,10 @@ export const Colors: Record<StatusesList, string[]> = {
   [StatusesList.low]: green,
   [StatusesList.medium]: orange,
   [StatusesList.high]: red,
+
+  [StatusesList.ADMIN_MODULE]: grey,
+  [StatusesList.BASE_MODULE]: grey,
+
+  [StatusesList.false]: grey,
+  [StatusesList.true]: green,
 };

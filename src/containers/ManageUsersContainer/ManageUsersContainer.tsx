@@ -8,6 +8,7 @@ import { ISIngleUser } from 'models/User';
 import { EPageType } from 'pages/PageType';
 import { setSelectedUser } from 'reducers/user-reducer';
 import { useUsersQuery } from 'services/users';
+import { useEffect } from 'react';
 
 export const ManageUsersContainer = () => {
   const { data } = useUsersQuery({});
@@ -18,6 +19,10 @@ export const ManageUsersContainer = () => {
     navigation(`/${EPageType.SETTINGS}/${EPageType.MANAGE_USERS}/${value.id}`);
     dispatch(setSelectedUser({ selectedUser: value }));
   };
+
+  useEffect(() => {
+    dispatch(setSelectedUser({ selectedUser: undefined }));
+  }, []);
 
   return (
     <>

@@ -4,7 +4,6 @@ import { useTicketsQuery } from 'services/tickets';
 
 const TicketsPage = () => {
   const { data } = useTicketsQuery({});
-  console.log(data, 'data');
 
   return (
     <>

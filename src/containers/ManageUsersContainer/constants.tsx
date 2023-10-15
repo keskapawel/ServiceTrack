@@ -8,6 +8,7 @@ import { Avatar } from 'components/common/Avatar/Avatar';
 import { Typography } from 'components/common/Typography';
 
 import * as S from './styled';
+import { Status } from 'components/common/Status';
 
 export const columns: Column<ISIngleUser>[] = [
   {
@@ -24,5 +25,23 @@ export const columns: Column<ISIngleUser>[] = [
       </S.UserNameWrapper>
     )),
     width: 216,
+  },
+  {
+    Header: 'Enabled',
+    id: 'isEnabled',
+    accessor: 'isEnabled',
+    Cell: memo(({ value }: CellProps) => <Status status={String(value)} />),
+  },
+  {
+    Header: 'Expired',
+    id: 'isExpired',
+    accessor: 'isExpired',
+    Cell: memo(({ value }: CellProps) => <Status status={String(value)} />),
+  },
+  {
+    Header: 'Roles',
+    id: 'roles',
+    accessor: 'roles',
+    Cell: memo(({ value }: CellProps) => value[0]?.modules?.map((module, index) => <Status key={index} status={module?.name} />)),
   },
 ];

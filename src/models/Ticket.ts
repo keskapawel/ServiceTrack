@@ -1,12 +1,18 @@
+import { IClient } from './Client';
+
 export interface ITicket {
+  tickets: ISingleTicket[];
+}
+
+export interface ISingleTicket {
   id: string;
-  customerName: string;
-  ticketSubject: string;
-  ticketDescription: string;
-  ticketPriority: string;
-  ticketStatus: string;
-  ticketCreatedDate: string;
-  ticketEditDate: string;
-  ticketAssignedTo: string;
-  ticketNotes: string;
+  title: string;
+  description: string;
+  client: IClient;
+  userId: string;
+  state: string;
+  priority: string;
+  creationDate: string;
+  editDate: string;
+  notes: string;
 }

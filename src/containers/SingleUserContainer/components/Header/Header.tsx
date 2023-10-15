@@ -6,8 +6,8 @@ import * as S from './styled';
 
 interface IProps {
   data: {
-    createdAt?: Date;
-    lastLogin?: string;
+    createdAt?: Date | null | string;
+    lastLogin?: string | null;
   };
 }
 

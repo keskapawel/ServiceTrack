@@ -16,7 +16,8 @@ type TAuthSliceState = {
 const initialState: TAuthSliceState = {
   currentAuthBaseState: null,
   token: null,
-  isAuthorized: false,
+  isAuthorized: true,
+  // isAuthorized: false -> set to false when auth system works,
   profile: null,
 };
 

@@ -1,4 +1,17 @@
-export const dummyData = [
+export interface IDummyData {
+  id: number;
+  customerName: string;
+  ticketSubject: string;
+  ticketDescription: string;
+  ticketPriority: string;
+  ticketStatus: string;
+  ticketCreatedDate: string;
+  ticketEditDate: string;
+  ticketAssignedTo: string;
+  ticketNotes: string;
+}
+
+export const dummyData: IDummyData[] = [
   {
     id: 1,
     customerName: 'Yuri Blowne',

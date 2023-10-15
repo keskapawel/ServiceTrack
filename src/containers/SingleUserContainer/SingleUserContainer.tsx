@@ -16,7 +16,7 @@ export const SingleUserContainer = () => {
       <Header
         data={{
           createdAt: selectedUser?.createdAt,
-          lastLogin: selectedUser?.lastLogin,
+          lastLogin: selectedUser?.lastLoginDateTime,
         }}
       />
       <MainSection data={selectedUser} />

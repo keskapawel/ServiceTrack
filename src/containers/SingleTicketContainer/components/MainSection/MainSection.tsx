@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import { isEqual } from 'lodash-es';
 
-import { ITicket } from 'models/Ticket';
+import { ISingleTicket } from 'models/Ticket';
 import { toggleEditMode, useTicketSelector } from 'reducers/ticket-reducer';
 import { useFormik } from 'formik';
 
@@ -18,7 +18,7 @@ import { EOption, EPageType } from 'reducers/location-reducer';
 import { useNavigate } from 'react-router-dom';
 
 interface IProps {
-  data?: ITicket | null;
+  data?: ISingleTicket | null;
   createNewMode?: boolean;
 }
 
@@ -81,16 +81,14 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
 
   const isDisabled = createNewMode ? !createNewMode : !isEditMode;
 
-  console.log(errors, 'errors');
-
   return (
     <S.Wrapper>
       <Grid item sx={{ gridColumn: '1 / 4', gridRow: '1 / 2' }}>
         <Grid mt={2}>
           <SingleBox title={''} width={12} noBorder>
             <Grid container item rowSpacing={1} columnSpacing={4}>
-              <Grid item xs={12}>
-                <TextInput
+              {/* <Grid item xs={12}>
+              <TextInput
                   required={isEditMode && requiredFields.customerName}
                   showRequiredAfter
                   horizontalLabel
@@ -103,8 +101,8 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
                   error={touched.customerName && Boolean(errors.customerName)}
                   helperText={touched.customerName && errors.customerName}
                 />
-              </Grid>
-              {!createNewMode && (
+              </Grid> */}
+              {/* {!createNewMode && (
                 <Grid item xs={12}>
                   <TextInput
                     horizontalLabel
@@ -120,52 +118,52 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
                     helperText={touched.ticketAssignedTo && errors.ticketAssignedTo}
                   />
                 </Grid>
-              )}
+              )} */}
               <Grid item xs={12}>
                 <TextInput
-                  required={isEditMode && requiredFields.ticketSubject}
+                  required={isEditMode && requiredFields.title}
                   showRequiredAfter
                   horizontalLabel
-                  label='Subject:'
-                  value={values?.ticketSubject}
+                  label='Title:'
+                  value={values?.title}
                   disabled={isDisabled}
-                  name='ticketSubject'
+                  name='title'
                   onChange={handleChange}
                   showNa
-                  error={touched.ticketSubject && Boolean(errors.ticketSubject)}
-                  helperText={touched.ticketSubject && errors.ticketSubject}
+                  error={touched.title && Boolean(errors.title)}
+                  helperText={touched.title && errors.title}
                   multiline
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextInput
-                  required={isEditMode && requiredFields.ticketDescription}
+                  required={isEditMode && requiredFields.description}
                   showRequiredAfter
                   horizontalLabel
                   label='Description:'
-                  value={values?.ticketDescription}
+                  value={values?.description}
                   disabled={isDisabled}
-                  name='ticketDescription'
+                  name='description'
                   onChange={handleChange}
                   showNa
-                  error={touched.ticketDescription && Boolean(errors.ticketDescription)}
-                  helperText={touched.ticketDescription && errors.ticketDescription}
+                  error={touched.description && Boolean(errors.description)}
+                  helperText={touched.description && errors.description}
                   multiline
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextInput
-                  required={isEditMode && requiredFields.ticketNotes}
+                  required={isEditMode && requiredFields.notes}
                   showRequiredAfter
                   horizontalLabel
                   label='Notes:'
-                  value={values?.ticketNotes}
+                  value={values?.notes}
                   disabled={isDisabled}
-                  name='ticketNotes'
+                  name='notes'
                   onChange={handleChange}
                   showNa
-                  error={touched.ticketNotes && Boolean(errors.ticketNotes)}
-                  helperText={touched.ticketNotes && errors.ticketNotes}
+                  error={touched.notes && Boolean(errors.notes)}
+                  helperText={touched.notes && errors.notes}
                   multiline
                 />
               </Grid>

@@ -4,30 +4,27 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'hooks/store-hook';
 
 import * as tableData from './constants';
-import { IUser } from 'models/User';
+import { ISIngleUser } from 'models/User';
 import { EPageType } from 'pages/PageType';
 import { setSelectedUser } from 'reducers/user-reducer';
-import { useEffect } from 'react';
-import { dummyData } from './dummyData';
+import { useUsersQuery } from 'services/users';
 
 export const ManageUsersContainer = () => {
+  const { data } = useUsersQuery({});
+
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
-  const handleRowClick = (value: IUser) => {
+  const handleRowClick = (value: ISIngleUser) => {
     navigation(`/${EPageType.SETTINGS}/${EPageType.MANAGE_USERS}/${value.id}`);
     dispatch(setSelectedUser({ selectedUser: value }));
   };
-
-  useEffect(() => {
-    dispatch(setSelectedUser({ selectedUser: null }));
-  }, []);
 
   return (
     <>
       <Table
         columns={tableData.columns}
         enableSortBy
-        data={dummyData ?? []}
+        data={data?.data.users ?? []}
         isLoading={false}
         itemIdAccessor={'id'}
         lastCellBorder

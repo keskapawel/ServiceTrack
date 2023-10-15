@@ -19,7 +19,7 @@ const Location = () => {
     let details = {};
 
     if (selectedUser?.id) {
-      header = `${selectedUser?.firstName} ${selectedUser?.lastName}`;
+      header = `${selectedUser?.name} ${selectedUser?.surname}`;
       details = { pageType: EPageType.SINGLE_USER };
     }
 
@@ -29,7 +29,7 @@ const Location = () => {
     }
 
     return { header, details };
-  }, [selectedTicket, selectedUser?.firstName, selectedUser?.id, selectedUser?.lastName]);
+  }, [selectedTicket?.id, selectedUser?.id, selectedUser?.name, selectedUser?.surname]);
 
   useEffect(() => {
     dispatch(changeLocation({ pathname: location.pathname, program, id, customDetails }));

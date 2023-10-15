@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useAppSelector } from 'hooks/store-hook';
 
-import { IUser } from 'models/User';
+import { ISIngleUser } from 'models/User';
 
 export type TUserState = {
-  selectedUser?: IUser | null;
+  selectedUser?: ISIngleUser;
   isEditMode?: boolean;
 };
 

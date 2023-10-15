@@ -40,7 +40,7 @@ const initialState: TLocationState = {
   path: '',
   pathName: '',
   pageType: EPageType.EMPTY,
-  locationHeader: '',
+  locationHeader: EMenuItem.Dashboard,
   options: [],
 };
 

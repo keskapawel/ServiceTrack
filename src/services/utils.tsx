@@ -7,8 +7,8 @@ import type { FetchArgs, FetchBaseQueryError, QueryDefinition } from '@reduxjs/t
 import { pascalize } from 'humps';
 import { Mutex } from 'async-mutex';
 
-import { IApiData } from '../models/Api';
-import { IApiFile } from '../models/File';
+import { IApiData } from 'models/Api';
+import { IApiFile } from 'models/File';
 
 import type { TBaseQueryFunc, TApiError, TDeviseError, TRequestError } from './types';
 import { EBaseId } from './types';
@@ -20,7 +20,7 @@ export const mutex = new Mutex();
 const isApiError = (error: unknown): error is TApiError => {
   return (
     error != null &&
-    error !== undefined &&
+    error != undefined &&
     typeof error === 'object' &&
     'status' in error &&
     'data' in error &&

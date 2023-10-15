@@ -16,8 +16,6 @@ export const Save = () => {
     saveSubject.next();
   };
 
-  console.log(!isValid, '!isValid');
-
   return (
     <Button onClick={handleClick} variant={!isValid ? 'contained' : 'outlined'} size={'small'} disabled={!isValid} cypressName='save-button'>
       Save

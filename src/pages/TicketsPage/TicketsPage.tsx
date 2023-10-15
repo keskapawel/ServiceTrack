@@ -1,11 +1,15 @@
 import { HelmetTags } from 'components/common/HelmetTags';
 import { TicketsContainer } from 'containers/TicketsContainer';
+import { useTicketsQuery } from 'services/tickets';
 
 const TicketsPage = () => {
+  const { data } = useTicketsQuery({});
+  console.log(data, 'data');
+
   return (
     <>
       <HelmetTags title={'Tickets'} />
-      <TicketsContainer />
+      <TicketsContainer tickets={data?.data.tickets} />
     </>
   );
 };

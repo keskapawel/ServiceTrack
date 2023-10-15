@@ -11,14 +11,14 @@ const middlewares = [api.middleware];
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['api'],
+  // blacklist: ['api'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware: any) =>
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],

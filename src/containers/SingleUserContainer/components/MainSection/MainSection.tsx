@@ -1,6 +1,6 @@
 import { Grid } from '@mui/material';
 
-import { IUser } from 'models/User';
+import { ISIngleUser } from 'models/User';
 
 import { TextInput } from 'components/common/TextInput';
 
@@ -13,7 +13,7 @@ import { useAppDispatch } from 'hooks/store-hook';
 import * as S from './styled';
 
 interface IProps {
-  data: IUser | undefined;
+  data?: ISIngleUser;
 }
 
 export const MainSection = ({ data }: IProps) => {
@@ -38,8 +38,8 @@ export const MainSection = ({ data }: IProps) => {
                   showRequiredAfter
                   horizontalLabel
                   label='Name:'
-                  value={data?.firstName}
-                  name='firstName'
+                  value={data?.name}
+                  name='name'
                   // onChange={handleChange}
                   disabled={!isEditMode}
                   showNa
@@ -52,8 +52,8 @@ export const MainSection = ({ data }: IProps) => {
                   // required={isEditMode && updateUserRequiredFields.surname}
                   showRequiredAfter
                   label='Surname:'
-                  value={data?.lastName}
-                  name='lastName'
+                  value={data?.surname}
+                  name='surname'
                   // onChange={handleChange}
                   disabled={!isEditMode}
                   showNa

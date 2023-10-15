@@ -2,12 +2,12 @@
 import { memo } from 'react';
 import { Column, CellProps } from 'react-table';
 
-import { ITicket } from 'models/Ticket';
+import { ISingleTicket } from 'models/Ticket';
 
 import { Typography } from 'components/common/Typography';
 import { Status } from 'components/common/Status';
 
-export const columns: Column<ITicket>[] = [
+export const columns: Column<ISingleTicket>[] = [
   {
     Header: 'Ticket Id',
     id: 'id',
@@ -19,39 +19,46 @@ export const columns: Column<ITicket>[] = [
     Header: 'User',
     id: 'customer_name',
     accessor: 'customerName',
+    Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value ?? 'Lorem Ipsum'}</Typography>),
+    width: 180,
+  },
+  {
+    Header: 'Title',
+    id: 'title',
+    accessor: 'title',
+    Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
+    width: 150,
+  },
+  {
+    Header: 'Description',
+    id: 'description',
+    accessor: 'description',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
     width: 220,
   },
   {
-    Header: 'Subject',
-    id: 'ticket_Subject',
-    accessor: 'ticketSubject',
-    Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
-    width: 320,
-  },
-  {
     Header: 'Status',
-    id: 'ticket_status',
-    accessor: 'ticketStatus',
+    id: 'state',
+    accessor: 'state',
     Cell: memo(({ value }: CellProps) => <Status status={value} />),
   },
   {
     Header: 'Priority',
-    id: 'ticketPriority',
-    accessor: 'ticketPriority',
+    id: 'priority',
+    accessor: 'priority',
     Cell: memo(({ value }: CellProps) => <Status status={value} />),
   },
   {
     Header: 'Creation date',
-    id: 'ticket_created_date',
-    accessor: 'ticketCreatedDate',
+    id: 'creation_date',
+    accessor: 'creationDate',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
     width: 220,
   },
   {
     Header: 'Last edit date',
-    id: 'ticket_edit_date',
-    accessor: 'ticketEditDate',
+    id: 'edit_date',
+    accessor: 'editDate',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
     width: 220,
   },

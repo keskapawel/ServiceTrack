@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useAppSelector } from 'hooks/store-hook';
 
-import { ITicket } from 'models/Ticket';
+import { ISingleTicket } from 'models/Ticket';
 
 export type TTicketState = {
-  selectedTicket?: ITicket | null;
+  selectedTicket?: ISingleTicket;
   isEditMode?: boolean;
 };
 

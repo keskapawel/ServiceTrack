@@ -105,7 +105,7 @@ export const Header = ({ children }: any) => {
       <CssBaseline />
       <AppBar position='fixed' open={open}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             color='inherit'
             aria-label='open drawer'
             onClick={handleDrawerOpen}
@@ -116,13 +116,13 @@ export const Header = ({ children }: any) => {
             }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant='h6' noWrap component='div'>
-            Lorem Ipsum....
+            Service Track
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant='permanent' open={open}>
+      {/* <Drawer variant='permanent' open={open}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>{theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}</IconButton>
         </DrawerHeader>
@@ -176,7 +176,7 @@ export const Header = ({ children }: any) => {
             </ListItem>
           ))}
         </List>
-      </Drawer>
+      </Drawer> */}
       <Box component='main' sx={{ flexGrow: 1, padding: '4px 24px', overflow: 'hidden' }}>
         <DrawerHeader />
         {children}

@@ -21,3 +21,45 @@ export const MODULES_OPTIONS = [
     id: '4fbb4620-2ca7-43be-b6f7-8fcd269e3e31',
   },
 ];
+
+export const PRIORITY_OPTIONS = [
+  {
+    key: 'HIGH',
+    value: 'HIGH',
+  },
+  {
+    key: 'MEDIUM',
+    value: 'MEDIUM',
+  },
+  {
+    key: 'LOW',
+    value: 'LOW',
+  },
+];
+
+export const STATUS_OPTIONS = [
+  {
+    key: 'NEW',
+    value: 'NEW',
+  },
+  {
+    key: 'OPEN',
+    value: 'OPEN',
+  },
+  {
+    key: 'CLOSE',
+    value: 'CLOSE',
+  },
+  {
+    key: 'PAUSED',
+    value: 'PAUSED',
+  },
+  {
+    key: 'REOPENED',
+    value: 'REOPENED',
+  },
+  {
+    key: 'ARCHIVED',
+    value: 'ARCHIVED',
+  },
+];

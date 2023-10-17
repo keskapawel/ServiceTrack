@@ -10,6 +10,7 @@ export const Wrapper = styled.div`
 export const DetailsContainer = styled.div`
   display: flex;
   gap: 8px;
+  align-items: baseline;
 `;
 
 export const Details = styled.div`

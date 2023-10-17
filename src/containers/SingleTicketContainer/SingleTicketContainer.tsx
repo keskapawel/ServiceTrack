@@ -6,6 +6,9 @@ import { Loader } from 'components/common/Loader';
 import { Comments } from './components/Comments/Comments';
 import { ISingleTicket } from 'models/Ticket';
 import { useEffect } from 'react';
+import { useGetTicketCommentsQuery } from 'services/comments';
+import { useParams } from 'react-router-dom';
+import { useGetTicketActivitiesQuery } from 'services/activity';
 
 interface IProps {
   createNew?: boolean;
@@ -13,21 +16,13 @@ interface IProps {
 }
 
 export const SingleTicketContainer = ({ createNew, data }: IProps) => {
+  const { id } = useParams();
+  const { data: commentsData } = useGetTicketCommentsQuery({ id: data?.id ?? id ?? '' });
+  const { data: activityData } = useGetTicketActivitiesQuery({ id: data?.id ?? id ?? '' });
+
   const showLoader = createNew ? !createNew : !data?.id;
 
-  const commentsList = [
-    {
-      id: 1,
-      createdAt: '12/1/2021',
-      user: {
-        firstName: 'adam',
-        lastName: 'kowalski',
-      },
-      source: 'user',
-      message: 'dummyComment',
-    },
-  ];
-  // tbd -> add comments
+  console.log(data, 'data XD');
 
   return showLoader ? (
     <Loader />
@@ -37,14 +32,14 @@ export const SingleTicketContainer = ({ createNew, data }: IProps) => {
         <Header
           data={{
             createdAt: data?.creationDate,
-            editedAt: data?.editDate,
+            editedAt: data?.LastModificationDate,
             status: data.state,
             priority: data.priority,
           }}
         />
       )}
       <MainSection data={data} createNewMode={createNew} />
-      {!createNew && <Comments commentsList={commentsList} />}
+      {!createNew && <Comments commentsList={activityData?.data?.activities} ticketId={data?.id ?? id ?? ''} />}
     </>
   );
 };

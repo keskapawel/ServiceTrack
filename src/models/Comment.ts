@@ -1,17 +1,20 @@
 export enum ECommentTypes {
-  USER = 'user',
-  SYSTEM = 'system',
+  USER = 'User',
+  SYSTEM = 'System',
 }
 export interface IComment {
-  // id: string;
-  // message: string;
-  // createdAt: string;
-  // updatedAt: string;
-  // user: Pick<IUser, 'id' | 'firstName' | 'lastName' | 'picture'>;
-  // source: ECommentTypes;
-  // parentObject: {
-  //   id: string;
-  //   type: string;
-  //   label: string;
-  // };
+  comments: ISingleComment[];
+}
+
+export interface ISingleComment {
+  id: string;
+  content: string;
+  subject: string;
+  creator: string;
+  creationDate: string;
+  lastModyficationDate: string;
+}
+
+export interface ICreateSingleComment extends Pick<ISingleComment, 'content' | 'subject'> {
+  user: string;
 }

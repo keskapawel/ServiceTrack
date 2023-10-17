@@ -40,8 +40,8 @@ export const columns: Column<ISIngleUser>[] = [
   },
   {
     Header: 'Roles',
-    id: 'roles',
-    accessor: 'roles',
-    Cell: memo(({ value }: CellProps) => value[0]?.modules?.map((module, index) => <Status key={index} status={module?.name} />)),
+    id: 'rules',
+    accessor: 'rules',
+    Cell: memo(({ value }: CellProps) => value?.map((item) => item.modules?.map((module, index) => <Status key={index} status={module?.type} />))),
   },
 ];

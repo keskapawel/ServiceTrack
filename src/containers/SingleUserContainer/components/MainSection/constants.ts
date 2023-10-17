@@ -24,7 +24,7 @@ export const initialFormValues: ISIngleUser = {
   isExpired: false,
   isCredentialExpired: false,
   password: '',
-  roles: [],
+  rules: [],
   createdAt: '',
   lastModified: '',
 };
@@ -34,5 +34,5 @@ export const requiredFields: Record<string, boolean> = {
   surname: true,
   email: true,
   isEnabled: true,
-  roles: true,
+  rules: true,
 };

@@ -5,6 +5,7 @@ import { EPageType } from 'pages/PageType';
 import { dummyData as ticketsDummyData } from '../TicketsContainer/dummyData';
 import { TicketsContainer } from 'containers/TicketsContainer';
 import { useGetUserTicketsQuery } from 'services/tickets';
+import { constantUserId } from '../../constants';
 
 const dummyData = [
   {
@@ -24,9 +25,7 @@ const dummyData = [
 ];
 
 export const HomePageContainer = () => {
-  const userId = `e018cfcb-8c70-4f79-a888-e82f2c448f91`;
-
-  const { data } = useGetUserTicketsQuery({ id: userId });
+  const { data } = useGetUserTicketsQuery({ id: constantUserId });
 
   return (
     <S.Wrapper>

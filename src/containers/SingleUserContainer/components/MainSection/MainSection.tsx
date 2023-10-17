@@ -110,9 +110,11 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
   const getOptionLabel = (option) => option?.name ?? '';
   const isOptionEqualToValue = (option1, option2) => option1?.name === option2?.name;
 
-  console.log(values.roles, 'values.roles');
+  console.log(values.rules, 'values.roles');
 
-  const userRoles = values.roles[0]?.modules?.map((item) => item.Name);
+  const userRoles = Array.from(new Set(values.rules?.flatMap((item) => item.modules?.flatMap((item) => item.Name))));
+
+  console.log(userRoles, 'userRoles');
 
   const handleRolesChange = (data) => {
     const res = [
@@ -181,7 +183,7 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
               </Grid>
               <Grid item xs={12}>
                 <Select
-                  required={isEditMode && requiredFields.roles}
+                  required={isEditMode && requiredFields.rules}
                   label='Roles:'
                   placeholder='Select from the list'
                   size={'small'}
@@ -194,7 +196,7 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
                   horizontalLabel
                   disabled={isDisabled}
                   onChange={handleRolesChange}
-                  error={touched.roles && Boolean(errors.roles)}
+                  error={touched.rules && Boolean(errors.rules)}
                   // helperText={touched.roles && errors.roles}
                   multiple
                 />

@@ -7,4 +7,5 @@ export enum AlertMessages {
   USER_CREATED = 'User created',
   USER_UPDATED = 'User updated',
   TICKET_CREATED = 'Ticket created',
+  COMMENT_ADDED = 'Comment added',
 }

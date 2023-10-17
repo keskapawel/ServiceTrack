@@ -6,6 +6,8 @@ export enum BASE_TAGS {
   USER_TICKETS = 'UserTickets',
   USERS = 'Users',
   SINGLE_USER = 'SingleUser',
+  TICKET_COMMENTS = 'TicketComments',
+  TICKET_ACTIVITY = 'TicketActivity',
 }
 
 export const BASE_TAGS_ARRAY = Object.values(BASE_TAGS);

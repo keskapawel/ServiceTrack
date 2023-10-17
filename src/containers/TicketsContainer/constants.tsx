@@ -6,6 +6,7 @@ import { ISingleTicket } from 'models/Ticket';
 
 import { Typography } from 'components/common/Typography';
 import { Status } from 'components/common/Status';
+import { formatDate } from 'utils/common';
 
 export const columns: Column<ISingleTicket>[] = [
   {
@@ -52,14 +53,14 @@ export const columns: Column<ISingleTicket>[] = [
     Header: 'Creation date',
     id: 'creation_date',
     accessor: 'creationDate',
-    Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
+    Cell: memo(({ value }: CellProps) => <Typography ellipsis>{formatDate(value)}</Typography>),
     width: 220,
   },
   {
     Header: 'Last edit date',
     id: 'edit_date',
-    accessor: 'editDate',
-    Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
+    accessor: 'LastModificationDate',
+    Cell: memo(({ value }: CellProps) => <Typography ellipsis>{formatDate(value)}</Typography>),
     width: 220,
   },
 ];

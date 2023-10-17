@@ -2,22 +2,23 @@ import { Header } from './components/Header';
 import { Message } from './components/Message';
 
 import * as S from './styled';
+import { ISingleActivity } from 'models/Activity';
 
-interface IProps {
-  id: any;
-  message: any;
-  createdAt: any;
-  user: any;
-  parentObject: any;
-  source: any;
-  wrapperRef: any;
-}
-
-export const SingleComment = ({ id, message, createdAt, user, parentObject, source, wrapperRef }: IProps) => {
+export const SingleComment = ({ id, oldValue, newValue, userId, creationDate, fieldName, activityType, className }: ISingleActivity) => {
   return (
-    <S.Wrapper ref={wrapperRef}>
-      <Header id={id} user={user} createdAt={createdAt} parentObject={parentObject} source={source} />
-      <Message message={message} />
+    <S.Wrapper>
+      <Header
+        id={id}
+        user={{
+          id: userId ?? '',
+          username: 'Pawel',
+          surname: 'Keska',
+        }}
+        createdAt={creationDate}
+        source={activityType}
+        $className={className}
+      />
+      <Message oldValue={oldValue} newValue={newValue} fieldName={fieldName} $className={className} />
     </S.Wrapper>
   );
 };

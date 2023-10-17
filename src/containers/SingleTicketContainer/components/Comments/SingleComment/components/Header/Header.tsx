@@ -2,29 +2,28 @@ import { useMemo } from 'react';
 
 import { convertDate } from 'utils/common';
 
-// import { ECommentTypes, IComment } from 'models/Comment';
-
 import { Avatar } from 'components/common/Avatar/Avatar';
 import { Typography } from 'components/common/Typography';
 
 import { fontSize } from 'styles/font';
 import { palette } from 'styles/palette';
 import * as S from './styled';
-import { ECommentTypes } from 'models/Comment';
+import { EActivityType, EClassType } from 'models/Activity';
 
-// type TProps = Pick<IComment, 'user' | 'createdAt' | 'id' | 'parentObject' | 'source'>;
 interface IProps {
-  user: any;
-  createdAt: any;
-  parentObject: any;
-  source: any;
-  id: any;
+  user: {
+    id: string;
+    username: string;
+    surname: string;
+  };
+  createdAt: string;
+  source: EActivityType;
+  id: string;
+  $className: EClassType;
 }
 
-export const Header = ({ user, createdAt, parentObject, source }: IProps) => {
-  const { firstName, lastName, picture, id: userId } = user || {};
-  // const { label } = parentObject;
-  const label = 'xd';
+export const Header = ({ user, createdAt, $className }: IProps) => {
+  const { username, surname, id: userId } = user || {};
 
   const getFormattedDate = useMemo(() => {
     return convertDate(createdAt);
@@ -33,13 +32,13 @@ export const Header = ({ user, createdAt, parentObject, source }: IProps) => {
   return (
     <S.Wrapper>
       <S.DetailsContainer>
-        {source === ECommentTypes.USER && (
+        {$className === EClassType.COMMENT && (
           <>
-            <Avatar picture={picture?.thumb} firstName={firstName} lastName={lastName} id={userId} size={24} />
-            <Details title={`${firstName} ${lastName}`} />
+            <Avatar picture={''} firstName={username} lastName={surname} id={userId} size={24} />
+            <Details title={`${username} ${surname}`} />
           </>
         )}
-        {source === ECommentTypes.SYSTEM && (
+        {$className === EClassType.TICKET && (
           <S.NoImageWrapper>
             <Details title={'System'} />
           </S.NoImageWrapper>

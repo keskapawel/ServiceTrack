@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import { isEqual } from 'lodash-es';
 
-import { ISingleTicket } from 'models/Ticket';
+import { ISingleTicket, ISingleTicketForm } from 'models/Ticket';
 import { toggleEditMode, useTicketSelector } from 'reducers/ticket-reducer';
 import { useFormik } from 'formik';
 
@@ -15,11 +15,14 @@ import { useAppDispatch } from 'hooks/store-hook';
 import { validationSchema, initialFormValues, requiredFields } from './constants';
 import { clearSelection, setIsValid, setSelectedButton, useNavigationButtonsSelector } from 'reducers/navigationButtons-reducer';
 import { EOption, EPageType } from 'reducers/location-reducer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AlertMessages } from 'components/common/PopupAlert';
 import { showAlertPopup } from 'reducers/popup-alert-reducer';
 import { useCreateSingleTicketMutation, useUpdateSingleTicketMutation } from 'services/tickets';
 import { AlertVariants } from 'components/common/PopupAlert/constants';
+import { constantClientId, constantUserId } from '../../../../constants';
+import { Select } from 'components/common/Select';
+import { PRIORITY_OPTIONS, STATUS_OPTIONS } from 'utils/constants';
 
 interface IProps {
   data?: ISingleTicket | null;
@@ -27,6 +30,7 @@ interface IProps {
 }
 
 export const MainSection = ({ data, createNewMode }: IProps) => {
+  const { id } = useParams();
   const [updateSingleTicket, { isSuccess, error }] = useUpdateSingleTicketMutation();
   const [createSingleTicket, { isSuccess: isCreateSuccess, error: isCreateError }] = useCreateSingleTicketMutation();
   const navigate = useNavigate();
@@ -41,8 +45,18 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
   }, []);
 
   const onSubmit = useCallback(
-    (data: any) => {
-      createNewMode ? createSingleTicket(data) : updateSingleTicket(data);
+    (data: ISingleTicketForm) => {
+      const sendData = {
+        id: createNewMode ? null : data.id,
+        title: data.title,
+        description: data.description,
+        client: data.client.id || constantClientId,
+        userId: data.userId || constantUserId,
+        state: data.state.key || 'NEW',
+        priority: data.priority.key,
+        notes: data.notes,
+      };
+      createNewMode ? createSingleTicket(sendData) : updateSingleTicket(sendData);
       console.log(data, 'data');
     },
     [createNewMode, createSingleTicket, updateSingleTicket],
@@ -50,13 +64,25 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
 
   const formik = useFormik({
     validationSchema,
-    initialValues: data ? data : initialFormValues,
+    initialValues: data
+      ? {
+          ...data,
+          priority: {
+            key: data.priority,
+            value: data.priority,
+          },
+          state: {
+            key: data.state,
+            value: data.state,
+          },
+        }
+      : initialFormValues,
     onSubmit,
     enableReinitialize: true,
     validateOnMount: true,
   });
 
-  const { values, errors, touched, isValid, initialValues, handleChange, resetForm, validateForm } = formik;
+  const { values, errors, touched, isValid, initialValues, handleChange, resetForm, validateForm, setFieldValue } = formik;
 
   useEffect(() => {
     validateForm();
@@ -101,7 +127,10 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
     }
   }, [isSuccess, error, validateForm, dispatch, isCreateSuccess, isCreateError]);
 
-  console.log(errors, 'err', isEditMode);
+  console.log(errors, 'err', isEditMode, values, id);
+
+  const getOptionLabel = (option) => option?.value ?? '';
+  const isOptionEqualToValue = (option1, option2) => option1?.value === option2?.value;
 
   const isDisabled = createNewMode ? !createNewMode : !isEditMode;
 
@@ -113,7 +142,7 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
             <Grid container item rowSpacing={1} columnSpacing={4}>
               {/* <Grid item xs={12}>
               <TextInput
-                  required={isEditMode && requiredFields.customerName}
+                  required={(isEditMode || createNewMode) && requiredFields.customerName}
                   showRequiredAfter
                   horizontalLabel
                   label='Reporter name:'
@@ -130,7 +159,7 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
                 <Grid item xs={12}>
                   <TextInput
                     horizontalLabel
-                    required={isEditMode && requiredFields.ticketAssignedTo}
+                    required={(isEditMode || createNewMode) && requiredFields.ticketAssignedTo}
                     showRequiredAfter
                     label='Assigned to:'
                     value={values?.ticketAssignedTo}
@@ -145,7 +174,7 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
               )} */}
               <Grid item xs={12}>
                 <TextInput
-                  required={isEditMode && requiredFields.title}
+                  required={(isEditMode || createNewMode) && requiredFields.title}
                   showRequiredAfter
                   horizontalLabel
                   label='Title:'
@@ -161,7 +190,7 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
               </Grid>
               <Grid item xs={12}>
                 <TextInput
-                  required={isEditMode && requiredFields.description}
+                  required={(isEditMode || createNewMode) && requiredFields.description}
                   showRequiredAfter
                   horizontalLabel
                   label='Description:'
@@ -177,7 +206,7 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
               </Grid>
               <Grid item xs={12}>
                 <TextInput
-                  required={isEditMode && requiredFields.notes}
+                  required={(isEditMode || createNewMode) && requiredFields.notes}
                   showRequiredAfter
                   horizontalLabel
                   label='Notes:'
@@ -191,6 +220,48 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
                   multiline
                 />
               </Grid>
+              {(createNewMode || isEditMode) && (
+                <Grid item xs={12}>
+                  <Select
+                    required={(isEditMode || createNewMode) && requiredFields.priority}
+                    label='Priority:'
+                    placeholder='Select from the list'
+                    size={'small'}
+                    name={'roles'}
+                    options={PRIORITY_OPTIONS}
+                    showRequiredAfter
+                    value={values?.priority}
+                    getOptionLabel={getOptionLabel}
+                    isOptionEqualToValue={isOptionEqualToValue}
+                    horizontalLabel
+                    disabled={isDisabled}
+                    onChange={(data) => setFieldValue('priority', data)}
+                    error={touched.priority && Boolean(errors.priority)}
+                    // helperText={touched.priority && errors.priority}
+                  />
+                </Grid>
+              )}
+              {(createNewMode || isEditMode) && (
+                <Grid item xs={12}>
+                  <Select
+                    required={(isEditMode || createNewMode) && requiredFields.state}
+                    label='State:'
+                    placeholder='Select from the list'
+                    size={'small'}
+                    name={'roles'}
+                    options={STATUS_OPTIONS}
+                    showRequiredAfter
+                    value={values?.state}
+                    getOptionLabel={getOptionLabel}
+                    isOptionEqualToValue={isOptionEqualToValue}
+                    horizontalLabel
+                    disabled={createNewMode ? true : isDisabled}
+                    onChange={(data) => setFieldValue('state', data)}
+                    error={touched.state && Boolean(errors.state)}
+                    // helperText={touched.state && errors.state}
+                  />
+                </Grid>
+              )}
             </Grid>
           </SingleBox>
         </Grid>

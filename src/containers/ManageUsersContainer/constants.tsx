@@ -16,11 +16,11 @@ export const columns: Column<ISIngleUser>[] = [
     id: 'name',
     border: 'right',
     accessor: (value) => value,
-    Cell: memo(({ value: { name, surname, id, picture } }: CellProps<ISIngleUser, ISIngleUser>) => (
+    Cell: memo(({ value: { userName, surname, id, picture } }: CellProps<ISIngleUser, ISIngleUser>) => (
       <S.UserNameWrapper>
-        <Avatar id={id} picture={picture?.thumb} firstName={name} lastName={surname} size={24} />
+        <Avatar id={id} picture={picture?.thumb} firstName={userName} lastName={surname} size={24} />
         <Typography ellipsis>
-          {name}&nbsp;{surname}
+          {userName}&nbsp;{surname}
         </Typography>
       </S.UserNameWrapper>
     )),
@@ -42,6 +42,6 @@ export const columns: Column<ISIngleUser>[] = [
     Header: 'Roles',
     id: 'rules',
     accessor: 'rules',
-    Cell: memo(({ value }: CellProps) => value?.map((item) => item.modules?.map((module, index) => <Status key={index} status={module?.type} />))),
+    Cell: memo(({ value }: CellProps) => value?.map((item, index) => <Status key={index} status={item.name} />)),
   },
 ];

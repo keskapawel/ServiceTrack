@@ -1,3 +1,5 @@
+import { ISIngleUser } from './User';
+
 export enum EActivityType {
   USER = 'User',
   SYSTEM = 'System',
@@ -25,7 +27,7 @@ export interface ISingleActivity {
   newValue: string;
   oldValue: string;
   activityType: EActivityType;
-  userId: null | string;
+  userId: null | Pick<ISIngleUser, 'id' | 'name' | 'surname' | 'userName'>;
   ticketID: string;
   creationDate: string;
   LastModificationDate: string;

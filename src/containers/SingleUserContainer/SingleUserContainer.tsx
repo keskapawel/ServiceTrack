@@ -25,10 +25,10 @@ export const SingleUserContainer = ({ createNew }: IProps) => {
       {!createNew && (
         <Header
           data={{
-            createdAt: selectedUser?.createdAt,
-            lastLogin: selectedUser?.lastLoginDateTime,
-            isEnabled: String(selectedUser?.isEnabled),
-            isExpired: String(selectedUser?.isExpired),
+            creationDate: data?.data.user?.creationDate,
+            lastLogin: data?.data.user?.lastLoginDateTime,
+            isEnabled: String(data?.data.user?.isEnabled),
+            isExpired: String(data?.data.user?.isExpired),
           }}
         />
       )}

@@ -22,8 +22,6 @@ export const SingleTicketContainer = ({ createNew, data }: IProps) => {
 
   const showLoader = createNew ? !createNew : !data?.id;
 
-  console.log(data, 'data XD');
-
   return showLoader ? (
     <Loader />
   ) : (

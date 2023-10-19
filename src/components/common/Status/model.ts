@@ -16,6 +16,11 @@ export enum StatusesList {
   ADMIN_MODULE = 'ADMIN_MODULE',
   BASE_MODULE = 'BASE_MODULE',
 
+  ADMIN = 'Admin',
+  USER = 'User',
+  CLIENT = 'Client',
+  SERVICE = 'Service',
+
   false = 'false',
   true = 'true',
 }
@@ -43,6 +48,10 @@ export const Colors: Record<StatusesList, string[]> = {
 
   [StatusesList.ADMIN_MODULE]: grey,
   [StatusesList.BASE_MODULE]: grey,
+  [StatusesList.ADMIN]: grey,
+  [StatusesList.USER]: grey,
+  [StatusesList.CLIENT]: grey,
+  [StatusesList.SERVICE]: grey,
 
   [StatusesList.false]: grey,
   [StatusesList.true]: green,

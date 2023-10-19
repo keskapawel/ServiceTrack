@@ -7,28 +7,23 @@ import { ISingleTicket } from 'models/Ticket';
 import { Typography } from 'components/common/Typography';
 import { Status } from 'components/common/Status';
 import { formatDate } from 'utils/common';
+import { Avatar } from 'components/common/Avatar';
 
 export const columns: Column<ISingleTicket>[] = [
   {
     Header: 'Ticket Id',
     id: 'id',
     border: 'right',
-    accessor: 'id',
-    Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
-  },
-  {
-    Header: 'User',
-    id: 'customer_name',
-    accessor: 'customerName',
-    Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value ?? 'Lorem Ipsum'}</Typography>),
-    width: 180,
+    accessor: 'Number',
+    Cell: memo(({ value }: CellProps) => <Typography ellipsis>#{value}</Typography>),
+    width: 100,
   },
   {
     Header: 'Title',
     id: 'title',
     accessor: 'title',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
-    width: 150,
+    width: 200,
   },
   {
     Header: 'Description',
@@ -36,6 +31,24 @@ export const columns: Column<ISingleTicket>[] = [
     accessor: 'description',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
     width: 220,
+  },
+  {
+    Header: 'Creator',
+    id: 'customer',
+    accessor: 'creator',
+    Cell: memo(({ value }: CellProps) => {
+      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended />;
+    }),
+    width: 250,
+  },
+  {
+    Header: 'Assigned to',
+    id: 'assigned_to',
+    accessor: 'assigned',
+    Cell: memo(({ value }: CellProps) => {
+      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended />;
+    }),
+    width: 250,
   },
   {
     Header: 'Status',

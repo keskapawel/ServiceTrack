@@ -10,7 +10,6 @@ interface IProps {
 }
 
 export const Status = ({ status, subTitle }: IProps) => {
-  console.log(status, 'status');
   if (subTitle) return <StatusWitTooltip status={status} subTitle={subTitle} />;
   return <StatusWithoutTooltip status={status} />;
 };

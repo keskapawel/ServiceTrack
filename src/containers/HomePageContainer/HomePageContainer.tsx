@@ -2,7 +2,6 @@ import { Icon } from 'components/common/Icon';
 import * as S from './styled';
 import { SettingsBox } from 'components/common/SettingsBox/SettingsBox';
 import { EPageType } from 'pages/PageType';
-import { dummyData as ticketsDummyData } from '../TicketsContainer/dummyData';
 import { TicketsContainer } from 'containers/TicketsContainer';
 import { useGetUserTicketsQuery } from 'services/tickets';
 import { constantUserId } from '../../constants';

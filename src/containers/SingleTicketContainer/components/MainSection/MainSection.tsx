@@ -45,21 +45,21 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
   }, []);
 
   const onSubmit = useCallback(
-    (data: ISingleTicketForm) => {
+    (submitData: ISingleTicketForm) => {
       const sendData = {
-        id: createNewMode ? null : data.id,
-        title: data.title,
-        description: data.description,
-        client: data.client.id || constantClientId,
-        userId: data.userId || constantUserId,
-        state: data.state.key || 'NEW',
-        priority: data.priority.key,
-        notes: data.notes,
+        id: createNewMode ? null : submitData.id,
+        title: submitData.title,
+        description: submitData.description,
+        client: submitData.client || constantClientId,
+        creator: submitData.creator.id || constantUserId,
+        assigned: data?.creator.id === submitData.assigned.id ? null : submitData.assigned.id || '31bee528-9f6b-4308-be68-b78093059770',
+        state: data?.state === submitData.state?.key ? null : submitData.state?.key || null,
+        priority: data?.priority === submitData.priority?.key ? null : submitData.priority?.key || null,
+        note: data?.note === submitData.note ? null : submitData.note,
       };
       createNewMode ? createSingleTicket(sendData) : updateSingleTicket(sendData);
-      console.log(data, 'data');
     },
-    [createNewMode, createSingleTicket, updateSingleTicket],
+    [createNewMode, createSingleTicket, data?.creator.id, data?.note, data?.priority, data?.state, updateSingleTicket],
   );
 
   const formik = useFormik({
@@ -67,6 +67,10 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
     initialValues: data
       ? {
           ...data,
+          creatorId: data.creator.id,
+          assignedId: data.assigned.id,
+          assignedName: `${data?.assigned.name} ${data.assigned.surname}`,
+          creatorName: `${data?.creator.name} ${data.creator.surname}`,
           priority: {
             key: data.priority,
             value: data.priority,
@@ -127,8 +131,6 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
     }
   }, [isSuccess, error, validateForm, dispatch, isCreateSuccess, isCreateError]);
 
-  console.log(errors, 'err', isEditMode, values, id);
-
   const getOptionLabel = (option) => option?.value ?? '';
   const isOptionEqualToValue = (option1, option2) => option1?.value === option2?.value;
 
@@ -140,38 +142,38 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
         <Grid mt={2}>
           <SingleBox title={''} width={12} noBorder>
             <Grid container item rowSpacing={1} columnSpacing={4}>
-              {/* <Grid item xs={12}>
-              <TextInput
+              <Grid item xs={12}>
+                <TextInput
                   required={(isEditMode || createNewMode) && requiredFields.customerName}
                   showRequiredAfter
                   horizontalLabel
                   label='Reporter name:'
-                  value={values?.customerName}
-                  disabled={isDisabled}
+                  value={`${values?.creator.name} ${values.creator.surname}`}
+                  disabled
                   name='customerName'
                   onChange={handleChange}
                   showNa
-                  error={touched.customerName && Boolean(errors.customerName)}
-                  helperText={touched.customerName && errors.customerName}
+                  error={touched.creatorId && Boolean(errors.creatorId)}
+                  helperText={touched.creatorId && errors.creatorId}
                 />
-              </Grid> */}
-              {/* {!createNewMode && (
+              </Grid>
+              {!createNewMode && (
                 <Grid item xs={12}>
                   <TextInput
                     horizontalLabel
                     required={(isEditMode || createNewMode) && requiredFields.ticketAssignedTo}
                     showRequiredAfter
                     label='Assigned to:'
-                    value={values?.ticketAssignedTo}
+                    value={values.assignedName}
                     disabled={isDisabled}
-                    name='ticketAssignedTo'
+                    name='assignedName'
                     onChange={handleChange}
                     showNa
-                    error={touched.ticketAssignedTo && Boolean(errors.ticketAssignedTo)}
-                    helperText={touched.ticketAssignedTo && errors.ticketAssignedTo}
+                    error={touched.assignedId && Boolean(errors.assignedId)}
+                    helperText={touched.assignedId && errors.assignedId}
                   />
                 </Grid>
-              )} */}
+              )}
               <Grid item xs={12}>
                 <TextInput
                   required={(isEditMode || createNewMode) && requiredFields.title}
@@ -206,17 +208,17 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
               </Grid>
               <Grid item xs={12}>
                 <TextInput
-                  required={(isEditMode || createNewMode) && requiredFields.notes}
+                  required={(isEditMode || createNewMode) && requiredFields.note}
                   showRequiredAfter
                   horizontalLabel
-                  label='Notes:'
-                  value={values?.notes}
+                  label='Note:'
+                  value={values?.note}
                   disabled={isDisabled}
-                  name='notes'
-                  onChange={handleChange}
+                  name='note'
+                  onChange={(event) => setFieldValue('note', event.target.value)}
                   showNa
-                  error={touched.notes && Boolean(errors.notes)}
-                  helperText={touched.notes && errors.notes}
+                  error={touched.note && Boolean(errors.note)}
+                  helperText={touched.note && errors.note}
                   multiline
                 />
               </Grid>

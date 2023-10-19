@@ -24,7 +24,7 @@ export const Comments = ({ commentsList, ticketId }: CommentsProps) => {
     createNewComment({
       content: data,
       subject: ticketId,
-      user: constantUserId,
+      creator: constantUserId,
     });
   };
 

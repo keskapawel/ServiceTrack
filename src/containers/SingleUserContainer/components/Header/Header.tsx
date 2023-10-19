@@ -7,7 +7,7 @@ import { Status } from 'components/common/Status';
 
 interface IProps {
   data: {
-    createdAt?: Date | null | string;
+    creationDate?: Date | null | string;
     lastLogin?: string | null;
     isEnabled?: string;
     isExpired?: string;
@@ -15,13 +15,13 @@ interface IProps {
 }
 
 export const Header = ({ data }: IProps) => {
-  const { createdAt, lastLogin, isEnabled, isExpired } = data;
+  const { creationDate, lastLogin, isEnabled, isExpired } = data;
 
   return (
     <S.Wrapper>
       <S.SingleItem>
         <Typography type='secondary'>User added:&nbsp;</Typography>
-        <Typography>{formatAppDate(createdAt, EDateFormat.YEAR)}</Typography>
+        <Typography>{formatAppDate(creationDate, EDateFormat.YEAR)}</Typography>
       </S.SingleItem>
 
       <S.SingleItem>

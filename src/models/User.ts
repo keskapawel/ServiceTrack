@@ -1,3 +1,4 @@
+import { IKeyValue } from './Key_Value';
 import { Roles } from './Roles';
 
 export interface IUsers {
@@ -6,7 +7,7 @@ export interface IUsers {
 
 export interface ISIngleUser {
   id: string;
-  username: string;
+  userName: string;
   name: string | null;
   surname: string;
   email: string;
@@ -18,8 +19,15 @@ export interface ISIngleUser {
   isCredentialExpired: boolean;
   password: string;
   rules: Roles[];
-  createdAt: string;
+  creationDate: string;
   lastModified: string;
 }
 
-export interface ISIngleUserUpdate extends Pick<ISIngleUser, 'id' | 'username' | 'name' | 'surname' | 'email' | 'rules'> {}
+export interface ISIngleUserUpdate extends Pick<ISIngleUser, 'id' | 'userName' | 'name' | 'surname' | 'email'> {
+  rules: IKeyValue[] | undefined;
+}
+
+export interface ISingleUserForm extends Omit<ISIngleUser, 'rules' | 'isEnabled'> {
+  rules: IKeyValue[] | undefined;
+  isEnabled: boolean | null;
+}

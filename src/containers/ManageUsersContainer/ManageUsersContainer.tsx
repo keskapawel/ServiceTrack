@@ -29,7 +29,7 @@ export const ManageUsersContainer = () => {
       <Table
         columns={tableData.columns}
         enableSortBy
-        data={data?.data.users ?? []}
+        data={data?.data.users.filter(({ id }) => id !== '00000000-0000-0000-0003-000000000001') ?? []}
         isLoading={false}
         itemIdAccessor={'id'}
         lastCellBorder

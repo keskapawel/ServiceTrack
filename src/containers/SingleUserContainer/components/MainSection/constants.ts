@@ -1,31 +1,35 @@
-import { ISIngleUser } from 'models/User';
+import { ISingleUserForm } from 'models/User';
+import { emailValidator } from 'utils/validators';
 import * as yup from 'yup';
 
 export const validationSchema = yup.object({
-  // customerName: yup.string().required('Name is required'),
-  // ticketSubject: yup.string().required('Subject is required'),
-  // ticketDescription: yup.string().required('Description is required'),
-  // ticketNotes: yup.string(),
-  // ticketPriority: yup.string().required('Priority status is required') /* TBD */,
-  // ticketStatus: yup.string() /* TBD */,
-  // ticketAssignedTo: yup.string() /* TBD */,
+  userName: yup.string().required('Name is required'),
+  surname: yup.string().required('Surname is required'),
+  email: emailValidator,
+  isEnabled: yup.boolean().required('Required field'),
+  rules: yup
+    .array()
+    .compact((v) => !v.key)
+    .min(1, 'At least one role is required')
+    .required('At least one role is required'),
+  isExpired: yup.boolean().required('Required field'),
 });
 
-export const initialFormValues: ISIngleUser = {
+export const initialFormValues: ISingleUserForm = {
   id: '',
-  username: '',
+  userName: '',
   name: null,
   surname: '',
   email: '',
   lastLoginDateTime: null,
   credentialExpireDate: null,
   accountExpireDate: null,
-  isEnabled: false,
+  isEnabled: true,
   isExpired: false,
   isCredentialExpired: false,
   password: '',
-  rules: [],
-  createdAt: '',
+  rules: undefined,
+  creationDate: '',
   lastModified: '',
 };
 

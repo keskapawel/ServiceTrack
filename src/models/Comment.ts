@@ -16,5 +16,5 @@ export interface ISingleComment {
 }
 
 export interface ICreateSingleComment extends Pick<ISingleComment, 'content' | 'subject'> {
-  user: string;
+  creator: string;
 }

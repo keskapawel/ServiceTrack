@@ -18,12 +18,24 @@ export const initialFormValues: ISingleTicketForm = {
   id: null,
   title: '',
   description: '',
-  client: {
+  client: '',
+  note: '',
+  assigned: {
     id: '',
+    userName: '',
     name: '',
+    surname: '',
   },
-  userId: '',
-  notes: '',
+  assignedId: null,
+  creator: {
+    id: '',
+    userName: '',
+    name: '',
+    surname: '',
+  },
+  creatorId: '',
+  assignedName: '',
+  creatorName: '',
 };
 
 export const requiredFields: Record<string, boolean> = {

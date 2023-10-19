@@ -10,9 +10,9 @@ export const SingleComment = ({ id, oldValue, newValue, userId, creationDate, fi
       <Header
         id={id}
         user={{
-          id: userId ?? '',
-          username: 'Pawel',
-          surname: 'Keska',
+          id: userId?.id ?? '',
+          username: userId?.name ?? '',
+          surname: userId?.surname ?? '',
         }}
         createdAt={creationDate}
         source={activityType}

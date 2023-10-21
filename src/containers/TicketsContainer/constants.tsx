@@ -14,7 +14,7 @@ export const columns: Column<ISingleTicket>[] = [
     Header: 'Ticket Id',
     id: 'id',
     border: 'right',
-    accessor: 'Number',
+    accessor: 'number',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>#{value}</Typography>),
     width: 100,
   },
@@ -37,7 +37,7 @@ export const columns: Column<ISingleTicket>[] = [
     id: 'customer',
     accessor: 'creator',
     Cell: memo(({ value }: CellProps) => {
-      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended />;
+      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended picture={value?.photo?.url} />;
     }),
     width: 250,
   },
@@ -46,7 +46,7 @@ export const columns: Column<ISingleTicket>[] = [
     id: 'assigned_to',
     accessor: 'assigned',
     Cell: memo(({ value }: CellProps) => {
-      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended />;
+      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended picture={value?.photo?.url} />;
     }),
     width: 250,
   },

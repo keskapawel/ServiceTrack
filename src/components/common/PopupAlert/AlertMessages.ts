@@ -7,5 +7,10 @@ export enum AlertMessages {
   USER_CREATED = 'User created',
   USER_UPDATED = 'User updated',
   TICKET_CREATED = 'Ticket created',
+  ATTACHMENT_UPLOADED = 'File uploaded',
   COMMENT_ADDED = 'Comment added',
+  IMAGE_UPLOADED = 'Image uploaded',
+  IMAGE_REMOVED = 'Image removed',
+  ATTACHMENT_DOWNLOADED = 'File downloaded',
+  ATTACHMENT_REMOVED = 'File removed',
 }

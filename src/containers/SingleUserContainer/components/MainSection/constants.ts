@@ -31,6 +31,8 @@ export const initialFormValues: ISingleUserForm = {
   rules: undefined,
   creationDate: '',
   lastModified: '',
+  uploadFileData: null,
+  file: null,
 };
 
 export const requiredFields: Record<string, boolean> = {

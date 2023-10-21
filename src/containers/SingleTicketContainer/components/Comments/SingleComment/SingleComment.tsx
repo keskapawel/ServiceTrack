@@ -4,15 +4,16 @@ import { Message } from './components/Message';
 import * as S from './styled';
 import { ISingleActivity } from 'models/Activity';
 
-export const SingleComment = ({ id, oldValue, newValue, userId, creationDate, fieldName, activityType, className }: ISingleActivity) => {
+export const SingleComment = ({ id, oldValue, newValue, creator, creationDate, fieldName, activityType, className }: ISingleActivity) => {
   return (
     <S.Wrapper>
       <Header
         id={id}
         user={{
-          id: userId?.id ?? '',
-          username: userId?.name ?? '',
-          surname: userId?.surname ?? '',
+          id: creator?.id ?? '',
+          username: creator?.name ?? '',
+          surname: creator?.surname ?? '',
+          photo: creator?.photo ?? undefined,
         }}
         createdAt={creationDate}
         source={activityType}

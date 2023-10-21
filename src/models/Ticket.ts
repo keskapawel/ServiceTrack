@@ -1,5 +1,6 @@
 import { Assigned } from './Assigned';
 import { Creator } from './Creator';
+import { IUploadFileResponse } from './File';
 import { IKeyValue } from './Key_Value';
 
 export interface ITicket {
@@ -17,8 +18,9 @@ export interface ISingleTicket {
   creationDate: string;
   LastModificationDate: string;
   creator: Creator;
-  Number: number;
+  number: number;
   note: string;
+  files?: IUploadFileResponse[];
 }
 
 export interface ISingleTicketUpdate extends Pick<ISingleTicket, 'title' | 'description'> {
@@ -26,6 +28,7 @@ export interface ISingleTicketUpdate extends Pick<ISingleTicket, 'title' | 'desc
   note: string | null;
   state: string | null;
   priority: string | null;
+  files?: string[] | null;
 }
 
 export interface ISingleTicketForm extends Pick<ISingleTicket, 'title' | 'client' | 'description'> {

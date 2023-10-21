@@ -5,10 +5,12 @@ import { MainSection } from './components/MainSection/MainSection';
 import { Loader } from 'components/common/Loader';
 import { Comments } from './components/Comments/Comments';
 import { ISingleTicket } from 'models/Ticket';
-import { useEffect } from 'react';
-import { useGetTicketCommentsQuery } from 'services/comments';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetTicketActivitiesQuery } from 'services/activity';
+import { SingleTicketDocumentContainer } from 'containers/SingleTicketDocumentContainer';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { IUploadFileResponse } from 'models/File';
 
 interface IProps {
   createNew?: boolean;
@@ -17,10 +19,16 @@ interface IProps {
 
 export const SingleTicketContainer = ({ createNew, data }: IProps) => {
   const { id } = useParams();
-  const { data: commentsData } = useGetTicketCommentsQuery({ id: data?.id ?? id ?? '' });
-  const { data: activityData } = useGetTicketActivitiesQuery({ id: data?.id ?? id ?? '' });
+  const { isEditMode } = useTicketSelector();
+  const { data: activityData } = useGetTicketActivitiesQuery(!createNew ? { id: data?.id ?? id ?? '' } : skipToken);
+  const [documentData, setDocumentData] = useState<IUploadFileResponse>();
 
   const showLoader = createNew ? !createNew : !data?.id;
+
+  const getDocumentData = (docData) => {
+    console.log(docData, 'docData x');
+    setDocumentData(docData);
+  };
 
   return showLoader ? (
     <Loader />
@@ -36,7 +44,14 @@ export const SingleTicketContainer = ({ createNew, data }: IProps) => {
           }}
         />
       )}
-      <MainSection data={data} createNewMode={createNew} />
+      <MainSection data={data} createNewMode={createNew} documentData={documentData} />
+      <SingleTicketDocumentContainer
+        id={data?.id ?? ''}
+        getDocumentData={getDocumentData}
+        createNew={createNew}
+        editMode={isEditMode}
+        ticketData={data}
+      />
       {!createNew && <Comments commentsList={activityData?.data?.activities} ticketId={data?.id ?? id ?? ''} />}
     </>
   );

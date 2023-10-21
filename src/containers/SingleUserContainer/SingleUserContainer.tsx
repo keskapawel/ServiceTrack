@@ -6,6 +6,7 @@ import { Loader } from 'components/common/Loader';
 import { useParams } from 'react-router-dom';
 import { useGetSingleUserQuery } from 'services/users';
 import { isLoadingByStatusCode } from 'hooks/statusCode-hooks';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 interface IProps {
   createNew?: boolean;
@@ -14,7 +15,7 @@ interface IProps {
 export const SingleUserContainer = ({ createNew }: IProps) => {
   const { selectedUser } = useUserSelector();
   const { id } = useParams();
-  const { data } = useGetSingleUserQuery({ id: id ?? selectedUser?.id ?? '' });
+  const { data } = useGetSingleUserQuery(!createNew ? { id: id ?? selectedUser?.id ?? '' } : skipToken);
 
   const isLoading = isLoadingByStatusCode(data?.status);
 

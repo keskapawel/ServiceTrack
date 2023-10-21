@@ -256,37 +256,19 @@ export const bytesToMegaBytes = (bytes: number) => bytes / 1024 ** 2;
 export const addFileToFormData = (
   {
     file,
-    documentType,
-    expiryDate,
     description,
-    number,
   }: {
     file?: File | IApiFile | string;
-    documentType?: string;
-    expiryDate?: string;
     description?: string;
-    number?: string;
   },
   key: string,
   formData: FormData,
 ) => {
   if (file && file instanceof File) {
-    formData.append(`${key}[file]`, file, file.name);
-  }
-
-  if (documentType) {
-    formData.append(`${key}[document_type]`, documentType);
-  }
-
-  if (expiryDate) {
-    formData.append(`${key}[expiry_date]`, expiryDate);
+    formData.append(`${key}`, file, file.name);
   }
 
   if (description) {
-    formData.append(`${key}[description]`, description);
-  }
-
-  if (number) {
-    formData.append(`${key}[number]`, number);
+    formData.append(`description`, description);
   }
 };

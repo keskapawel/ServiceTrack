@@ -9,16 +9,17 @@ interface IProps {
   lastName: string;
   id: string;
   extended?: boolean;
+  hideAlt?: boolean;
   size?: 20 | 24 | 28 | 30 | 32 | 42 | 64 | 80 | 120 | 160;
 }
 
 const AvatarDetails: FC<IProps> = (props) => {
-  const { picture, firstName, lastName, extended, size } = props;
+  const { picture, firstName, lastName, extended, size, hideAlt } = props;
 
   return (
     <>
       {picture ? (
-        <S.CurrentUserProfilePicture src={picture} alt='User picture' $size={size || 32} />
+        <S.CurrentUserProfilePicture src={picture} alt={hideAlt ? '' : 'User picture'} $size={size || 32} />
       ) : (
         <S.TextWrapper $bgColor={palette.outline} $size={size || 32}>
           <div>

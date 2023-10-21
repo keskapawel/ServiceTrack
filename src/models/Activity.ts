@@ -1,3 +1,4 @@
+import { IUploadFileResponse } from './File';
 import { ISIngleUser } from './User';
 
 export enum EActivityType {
@@ -27,7 +28,11 @@ export interface ISingleActivity {
   newValue: string;
   oldValue: string;
   activityType: EActivityType;
-  userId: null | Pick<ISIngleUser, 'id' | 'name' | 'surname' | 'userName'>;
+  creator:
+    | null
+    | (Pick<ISIngleUser, 'id' | 'name' | 'surname' | 'userName'> & {
+        photo: IUploadFileResponse | null;
+      });
   ticketID: string;
   creationDate: string;
   LastModificationDate: string;

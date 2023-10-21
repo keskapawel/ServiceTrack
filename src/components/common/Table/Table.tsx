@@ -14,18 +14,23 @@ import { TableLoader, TableProps } from './types';
 import { generateTableLoaderOptions } from './constants';
 import * as S from './styled';
 import { Link } from '../Link';
+import { TableMenuCell } from './TableMenuCell';
 
 export const Table = <ItemType extends object, IdType extends string>({
   columns,
   data,
+  menuOptions,
   itemIdAccessor,
   enableSortBy = false,
   commentCell = false,
+  lastCellBorder = false,
   maxRows,
   redirectOnClick,
   isLoading,
   onRowClick,
+  menuOpenerButtonVariant = 'outlined',
   Expandable,
+  menuOpener,
   pageDataKey,
   openableOnRowClick,
 }: TableProps<ItemType, IdType>) => {
@@ -46,6 +51,8 @@ export const Table = <ItemType extends object, IdType extends string>({
   const isExpandable = !!Expandable;
 
   const { isLoading: shouldDisplaySkeleton, rows: skeletonRows }: Required<TableLoader> = generateTableLoaderOptions(isLoading, { maxRows });
+
+  const displayMenu = Boolean(menuOptions?.length);
 
   const noResults = !data?.length && !shouldDisplaySkeleton;
 
@@ -86,6 +93,15 @@ export const Table = <ItemType extends object, IdType extends string>({
                       })}
 
                       {commentCell && <S.IconCell as={S.StyledTableHeaderCell} $hasMenu $onlyMenu={false} $commentCell />}
+
+                      {displayMenu && (
+                        <S.IconCell
+                          as={S.StyledTableHeaderCell}
+                          $hasMenu
+                          $hasMultipleActions={commentCell}
+                          $onlyMenu={displayMenu && !isExpandable}
+                        />
+                      )}
 
                       {isExpandable && <S.IconCell as={S.StyledTableHeaderCell} $hasChevron />}
                     </MuiTableRow>
@@ -136,6 +152,19 @@ export const Table = <ItemType extends object, IdType extends string>({
                           </S.StyledTableCell>
                         );
                       })}
+                      {displayMenu && (
+                        <TableMenuCell
+                          hasBorder={lastCellBorder}
+                          itemId={row.original[itemIdAccessor] as unknown as IdType}
+                          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                          menuOptions={menuOptions!}
+                          menuOpener={menuOpener}
+                          hasMultipleActions={commentCell}
+                          onlyMenu={displayMenu && !isExpandable}
+                          menuOpenerButtonVariant={menuOpenerButtonVariant}
+                          row={row}
+                        />
+                      )}
                     </TableRow>
                   );
                 })

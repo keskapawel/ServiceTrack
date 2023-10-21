@@ -9,12 +9,14 @@ import { fontSize } from 'styles/font';
 import { palette } from 'styles/palette';
 import * as S from './styled';
 import { EActivityType, EClassType } from 'models/Activity';
+import { IUploadFileResponse } from 'models/File';
 
 interface IProps {
   user: {
     id: string;
     username: string;
     surname: string;
+    photo?: IUploadFileResponse;
   };
   createdAt: string;
   source: EActivityType;
@@ -23,7 +25,7 @@ interface IProps {
 }
 
 export const Header = ({ user, createdAt, $className }: IProps) => {
-  const { username, surname, id: userId } = user || {};
+  const { username, surname, id: userId, photo } = user || {};
 
   const getFormattedDate = useMemo(() => {
     return convertDate(createdAt);
@@ -34,7 +36,7 @@ export const Header = ({ user, createdAt, $className }: IProps) => {
       <S.DetailsContainer>
         {$className === EClassType.COMMENT && (
           <>
-            <Avatar picture={''} firstName={username} lastName={surname} id={userId} size={24} />
+            <Avatar picture={photo?.url} firstName={username} lastName={surname} id={userId} size={24} />
             <Details title={`${username} ${surname}`} />
           </>
         )}

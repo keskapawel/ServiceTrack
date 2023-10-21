@@ -201,6 +201,7 @@ export const StyledTableCell = styled(TableCell)<{
       &:last-child {
         flex: 1 1 auto !important;
         max-width: unset;
+        display: flex;
       }
     `};
   border: none;

@@ -8,7 +8,6 @@ import { getParentPath } from 'utils/common';
 
 import { Button } from 'components/common/Button';
 
-import { cancelSubject } from './constants';
 import { useUserSelector, toggleEditMode as toggleUserEditMode } from 'reducers/user-reducer';
 import { useTicketSelector, toggleEditMode as toggleTicketEditMode } from 'reducers/ticket-reducer';
 
@@ -27,7 +26,6 @@ export const Cancel = () => {
     const parentPath = getParentPath(pathname);
 
     dispatch(setSelectedButton({ selectedButton: EOption.Cancel }));
-    cancelSubject.next();
 
     if (isEditMode) {
       isUserEditMode && dispatch(toggleUserEditMode({ editMode: false }));

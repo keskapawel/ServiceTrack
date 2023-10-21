@@ -20,9 +20,9 @@ import { AlertVariants } from 'components/common/PopupAlert/constants';
 import { ISIngleUser, ISingleUserForm } from 'models/User';
 import { useChangeUserStateMutation, useCreateSingleUserMutation, useUpdateSingleUserMutation } from 'services/users';
 import { toggleEditMode, useUserSelector } from 'reducers/user-reducer';
-import { MODULES_OPTIONS, YES_NO_SELECT_OPTIONS } from 'utils/constants';
+import { RULES_OPTIONS, YES_NO_SELECT_OPTIONS } from 'utils/constants';
 import { Select } from 'components/common/Select';
-import { IKeyValue } from 'models/Key_Value';
+import { UserImage } from '../UserImage';
 
 interface IProps {
   data?: ISIngleUser;
@@ -44,27 +44,38 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
     };
   }, []);
 
+  const userRoles = Array.from(
+    new Set(
+      data?.rules?.map((item) => ({
+        key: item.name.toUpperCase(),
+        value: item.name,
+        id: item.id,
+      })),
+    ),
+  );
+
   const onSubmit = useCallback(
     (submitData: ISingleUserForm) => {
-      createNewMode ? createSingleUser(submitData) : updateSingleUser(submitData);
-      if (submitData.isEnabled !== data?.isEnabled) {
-        changeUserState({ id: submitData.id });
-      }
+      const newSubmitData = {
+        ...submitData,
+        photoId: submitData?.uploadFileData?.id ?? '',
+        rules: submitData?.rules?.map((item) => ({ id: item.id })),
+      };
 
-      // if (submitData.isExpired !== data?.isExpired) {
-      // }
+      createNewMode
+        ? createSingleUser(newSubmitData)
+        : updateSingleUser(newSubmitData).then(() => {
+            if (!createNewMode && submitData.isEnabled !== data?.isEnabled) {
+              changeUserState({ id: submitData.id });
+            }
+          });
     },
     [changeUserState, createNewMode, createSingleUser, data?.isEnabled, updateSingleUser],
   );
 
-  const userRoles = Array.from(new Set(data?.rules?.flatMap((item) => item?.name)))?.map((item) => ({
-    key: item,
-    value: item,
-  }));
-
   const formik = useFormik({
     validationSchema,
-    initialValues: data ? { ...data, rules: userRoles } : initialFormValues,
+    initialValues: data ? { ...data, rules: userRoles, uploadFileData: null } : initialFormValues,
     onSubmit,
     enableReinitialize: true,
     validateOnMount: true,
@@ -119,8 +130,24 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
 
   const isDisabled = createNewMode ? !createNewMode : !isEditMode;
 
-  const getOptionLabel = (option) => option?.name ?? option?.value ?? '';
-  const isOptionEqualToValue = (option1, option2) => option1?.name === option2?.name || option1?.value === option2?.value;
+  const getOptionLabel = (option) => {
+    return (option?.name || option?.value) ?? '';
+  };
+  const isOptionEqualToValue = (option1, option2) => {
+    return option1?.name === option2?.name || option1?.value === option2?.value;
+  };
+
+  const getMultipleOptionLabel = (value): string => {
+    if (value === '') return '';
+
+    return value['key'] as unknown as string;
+  };
+
+  const isMultipleOptionEqualToValue = (option, value): boolean => {
+    if (value === '') return false;
+
+    return option['key'] === value['key'];
+  };
 
   const handleRolesChange = (data) => {
     setFieldValue('rules', data);
@@ -132,126 +159,118 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
         <Grid mt={2}>
           <SingleBox title={''} width={12} noBorder>
             <Grid container item rowSpacing={1} columnSpacing={4}>
-              <Grid item xs={12}>
-                <TextInput
-                  required={isEditMode && requiredFields.userName}
-                  showRequiredAfter
-                  horizontalLabel
-                  label='Name:'
-                  value={values?.userName}
-                  disabled={isDisabled}
-                  name='userName'
-                  onChange={handleChange}
-                  showNa
-                  onBlur={handleBlur}
-                  error={touched.userName && Boolean(errors.userName)}
-                  // helperText={touched.userName && errors.userName}
-                  multiline
+              <Grid container item xs={8} rowSpacing={2} columnSpacing={4}>
+                <Grid item xs={12}>
+                  <TextInput
+                    required={isEditMode && requiredFields.userName}
+                    showRequiredAfter
+                    // horizontalLabel
+                    label='Name:'
+                    value={values?.userName}
+                    disabled={isDisabled}
+                    name='userName'
+                    onChange={handleChange}
+                    showNa
+                    onBlur={handleBlur}
+                    error={touched.userName && Boolean(errors.userName)}
+                    // helperText={touched.userName && errors.userName}
+                    multiline
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextInput
+                    required={isEditMode && requiredFields.surname}
+                    showRequiredAfter
+                    // horizontalLabel
+                    label='Surname:'
+                    value={values?.surname}
+                    disabled={isDisabled}
+                    name='surname'
+                    onChange={handleChange}
+                    showNa
+                    onBlur={handleBlur}
+                    error={touched.surname && Boolean(errors.surname)}
+                    // helperText={touched.surname && errors.surname}
+                    multiline
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextInput
+                    required={isEditMode && requiredFields.email}
+                    showRequiredAfter
+                    // horizontalLabel
+                    label='Email:'
+                    value={values?.email}
+                    disabled={isDisabled}
+                    name='email'
+                    onChange={handleChange}
+                    showNa
+                    onBlur={handleBlur}
+                    error={touched.email && Boolean(errors.email)}
+                    // helperText={touched.email && errors.email}
+                    multiline
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Select
+                    required={isEditMode && requiredFields.rules}
+                    label='Roles:'
+                    placeholder='Select from the list'
+                    size={'small'}
+                    name={'rules'}
+                    options={RULES_OPTIONS}
+                    showRequiredAfter
+                    value={values.rules}
+                    getOptionLabel={getMultipleOptionLabel}
+                    isOptionEqualToValue={isMultipleOptionEqualToValue}
+                    // horizontalLabel
+                    disabled={isDisabled}
+                    onChange={handleRolesChange}
+                    onBlur={handleBlur}
+                    error={touched.rules && Boolean(errors.rules)}
+                    // helperText={touched.roles && errors.roles}
+                    multiple
+                  />
+                </Grid>
+                {isEditMode && (
+                  <>
+                    <Grid item xs={12}>
+                      <Select
+                        required={isEditMode && requiredFields.isEnabled}
+                        label='Enabled:'
+                        placeholder='Select from the list'
+                        size={'small'}
+                        // horizontalLabel
+                        showRequiredAfter
+                        name={'isEnabled'}
+                        options={YES_NO_SELECT_OPTIONS}
+                        value={YES_NO_SELECT_OPTIONS.find((option) => option.value === values.isEnabled)}
+                        getOptionLabel={getOptionLabel}
+                        isOptionEqualToValue={isOptionEqualToValue}
+                        disabled={isDisabled}
+                        onChange={(data) => {
+                          setFieldValue('isEnabled', data?.value);
+                        }}
+                        onBlur={handleBlur}
+                        error={touched.isEnabled && Boolean(errors.isEnabled)}
+                        // helperText={touched.isEnabled && errors.isEnabled}
+                      />
+                    </Grid>
+                  </>
+                )}
+              </Grid>
+              <Grid item xs={4}>
+                <UserImage
+                  data={{
+                    picture: values.file?.url || undefined,
+                    firstName: values?.userName,
+                    lastName: values?.surname,
+                    id: values?.id,
+                  }}
+                  isEditMode={isEditMode || createNewMode}
+                  formik={formik}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextInput
-                  required={isEditMode && requiredFields.surname}
-                  showRequiredAfter
-                  horizontalLabel
-                  label='Surname:'
-                  value={values?.surname}
-                  disabled={isDisabled}
-                  name='surname'
-                  onChange={handleChange}
-                  showNa
-                  onBlur={handleBlur}
-                  error={touched.surname && Boolean(errors.surname)}
-                  // helperText={touched.surname && errors.surname}
-                  multiline
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextInput
-                  required={isEditMode && requiredFields.email}
-                  showRequiredAfter
-                  horizontalLabel
-                  label='Email:'
-                  value={values?.email}
-                  disabled={isDisabled}
-                  name='email'
-                  onChange={handleChange}
-                  showNa
-                  onBlur={handleBlur}
-                  error={touched.email && Boolean(errors.email)}
-                  // helperText={touched.email && errors.email}
-                  multiline
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Select
-                  required={isEditMode && requiredFields.rules}
-                  label='Roles:'
-                  placeholder='Select from the list'
-                  size={'small'}
-                  name={'rules'}
-                  options={MODULES_OPTIONS}
-                  showRequiredAfter
-                  value={values.rules}
-                  getOptionLabel={getOptionLabel}
-                  isOptionEqualToValue={isOptionEqualToValue}
-                  horizontalLabel
-                  disabled={isDisabled}
-                  onChange={handleRolesChange}
-                  onBlur={handleBlur}
-                  error={touched.rules && Boolean(errors.rules)}
-                  // helperText={touched.roles && errors.roles}
-                  multiple
-                />
-              </Grid>
-              {isEditMode && (
-                <>
-                  <Grid item xs={12}>
-                    <Select
-                      required={isEditMode && requiredFields.isEnabled}
-                      label='Enabled:'
-                      placeholder='Select from the list'
-                      size={'small'}
-                      horizontalLabel
-                      showRequiredAfter
-                      name={'isEnabled'}
-                      options={YES_NO_SELECT_OPTIONS}
-                      value={YES_NO_SELECT_OPTIONS.find((option) => option.value === values.isEnabled)}
-                      getOptionLabel={getOptionLabel}
-                      isOptionEqualToValue={isOptionEqualToValue}
-                      disabled={isDisabled}
-                      onChange={(data) => {
-                        setFieldValue('isEnabled', data?.value);
-                      }}
-                      onBlur={handleBlur}
-                      error={touched.isEnabled && Boolean(errors.isEnabled)}
-                      // helperText={touched.isEnabled && errors.isEnabled}
-                    />
-                  </Grid>
-                  {/* <Grid item xs={12}>
-                    <Select
-                      required={isEditMode && requiredFields.isExpired}
-                      label='Expired:'
-                      placeholder='Select from the list'
-                      size={'small'}
-                      horizontalLabel
-                      showRequiredAfter
-                      name={'isExpired'}
-                      options={YES_NO_SELECT_OPTIONS}
-                      value={YES_NO_SELECT_OPTIONS.find((option) => option.value === values.isExpired)}
-                      getOptionLabel={getOptionLabel}
-                      isOptionEqualToValue={isOptionEqualToValue}
-                      disabled={isDisabled}
-                      onChange={(data) => {
-                        setFieldValue('isExpired', data?.value);
-                      }}
-                      onBlur={handleBlur}
-                      error={touched.isExpired && Boolean(errors.isExpired)}
-                      // helperText={touched.isExpired && errors.isExpired}
-                    />
-                  </Grid> */}
-                </>
-              )}
             </Grid>
           </SingleBox>
         </Grid>

@@ -10,7 +10,7 @@ import { TextInput } from 'components/common/TextInput';
 import { SingleBox } from '../SingleBox';
 
 import * as S from './styled';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppDispatch } from 'hooks/store-hook';
 import { validationSchema, initialFormValues, requiredFields } from './constants';
 import { clearSelection, setIsValid, setSelectedButton, useNavigationButtonsSelector } from 'reducers/navigationButtons-reducer';
@@ -23,16 +23,18 @@ import { AlertVariants } from 'components/common/PopupAlert/constants';
 import { constantClientId, constantUserId } from '../../../../constants';
 import { Select } from 'components/common/Select';
 import { PRIORITY_OPTIONS, STATUS_OPTIONS } from 'utils/constants';
+import { IUploadFileResponse } from 'models/File';
 
 interface IProps {
   data?: ISingleTicket | null;
   createNewMode?: boolean;
+  documentData?: IUploadFileResponse;
 }
 
-export const MainSection = ({ data, createNewMode }: IProps) => {
-  const { id } = useParams();
+export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
   const [updateSingleTicket, { isSuccess, error }] = useUpdateSingleTicketMutation();
   const [createSingleTicket, { isSuccess: isCreateSuccess, error: isCreateError }] = useCreateSingleTicketMutation();
+  const [uploadedDocumentData, setUploadedDocumentData] = useState<string[]>([]);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isEditMode } = useTicketSelector();
@@ -46,21 +48,38 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
 
   const onSubmit = useCallback(
     (submitData: ISingleTicketForm) => {
+      console.log(documentData, 'documentData XD', uploadedDocumentData);
       const sendData = {
         id: createNewMode ? null : submitData.id,
         title: submitData.title,
         description: submitData.description,
         client: submitData.client || constantClientId,
         creator: submitData.creator.id || constantUserId,
-        assigned: data?.creator.id === submitData.assigned.id ? null : submitData.assigned.id || '31bee528-9f6b-4308-be68-b78093059770',
+        assigned: data?.assigned.id === submitData.assigned.id ? null : submitData.assigned.id || constantUserId,
         state: data?.state === submitData.state?.key ? null : submitData.state?.key || null,
         priority: data?.priority === submitData.priority?.key ? null : submitData.priority?.key || null,
         note: data?.note === submitData.note ? null : submitData.note,
+        files: uploadedDocumentData ? uploadedDocumentData : null,
       };
       createNewMode ? createSingleTicket(sendData) : updateSingleTicket(sendData);
     },
-    [createNewMode, createSingleTicket, data?.creator.id, data?.note, data?.priority, data?.state, updateSingleTicket],
+    [
+      createNewMode,
+      createSingleTicket,
+      data?.assigned.id,
+      data?.note,
+      data?.priority,
+      data?.state,
+      documentData,
+      updateSingleTicket,
+      uploadedDocumentData,
+    ],
   );
+
+  useEffect(() => {
+    console.log(documentData?.id, 'documentData?.id');
+    documentData?.id && setUploadedDocumentData((prev) => [...prev, documentData?.id]);
+  }, [documentData?.id]);
 
   const formik = useFormik({
     validationSchema,

@@ -1,5 +1,3 @@
-import { Subject } from 'rxjs';
-
 import { Icon } from 'components/common/Icon';
 
 export enum EOptions {
@@ -33,7 +31,3 @@ export const getChildArray = (options, handleClick, disableAll?: boolean) => {
     disabled: !!disableAll,
   }));
 };
-
-export const saveSubject = new Subject<void>();
-export const createSubject = new Subject<void>();
-export const cancelSubject = new Subject<void>();

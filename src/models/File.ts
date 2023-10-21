@@ -1,3 +1,15 @@
+export interface IUploadFileResponse {
+  id: string;
+  objectId: string;
+  name: string;
+  fileExtension: string;
+  fileType: string;
+  creationDate: string;
+  lastModificationDate: string;
+  url: string;
+  description: string;
+}
+
 export interface IFile {
   lastModified: string;
   lastModifiedDate: Date;
@@ -5,10 +17,16 @@ export interface IFile {
   size: number;
   type: string;
   webkitRelativePath: string;
+  path: string;
 }
 
 export interface IApiFile {
   contentType: string;
   filename: string;
   url: string;
+}
+
+export interface IUploadFile {
+  file: IFile;
+  description?: string;
 }

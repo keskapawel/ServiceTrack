@@ -17,7 +17,15 @@ export const Message = ({ oldValue, newValue, fieldName, $className }: IProps) =
       {$className === EClassType.TICKET && (
         <>
           <Typography>
-            <b>{fieldName}</b> was changed from <b>{oldValue}</b> to <b>{newValue}</b>
+            {oldValue ? (
+              <>
+                Field <b>{fieldName}</b> was changed from <b>{oldValue}</b> to <b>{newValue}</b>
+              </>
+            ) : (
+              <>
+                Field <b>{fieldName}</b> was set to <b>{newValue}</b>
+              </>
+            )}
           </Typography>
         </>
       )}

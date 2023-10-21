@@ -4,7 +4,6 @@ import { EOption } from 'reducers/location-reducer';
 
 import { Button } from 'components/common/Button';
 
-import { saveSubject } from './constants';
 import { useNavigationButtonsSelector, setSelectedButton } from 'reducers/navigationButtons-reducer';
 
 export const Save = () => {
@@ -13,7 +12,6 @@ export const Save = () => {
 
   const handleClick = () => {
     dispatch(setSelectedButton({ selectedButton: EOption.Save }));
-    saveSubject.next();
   };
 
   return (

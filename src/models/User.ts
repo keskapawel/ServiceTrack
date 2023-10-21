@@ -1,4 +1,4 @@
-import { IKeyValue } from './Key_Value';
+import { IUploadFileResponse } from './File';
 import { Roles } from './Roles';
 
 export interface IUsers {
@@ -21,13 +21,22 @@ export interface ISIngleUser {
   rules: Roles[];
   creationDate: string;
   lastModified: string;
+  file: IUploadFileResponse | null;
 }
 
 export interface ISIngleUserUpdate extends Pick<ISIngleUser, 'id' | 'userName' | 'name' | 'surname' | 'email'> {
-  rules: IKeyValue[] | undefined;
+  rules: { id: string }[] | undefined;
+  photoId: string;
 }
 
 export interface ISingleUserForm extends Omit<ISIngleUser, 'rules' | 'isEnabled'> {
-  rules: IKeyValue[] | undefined;
+  rules:
+    | {
+        key: string;
+        value: string;
+        id: string;
+      }[]
+    | undefined;
   isEnabled: boolean | null;
+  uploadFileData: IUploadFileResponse | null;
 }

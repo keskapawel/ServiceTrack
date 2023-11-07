@@ -153,8 +153,6 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
     setFieldValue('rules', data);
   };
 
-  console.log(errors, 'err', values);
-
   return (
     <S.Wrapper>
       <Grid item sx={{ gridColumn: '1 / 4', gridRow: '1 / 2' }}>

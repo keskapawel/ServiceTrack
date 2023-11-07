@@ -25,7 +25,6 @@ const dummyData = [
 
 export const HomePageContainer = () => {
   const { data } = useGetUserTicketsQuery({ id: constantUserId });
-  console.log(data, 'data');
   return (
     <S.Wrapper>
       <S.BoxesWrapper>

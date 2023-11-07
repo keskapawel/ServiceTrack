@@ -24,8 +24,6 @@ const TicketsContainer = ({ tickets }: IProps) => {
     dispatch(setSelectedTicket({ selectedTicket: undefined }));
   }, []);
 
-  console.log(tickets, 'tickets');
-
   return (
     <>
       <Table

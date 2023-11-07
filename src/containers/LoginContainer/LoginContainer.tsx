@@ -25,14 +25,13 @@ export const LoginContainer = () => {
 
   const onSubmit = (data) => {
     logIn({
-      userName: data.email,
+      email: data.email,
       password: data.password,
     });
   };
 
   useEffect(() => {
     if (data?.statusCode === 200) {
-      console.log('WESZLO XDDDD');
       navigation('/', { replace: true });
     }
   }, [data?.statusCode, isSuccess, navigation]);

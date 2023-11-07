@@ -2,7 +2,7 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { UnwrapPromise } from '@reduxjs/toolkit/dist/query/tsHelpers';
 import { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
-import { camelizeKeys, decamelizeKeys } from 'humps';
+import { camelizeKeys } from 'humps';
 import { stringify } from 'query-string';
 
 import { RootState } from 'store';
@@ -12,14 +12,14 @@ import { TBaseQueryFunc, TBaseQueryWithResult } from './types';
 import { getUrlFromArgs, isAuthRequiredForUrl, mutex, shouldReauthenticate } from './utils';
 import { AUTH_HEADER } from './constants';
 
-// const getToken = ({ getState }: Partial<BaseQueryApi>) => (getState?.() as RootState).auth.token;
-
-const getToken = (data: any) => 'Basic dXNlcjpmZjhjNDA1Mi01ZTk5LTRlMTUtOTkwNS1jYzRhYTM0ZDIxYzE=';
+const getToken = ({ getState }: Partial<BaseQueryApi>) => {
+  return (getState?.() as RootState).auth.token;
+};
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_URL,
   paramsSerializer: (params) => {
-    const snakeKeysParams = decamelizeKeys(params) as typeof params;
+    const snakeKeysParams = params;
 
     // sort param array values
     Object.keys(snakeKeysParams)?.forEach((key) => {
@@ -45,45 +45,67 @@ export const baseQuery = fetchBaseQuery({
   },
 }) as TBaseQueryFunc;
 
-export const baseQueryWithReauth: TBaseQueryFunc = async (args, api, extraOptions) => {
-  const token = getToken(api);
-
-  // if (!token && isAuthRequiredForUrl(getUrlFromArgs(args))) {
-  //   return {
-  //     error: {
-  //       data: { error: 'Request cancelled!' },
-  //       status: 499 /* HTTP Client Closed Request (499) */,
-  //     },
-  //   };
-  // }
-
+export const baseQueryCamelize: TBaseQueryFunc = async (args, api, extraOptions) => {
   const result = await baseQuery(args, api, extraOptions);
-
-  // if (shouldReauthenticate(result)) {
-  //   result = await reauthenticateAsync(result, args, api, extraOptions);
-  // }
-
-  setTokenFromResponse(result, api);
-
   return result;
 };
 
-// const waitForUnlockAndRunQueryAsync: TBaseQueryFunc = async (args, api, extraOptions) => {
-//   // wait until the mutex is available without locking it
-//   await mutex.waitForUnlock();
+export const baseQueryWithReauth: TBaseQueryFunc = async (args, api, extraOptions) => {
+  const token = getToken(api);
 
-//   return await baseQueryCamelize(args, api, extraOptions);
-// };
-
-const setTokenFromResponse = (result: UnwrapPromise<ReturnType<TBaseQueryFunc>>, api: BaseQueryApi): void => {
-  const { meta } = result ?? {};
-
-  if (meta && meta.response) {
-    const {
-      response: { headers },
-    } = meta;
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    if (headers.has(AUTH_HEADER)) api.dispatch(setToken(headers.get(AUTH_HEADER)!));
+  if (!token && isAuthRequiredForUrl(getUrlFromArgs(args))) {
+    return {
+      error: {
+        data: { error: 'Request cancelled!' },
+        status: 499 /* HTTP Client Closed Request (499) */,
+      },
+    };
   }
+
+  let result = await waitForUnlockAndRunQueryAsync(args, api, extraOptions);
+  if (shouldReauthenticate(result)) {
+    result = await reauthenticateAsync(result, args, api, extraOptions);
+  }
+
+  if (!token) setTokenFromResponse(result, api);
+  return result;
+};
+
+const waitForUnlockAndRunQueryAsync: TBaseQueryFunc = async (args, api, extraOptions) => {
+  return await baseQueryCamelize(args, api, extraOptions);
+};
+
+const reauthenticateAsync: TBaseQueryWithResult = async (previousResult, args, api, extraOptions) => {
+  return await refreshTokenAsync(previousResult, args, api, extraOptions);
+};
+
+const refreshTokenAsync: TBaseQueryWithResult = async (previousResult, args, api, extraOptions) => {
+  // try to get a new token
+  try {
+    const refreshResult = await baseQueryCamelize({ url: 'auth/refresh-token', method: 'POST' }, api, extraOptions);
+    console.log(refreshResult, 'refreshResult');
+    if (refreshResult.data) {
+      setTokenFromResponse(refreshResult, api);
+
+      // retry the initial query
+      return await baseQueryCamelize(args, api, extraOptions);
+    } else {
+      api.dispatch(deleteToken());
+    }
+  } catch (e) {
+    console.log(e, 'ERROR IN API QUERY');
+  }
+
+  return previousResult;
+};
+
+const setTokenFromResponse = (result: UnwrapPromise<ReturnType<any>>, api: BaseQueryApi): void => {
+  const { data } = result ?? {};
+  console.log(data, 'data');
+  if (data && data.data) {
+    const token = data.data.token.accessToken;
+
+    api.dispatch(setToken(token));
+  }
+  return;
 };

@@ -18,6 +18,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { Tooltip, Avatar } from '@mui/material';
+import { UserMenu } from './components/UserMenu/UserMenu';
 
 const drawerWidth = 240;
 
@@ -104,7 +106,7 @@ export const Header = ({ children }: any) => {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position='fixed' open={open}>
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
           {/* <IconButton
             color='inherit'
             aria-label='open drawer'
@@ -120,6 +122,8 @@ export const Header = ({ children }: any) => {
           <Typography variant='h6' noWrap component='div'>
             Service Track
           </Typography>
+
+          <UserMenu />
         </Toolbar>
       </AppBar>
       {/* <Drawer variant='permanent' open={open}>

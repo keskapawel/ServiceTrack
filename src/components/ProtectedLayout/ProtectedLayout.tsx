@@ -11,10 +11,8 @@ export const ProtectedLayout = () => {
   const dispatch = useAppDispatch();
   const { isAuthorized } = useAuthSelector();
 
-  console.log(isAuthorized, 'isAuthorized');
-
   // refresh data in reducer on every refresh
-  // useProfileQuery(undefined, { refetchOnMountOrArgChange: true });
+  useProfileQuery(undefined, { refetchOnMountOrArgChange: true });
 
   useEffect(() => {
     if (!isAuthorized) {

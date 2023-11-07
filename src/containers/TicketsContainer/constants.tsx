@@ -14,9 +14,10 @@ export const columns: Column<ISingleTicket>[] = [
     Header: 'Ticket Id',
     id: 'id',
     border: 'right',
-    accessor: 'number',
+    accessor: 'id',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>#{value}</Typography>),
     width: 100,
+    // redirectOnClick: true,
   },
   {
     Header: 'Title',
@@ -37,7 +38,7 @@ export const columns: Column<ISingleTicket>[] = [
     id: 'customer',
     accessor: 'creator',
     Cell: memo(({ value }: CellProps) => {
-      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended picture={value?.photo?.url} />;
+      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended picture={value?.avatar?.url} />;
     }),
     width: 250,
   },
@@ -46,7 +47,7 @@ export const columns: Column<ISingleTicket>[] = [
     id: 'assigned_to',
     accessor: 'assigned',
     Cell: memo(({ value }: CellProps) => {
-      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended picture={value?.photo?.url} />;
+      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended picture={value?.avatar?.url} />;
     }),
     width: 250,
   },
@@ -54,7 +55,8 @@ export const columns: Column<ISingleTicket>[] = [
     Header: 'Status',
     id: 'state',
     accessor: 'state',
-    Cell: memo(({ value }: CellProps) => <Status status={value} />),
+    Cell: memo(({ value }: CellProps) => <Status status={value} changeEnable />),
+    // redirectOnClick: false,
   },
   {
     Header: 'Priority',
@@ -72,7 +74,7 @@ export const columns: Column<ISingleTicket>[] = [
   {
     Header: 'Last edit date',
     id: 'edit_date',
-    accessor: 'LastModificationDate',
+    accessor: 'lastModificationDate',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{formatDate(value)}</Typography>),
     width: 220,
   },

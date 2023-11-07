@@ -22,3 +22,15 @@ export const Title = styled.div<{ $color: string; $background: string }>`
 export const ToolTipBox = styled.div<{ $color: string }>`
   color: ${({ $color }) => $color};
 `;
+
+export const ChangableWrapper = styled.div`
+  position: relative;
+  z-index: 9999;
+  left: -100px;
+  top: -20px;
+  > div {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+  }
+`;

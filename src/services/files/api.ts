@@ -43,7 +43,7 @@ export const filesApi = api.injectEndpoints({
       },
       invalidatesTags: [BASE_TAGS.UPLOAD_FILE, BASE_TAGS.SINGLE_USER, BASE_TAGS.TICKET],
     }),
-    uploadFileToNewTicket: build.mutation<IApiData<{ file: IUploadFileResponse }>, IUploadFile>({
+    uploadFileToNewResource: build.mutation<IApiData<{ file: IUploadFileResponse }>, IUploadFile>({
       query: ({ file, description }) => {
         const formData = AttachmentFormData({
           file,
@@ -64,7 +64,7 @@ export const filesApi = api.injectEndpoints({
           method: 'DELETE',
         };
       },
-      invalidatesTags: [BASE_TAGS.TICKET],
+      invalidatesTags: [BASE_TAGS.TICKET, BASE_TAGS.SINGLE_USER],
     }),
     downloadFile: build.mutation<IApiData<unknown>, { id: string; fileName: string }>({
       query: ({ id, fileName }) => {
@@ -81,4 +81,5 @@ export const filesApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetFileQuery, useRemoveFileMutation, useUploadFileMutation, useUploadFileToNewTicketMutation, useDownloadFileMutation } = filesApi;
+export const { useGetFileQuery, useRemoveFileMutation, useUploadFileMutation, useUploadFileToNewResourceMutation, useDownloadFileMutation } =
+  filesApi;

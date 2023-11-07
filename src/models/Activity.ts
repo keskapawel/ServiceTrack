@@ -12,9 +12,11 @@ export enum EClassType {
 }
 
 export enum EFieldName {
+  COMMENTS = 'Comments',
   STATE = 'State',
+  NOTE = 'Note',
   PRIORITY = 'Priority',
-  CONTENT = 'Content',
+  ASSIGNED = 'Assigned',
 }
 
 export interface IActivity {
@@ -30,8 +32,8 @@ export interface ISingleActivity {
   activityType: EActivityType;
   creator:
     | null
-    | (Pick<ISIngleUser, 'id' | 'name' | 'surname' | 'userName'> & {
-        photo: IUploadFileResponse | null;
+    | (Pick<ISIngleUser, 'uuid' | 'name' | 'surname' | 'userName'> & {
+        avatar: IUploadFileResponse | null;
       });
   ticketID: string;
   creationDate: string;

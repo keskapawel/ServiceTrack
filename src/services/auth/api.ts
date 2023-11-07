@@ -7,15 +7,15 @@ import type { TLoginRequest } from './types';
 export const authApi = api.injectEndpoints({
   endpoints: (build) => ({
     logIn: build.mutation<IApiData<any>, TLoginRequest>({
-      query: ({ login, password }) => ({
-        url: 'login',
+      query: ({ userName, password }) => ({
+        url: 'auth/login',
         method: 'POST',
-        body: { user: { login, password } },
+        body: { userName, password },
       }),
       invalidatesTags: [BASE_TAGS.PROFILE],
     }),
     profile: build.query<IApiData<any>, void>({
-      query: () => ({ url: 'api/v1/profile' }),
+      query: () => ({ url: 'profile' }),
       providesTags: [BASE_TAGS.PROFILE],
     }),
   }),

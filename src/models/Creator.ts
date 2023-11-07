@@ -1,7 +1,8 @@
 import { IUploadFileResponse } from './File';
 
 export interface Creator {
-  id: string;
+  uuid: string;
+  id: number;
   userName: string;
   name: string;
   surname: string;

@@ -3,13 +3,18 @@ import { Tooltip } from '../Tooltip';
 import { StatusesList, Colors } from './model';
 
 import * as S from './styled';
+import { ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { STATUS_OPTIONS } from 'utils/constants';
+import { Select } from '../Select';
 
 interface IProps {
   status: string;
   subTitle?: string;
+  changeEnable?: boolean;
 }
 
-export const Status = ({ status, subTitle }: IProps) => {
+export const Status = ({ status, subTitle, changeEnable }: IProps) => {
+  if (changeEnable) return <ChangableStatus status={status} />;
   if (subTitle) return <StatusWitTooltip status={status} subTitle={subTitle} />;
   return <StatusWithoutTooltip status={status} />;
 };
@@ -27,7 +32,7 @@ const StatusWithoutTooltip = ({ status }: IProps) => {
   );
 };
 
-const StatusWitTooltip = ({ status, subTitle }: Required<IProps>) => (
+const StatusWitTooltip = ({ status, subTitle }: IProps) => (
   <S.Wrapper>
     <Tooltip title={subTitle} placement='top'>
       <S.Title
@@ -40,3 +45,34 @@ const StatusWitTooltip = ({ status, subTitle }: Required<IProps>) => (
     </Tooltip>
   </S.Wrapper>
 );
+
+const ChangableStatus = ({ status }: IProps) => {
+  const getOptionLabel = (option) => option?.value ?? '';
+  const isOptionEqualToValue = (option1, option2) => option1?.value === option2?.value;
+
+  const handleChange = (d) => {
+    d.preventDefault();
+    d.stopPropagation();
+  };
+  return (
+    <>
+      <StatusWithoutTooltip status={status} />
+      <S.ChangableWrapper>
+        {/* <ToggleButtonGroup color='primary' value={'XD'} exclusive onChange={handleChange} aria-label='Platform'>
+          {STATUS_OPTIONS.map((status, index) => {
+            return (
+              <ToggleButton key={`${index}_${status.key}`} value={status.value}>
+                <StatusWithoutTooltip status={status.value} />
+              </ToggleButton>
+            );
+          })}
+          {/* <ToggleButton value='web'>Web</ToggleButton>
+        <ToggleButton value='android'>Android</ToggleButton>
+      <ToggleButton value='ios'>iOS</ToggleButton> */}
+        {/* </ToggleButtonGroup> */}
+
+        <Select onOpen={handleChange} options={STATUS_OPTIONS} getOptionLabel={getOptionLabel} isOptionEqualToValue={isOptionEqualToValue} />
+      </S.ChangableWrapper>
+    </>
+  );
+};

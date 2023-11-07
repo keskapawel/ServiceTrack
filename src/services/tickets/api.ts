@@ -34,7 +34,7 @@ export const ticketsApi = api.injectEndpoints({
       query: (data) => {
         return {
           url: `serviceModule/ticket`,
-          method: 'POST',
+          method: 'PUT',
           body: data,
         };
       },
@@ -44,7 +44,7 @@ export const ticketsApi = api.injectEndpoints({
       query: (data) => {
         return {
           url: `serviceModule/tickets`,
-          method: 'PUT',
+          method: 'POST',
           body: data,
         };
       },

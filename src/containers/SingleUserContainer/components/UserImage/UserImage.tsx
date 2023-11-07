@@ -11,7 +11,7 @@ import { HiddenLabel } from 'components/common/HiddenLabel';
 
 import { palette } from 'styles/palette';
 import * as S from './styled';
-import { useRemoveFileMutation, useUploadFileMutation } from 'services/files';
+import { useRemoveFileMutation, useUploadFileMutation, useUploadFileToNewResourceMutation } from 'services/files';
 import { useDispatch } from 'react-redux';
 import { AlertVariants, AlertMessages } from 'components/common/PopupAlert';
 import { showAlertPopup } from 'reducers/popup-alert-reducer';
@@ -35,21 +35,23 @@ export const UserImage = ({ data, isEditMode, formik }: IProps) => {
   const { picture, firstName, lastName, id } = data;
   const [errors, setErrors] = useState('');
   const [uploadFile, { isSuccess: isUploadSuccess, isError: isUploadError, data: uploadFileData }] = useUploadFileMutation();
+  const [uploadFileToNewResource, { isSuccess: isUploadNewSuccess, isError: isUploadNewError, data: uploadNewFileData }] =
+    useUploadFileToNewResourceMutation();
   const [removeFile, { isSuccess: isRemoveSuccess, isError: isRemoveError }] = useRemoveFileMutation();
 
   useEffect(() => {
     if (isUploadSuccess && !isRemoveSuccess && Object.keys(touched).length === 0) {
       dispatch(setSelectedButton({ selectedButton: EOption.Cancel }));
     }
-    if (isUploadSuccess || isRemoveSuccess) {
+    if (isUploadSuccess || isRemoveSuccess || isUploadNewSuccess) {
       dispatch(
         showAlertPopup({ variant: AlertVariants.SUCCESS, message: isRemoveSuccess ? AlertMessages.IMAGE_REMOVED : AlertMessages.IMAGE_UPLOADED }),
       );
     }
-    if (isUploadError || isRemoveError) {
+    if (isUploadError || isRemoveError || isUploadNewError) {
       dispatch(showAlertPopup({ variant: AlertVariants.ERROR, message: AlertMessages.ERROR }));
     }
-  }, [dispatch, isRemoveError, isRemoveSuccess, isUploadError, isUploadSuccess, touched]);
+  }, [dispatch, isRemoveError, isRemoveSuccess, isUploadError, isUploadNewError, isUploadNewSuccess, isUploadSuccess, touched]);
 
   const [selectedFile, setSelectedFile] = useState({
     data: {
@@ -103,8 +105,8 @@ export const UserImage = ({ data, isEditMode, formik }: IProps) => {
     });
     setFieldValue('newFile', null);
     setFieldValue('file', null);
-    removeFile({ id: values?.file?.id });
-  }, [removeFile, setFieldValue, values?.file?.id]);
+    removeFile({ id: values?.avatar?.uuid });
+  }, [removeFile, setFieldValue, values?.avatar?.uuid]);
 
   const { getRootProps, getInputProps, open, isDragActive } = useDropzone({
     onDrop,
@@ -124,15 +126,19 @@ export const UserImage = ({ data, isEditMode, formik }: IProps) => {
   );
 
   const handleUploadClick = useCallback(() => {
-    uploadFile({
-      id: values?.id,
-      file: values?.newFile,
-    });
-  }, [uploadFile, values]);
+    values?.uuid
+      ? uploadFile({
+          id: values?.uuid,
+          file: values?.newFile,
+        })
+      : uploadFileToNewResource({
+          file: values?.newFile,
+        });
+  }, [uploadFile, uploadFileToNewResource, values]);
 
   useEffect(() => {
-    setFieldValue('uploadFileData', uploadFileData?.data.file);
-  }, [setFieldValue, uploadFileData]);
+    setFieldValue('uploadFileData', uploadFileData?.data.file || uploadNewFileData?.data.file);
+  }, [setFieldValue, uploadFileData, uploadNewFileData?.data.file]);
 
   return (
     <>
@@ -142,7 +148,7 @@ export const UserImage = ({ data, isEditMode, formik }: IProps) => {
             size={'small'}
             placeholder='No file uploaded'
             name='name'
-            value={selectedFile?.data?.name || values?.file?.name}
+            value={selectedFile?.data?.name || values?.avatar?.name}
             label={'Upload user image'}
             hideLabel
             disabled

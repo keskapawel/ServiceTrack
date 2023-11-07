@@ -1,4 +1,4 @@
-import { ISingleTicket, ISingleTicketForm } from 'models/Ticket';
+import { ISingleTicketForm } from 'models/Ticket';
 import * as yup from 'yup';
 
 export const validationSchema = yup.object({
@@ -15,20 +15,22 @@ export const initialFormValues: ISingleTicketForm = {
     key: '',
     value: '',
   },
-  id: null,
+  uuid: null,
   title: '',
   description: '',
   client: '',
   note: '',
   assigned: {
-    id: '',
+    id: 0,
+    uuid: '',
     userName: '',
     name: '',
     surname: '',
   },
   assignedId: null,
   creator: {
-    id: '',
+    id: 0,
+    uuid: '',
     userName: '',
     name: '',
     surname: '',

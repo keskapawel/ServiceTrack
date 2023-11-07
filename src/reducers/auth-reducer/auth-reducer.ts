@@ -17,7 +17,7 @@ const initialState: TAuthSliceState = {
   currentAuthBaseState: null,
   token: null,
   isAuthorized: true,
-  // isAuthorized: false -> set to false when auth system works,
+  // isAuthorized: false /* -> set to false when auth system works, */,
   profile: null,
 };
 
@@ -37,7 +37,23 @@ const authSlice = createSlice({
       state.profile = null;
     });
 
+    // builder.addMatcher(authApi.endpoints.logOut.matchRejected, (state) => {
+    //   state.token = null;
+    //   state.isAuthorized = false;
+    //   state.profile = null;
+    // });
+
+    // builder.addMatcher(authApi.endpoints.logOut.matchFulfilled, (state) => {
+    //   state.token = null;
+    //   state.isAuthorized = false;
+    //   state.profile = null;
+    // });
+
     builder.addMatcher(authApi.endpoints.logIn.matchFulfilled, (state, { payload: { data } }) => {
+      state.profile = data;
+    });
+
+    builder.addMatcher(authApi.endpoints.profile.matchFulfilled, (state, { payload: { data } }) => {
       state.profile = data;
     });
   },

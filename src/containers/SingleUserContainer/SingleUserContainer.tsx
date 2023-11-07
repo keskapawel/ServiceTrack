@@ -15,7 +15,7 @@ interface IProps {
 export const SingleUserContainer = ({ createNew }: IProps) => {
   const { selectedUser } = useUserSelector();
   const { id } = useParams();
-  const { data } = useGetSingleUserQuery(!createNew ? { id: id ?? selectedUser?.id ?? '' } : skipToken);
+  const { data } = useGetSingleUserQuery(!createNew ? { id: id ?? selectedUser?.uuid ?? '' } : skipToken);
 
   const isLoading = isLoadingByStatusCode(data?.status);
 
@@ -28,8 +28,8 @@ export const SingleUserContainer = ({ createNew }: IProps) => {
           data={{
             creationDate: data?.data.user?.creationDate,
             lastLogin: data?.data.user?.lastLoginDateTime,
-            isEnabled: String(data?.data.user?.isEnabled),
-            isExpired: String(data?.data.user?.isExpired),
+            enabled: String(data?.data.user?.enabled),
+            expired: String(data?.data.user?.expired),
           }}
         />
       )}

@@ -1,3 +1,3 @@
-export const constantUserId = `ad1279a7-bd41-44fd-a84c-81ee48794ba2`;
+export const constantUserId = `6ca8270f-a2f3-48e7-9855-1c708f3423c5`;
 
-export const constantClientId = `05195412-db64-4a51-bdc0-476a4275085d`;
+export const constantClientId = `83d7160a-22c8-4abe-abc6-a038e5196718`;

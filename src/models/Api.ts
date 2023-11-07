@@ -6,6 +6,7 @@ export interface IApiData<T> {
   statusCode?: number;
   status?: string;
   message?: string;
+  reason?: string;
 }
 
 export interface IPaginationApiData<T> extends IApiData<T> {

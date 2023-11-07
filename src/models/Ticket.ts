@@ -8,7 +8,7 @@ export interface ITicket {
 }
 
 export interface ISingleTicket {
-  id: string;
+  uuid: string;
   title: string;
   description: string;
   client: string;
@@ -16,18 +16,20 @@ export interface ISingleTicket {
   state: string;
   priority: string;
   creationDate: string;
-  LastModificationDate: string;
+  lastModificationDate: string;
   creator: Creator;
-  number: number;
+  id: number;
   note: string;
   files?: IUploadFileResponse[];
 }
 
-export interface ISingleTicketUpdate extends Pick<ISingleTicket, 'title' | 'description'> {
+export interface ISingleTicketUpdate {
   id: string | null;
   note: string | null;
   state: string | null;
   priority: string | null;
+  title: string | null;
+  description: string | null;
   files?: string[] | null;
 }
 
@@ -35,7 +37,7 @@ export interface ISingleTicketForm extends Pick<ISingleTicket, 'title' | 'client
   note: string | null;
   state: IKeyValue | null;
   priority: IKeyValue | null;
-  id: string | null;
+  uuid: string | null;
   assigned: Assigned;
   assignedId: string | null;
   creator: Creator;

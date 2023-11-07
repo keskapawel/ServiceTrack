@@ -16,10 +16,10 @@ export const columns: Column<ISIngleUser>[] = [
     id: 'name',
     border: 'right',
     accessor: (value) => value,
-    Cell: memo(({ value: { userName, surname, id, file } }: CellProps<ISIngleUser, ISIngleUser>) => {
+    Cell: memo(({ value: { userName, surname, id, avatar } }: CellProps<ISIngleUser, ISIngleUser>) => {
       return (
         <S.UserNameWrapper>
-          <Avatar id={id} picture={file?.url || undefined} firstName={userName} lastName={surname} size={24} />
+          <Avatar id={id} picture={avatar?.url || undefined} firstName={userName} lastName={surname} size={24} />
           <Typography ellipsis>
             {userName}&nbsp;{surname}
           </Typography>
@@ -30,14 +30,14 @@ export const columns: Column<ISIngleUser>[] = [
   },
   {
     Header: 'Enabled',
-    id: 'isEnabled',
-    accessor: 'isEnabled',
+    id: 'enabled',
+    accessor: 'enabled',
     Cell: memo(({ value }: CellProps) => <Status status={String(value)} />),
   },
   {
     Header: 'Expired',
-    id: 'isExpired',
-    accessor: 'isExpired',
+    id: 'expired',
+    accessor: 'expired',
     Cell: memo(({ value }: CellProps) => <Status status={String(value)} />),
   },
   {

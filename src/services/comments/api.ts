@@ -17,7 +17,7 @@ export const commentsApi = api.injectEndpoints({
       query: (data) => {
         return {
           url: `serviceModule/comments`,
-          method: 'PUT',
+          method: 'POST',
           body: data,
         };
       },

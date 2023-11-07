@@ -1,20 +1,21 @@
 import { Typography } from 'components/common/Typography';
 
 import * as S from './styled';
-import { EClassType, EFieldName } from 'models/Activity';
+import { EFieldName } from 'models/Activity';
 
 interface IProps {
   newValue: string;
   oldValue: string;
   fieldName: EFieldName;
-  $className: EClassType;
+  systemActivity?: boolean;
+  userActivity?: boolean;
 }
 
-export const Message = ({ oldValue, newValue, fieldName, $className }: IProps) => {
+export const Message = ({ oldValue, newValue, fieldName, systemActivity, userActivity }: IProps) => {
   return (
     <S.Wrapper>
-      {$className === EClassType.COMMENT && <Typography>{newValue}</Typography>}
-      {$className === EClassType.TICKET && (
+      {userActivity && <Typography>{newValue}</Typography>}
+      {systemActivity && (
         <>
           <Typography>
             {oldValue ? (

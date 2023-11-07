@@ -6,7 +6,8 @@ export interface IUsers {
 }
 
 export interface ISIngleUser {
-  id: string;
+  id: number;
+  uuid: string;
   userName: string;
   name: string | null;
   surname: string;
@@ -14,22 +15,22 @@ export interface ISIngleUser {
   lastLoginDateTime: null;
   credentialExpireDate: null;
   accountExpireDate: null;
-  isEnabled: boolean;
-  isExpired: boolean;
+  enabled: boolean;
+  expired: boolean;
   isCredentialExpired: boolean;
   password: string;
   rules: Roles[];
   creationDate: string;
   lastModified: string;
-  file: IUploadFileResponse | null;
+  avatar: IUploadFileResponse | null;
 }
 
-export interface ISIngleUserUpdate extends Pick<ISIngleUser, 'id' | 'userName' | 'name' | 'surname' | 'email'> {
+export interface ISIngleUserUpdate extends Pick<ISIngleUser, 'uuid' | 'userName' | 'name' | 'surname' | 'email'> {
   rules: { id: string }[] | undefined;
   photoId: string;
 }
 
-export interface ISingleUserForm extends Omit<ISIngleUser, 'rules' | 'isEnabled'> {
+export interface ISingleUserForm extends Omit<ISIngleUser, 'rules' | 'enabled' | 'id'> {
   rules:
     | {
         key: string;
@@ -37,6 +38,7 @@ export interface ISingleUserForm extends Omit<ISIngleUser, 'rules' | 'isEnabled'
         id: string;
       }[]
     | undefined;
-  isEnabled: boolean | null;
+  enabled: boolean | null;
   uploadFileData: IUploadFileResponse | null;
+  id?: number;
 }

@@ -7,25 +7,24 @@ import { Typography } from 'components/common/Typography';
 
 import { fontSize } from 'styles/font';
 import { palette } from 'styles/palette';
-import * as S from './styled';
-import { EActivityType, EClassType } from 'models/Activity';
 import { IUploadFileResponse } from 'models/File';
+
+import * as S from './styled';
 
 interface IProps {
   user: {
-    id: string;
+    uuid: string;
     username: string;
     surname: string;
     photo?: IUploadFileResponse;
   };
   createdAt: string;
-  source: EActivityType;
-  id: string;
-  $className: EClassType;
+  systemActivity?: boolean;
+  userActivity?: boolean;
 }
 
-export const Header = ({ user, createdAt, $className }: IProps) => {
-  const { username, surname, id: userId, photo } = user || {};
+export const Header = ({ user, createdAt, systemActivity, userActivity }: IProps) => {
+  const { username, surname, uuid: userId, photo } = user || {};
 
   const getFormattedDate = useMemo(() => {
     return convertDate(createdAt);
@@ -34,13 +33,13 @@ export const Header = ({ user, createdAt, $className }: IProps) => {
   return (
     <S.Wrapper>
       <S.DetailsContainer>
-        {$className === EClassType.COMMENT && (
+        {userActivity && (
           <>
             <Avatar picture={photo?.url} firstName={username} lastName={surname} id={userId} size={24} />
             <Details title={`${username} ${surname}`} />
           </>
         )}
-        {$className === EClassType.TICKET && (
+        {systemActivity && (
           <S.NoImageWrapper>
             <Details title={'System'} />
           </S.NoImageWrapper>

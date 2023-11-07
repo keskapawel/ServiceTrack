@@ -25,8 +25,8 @@ export const usersApi = api.injectEndpoints({
       query: (data) => {
         return {
           url: `adminModule/user`,
-          method: 'POST',
-          body: data,
+          method: 'PUT',
+          body: { ...data, id: data.uuid },
         };
       },
       invalidatesTags: [BASE_TAGS.SINGLE_USER],
@@ -35,10 +35,10 @@ export const usersApi = api.injectEndpoints({
       query: (data) => {
         return {
           url: `adminModule/users`,
-          method: 'PUT',
+          method: 'POST',
           body: {
             ...data,
-            id: null,
+            uuid: null,
           },
         };
       },

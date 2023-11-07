@@ -58,19 +58,19 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
     (submitData: ISingleUserForm) => {
       const newSubmitData = {
         ...submitData,
-        photoId: submitData?.uploadFileData?.id ?? '',
+        photoId: submitData?.avatar?.uuid ?? submitData?.uploadFileData?.uuid ?? '',
         rules: submitData?.rules?.map((item) => ({ id: item.id })),
       };
 
       createNewMode
         ? createSingleUser(newSubmitData)
         : updateSingleUser(newSubmitData).then(() => {
-            if (!createNewMode && submitData.isEnabled !== data?.isEnabled) {
-              changeUserState({ id: submitData.id });
+            if (!createNewMode && submitData.enabled !== data?.enabled) {
+              changeUserState({ id: submitData.uuid });
             }
           });
     },
-    [changeUserState, createNewMode, createSingleUser, data?.isEnabled, updateSingleUser],
+    [changeUserState, createNewMode, createSingleUser, data?.enabled, updateSingleUser],
   );
 
   const formik = useFormik({
@@ -153,6 +153,8 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
     setFieldValue('rules', data);
   };
 
+  console.log(errors, 'err', values);
+
   return (
     <S.Wrapper>
       <Grid item sx={{ gridColumn: '1 / 4', gridRow: '1 / 2' }}>
@@ -162,18 +164,17 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
               <Grid container item xs={8} rowSpacing={2} columnSpacing={4}>
                 <Grid item xs={12}>
                   <TextInput
-                    required={isEditMode && requiredFields.userName}
+                    required={isEditMode && requiredFields.name}
                     showRequiredAfter
-                    // horizontalLabel
                     label='Name:'
-                    value={values?.userName}
+                    value={values?.name}
                     disabled={isDisabled}
-                    name='userName'
+                    name='name'
                     onChange={handleChange}
                     showNa
                     onBlur={handleBlur}
-                    error={touched.userName && Boolean(errors.userName)}
-                    // helperText={touched.userName && errors.userName}
+                    error={touched.name && Boolean(errors.name)}
+                    // helperText={touched.name && errors.name}
                     multiline
                   />
                 </Grid>
@@ -181,7 +182,6 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
                   <TextInput
                     required={isEditMode && requiredFields.surname}
                     showRequiredAfter
-                    // horizontalLabel
                     label='Surname:'
                     value={values?.surname}
                     disabled={isDisabled}
@@ -198,7 +198,6 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
                   <TextInput
                     required={isEditMode && requiredFields.email}
                     showRequiredAfter
-                    // horizontalLabel
                     label='Email:'
                     value={values?.email}
                     disabled={isDisabled}
@@ -223,7 +222,6 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
                     value={values.rules}
                     getOptionLabel={getMultipleOptionLabel}
                     isOptionEqualToValue={isMultipleOptionEqualToValue}
-                    // horizontalLabel
                     disabled={isDisabled}
                     onChange={handleRolesChange}
                     onBlur={handleBlur}
@@ -236,24 +234,23 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
                   <>
                     <Grid item xs={12}>
                       <Select
-                        required={isEditMode && requiredFields.isEnabled}
+                        required={isEditMode && requiredFields.enabled}
                         label='Enabled:'
                         placeholder='Select from the list'
                         size={'small'}
-                        // horizontalLabel
                         showRequiredAfter
-                        name={'isEnabled'}
+                        name={'enabled'}
                         options={YES_NO_SELECT_OPTIONS}
-                        value={YES_NO_SELECT_OPTIONS.find((option) => option.value === values.isEnabled)}
+                        value={YES_NO_SELECT_OPTIONS.find((option) => option.value === values.enabled)}
                         getOptionLabel={getOptionLabel}
                         isOptionEqualToValue={isOptionEqualToValue}
                         disabled={isDisabled}
                         onChange={(data) => {
-                          setFieldValue('isEnabled', data?.value);
+                          setFieldValue('enabled', data?.value);
                         }}
                         onBlur={handleBlur}
-                        error={touched.isEnabled && Boolean(errors.isEnabled)}
-                        // helperText={touched.isEnabled && errors.isEnabled}
+                        error={touched.enabled && Boolean(errors.enabled)}
+                        // helperText={touched.enabled && errors.enabled}
                       />
                     </Grid>
                   </>
@@ -262,10 +259,10 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
               <Grid item xs={4}>
                 <UserImage
                   data={{
-                    picture: values.file?.url || undefined,
+                    picture: values.avatar?.url || undefined,
                     firstName: values?.userName,
                     lastName: values?.surname,
-                    id: values?.id,
+                    id: values?.uuid,
                   }}
                   isEditMode={isEditMode || createNewMode}
                   formik={formik}

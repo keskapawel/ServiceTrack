@@ -11,7 +11,7 @@ import { AlertVariants, AlertMessages } from 'components/common/PopupAlert';
 
 import * as S from './styled';
 import { ISingleTicket } from 'models/Ticket';
-import { useGetFileQuery, useUploadFileMutation, useUploadFileToNewTicketMutation } from 'services/files';
+import { useGetFileQuery, useUploadFileMutation, useUploadFileToNewResourceMutation } from 'services/files';
 import { IUploadFileResponse } from 'models/File';
 import { useDispatch } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/dist/query';
@@ -26,14 +26,12 @@ interface IProps {
 
 export const SingleTicketDocumentContainer = ({ id, getDocumentData, createNew, editMode, ticketData }: IProps) => {
   const [uploadFile, { isSuccess: isUploadSuccess, isError: isUploadError, data: uploadFileData }] = useUploadFileMutation();
-  const [uploadFileToNewTicket, { isSuccess: isUploadNewSuccess, isError: isUploadNewError, data: uploadNewFileData }] =
-    useUploadFileToNewTicketMutation();
+  const [uploadFileToNewResource, { isSuccess: isUploadNewSuccess, isError: isUploadNewError, data: uploadNewFileData }] =
+    useUploadFileToNewResourceMutation();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedAttachment, setSelectedAttachment] = useState<IUploadFileResponse | undefined>(undefined);
   const [recentlyUpdatedList, setRecentlyUpdatedList] = useState<IUploadFileResponse[]>([]);
   const { data } = useGetFileQuery(selectedAttachment ? { id: selectedAttachment.objectId, fileName: selectedAttachment.name ?? '' } : skipToken);
-
-  console.log(data, 'data XD');
 
   const dispatch = useDispatch();
 
@@ -56,7 +54,7 @@ export const SingleTicketDocumentContainer = ({ id, getDocumentData, createNew, 
   const handleSubmit = (submitData) => {
     const { file, description } = submitData;
     if (!id) {
-      uploadFileToNewTicket({ file, description }).then((data: any) => {
+      uploadFileToNewResource({ file, description }).then((data: any) => {
         setRecentlyUpdatedList((prev) => [...prev, data.data.data.file]);
         getDocumentData(data.data.data.file);
         hideDocumentModal();

@@ -48,6 +48,20 @@ export const Table = <ItemType extends object, IdType extends string>({
     useExpanded,
   );
 
+  const dataXDD = useTable(
+    {
+      columns,
+      data,
+      disableMultiSort: true,
+      disableSortRemove: true,
+      disableSortBy: !enableSortBy,
+      expandSubRows: false,
+    },
+    useFlexLayout,
+    useSortBy,
+    useExpanded,
+  );
+
   const isExpandable = !!Expandable;
 
   const { isLoading: shouldDisplaySkeleton, rows: skeletonRows }: Required<TableLoader> = generateTableLoaderOptions(isLoading, { maxRows });

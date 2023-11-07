@@ -40,15 +40,14 @@ export const DocumentsList = ({ isVisible, toggleDocumentModal, getSelectedDocum
   const dispatch = useDispatch();
   const openEditModal = useCallback(
     (id: string, item: IUploadFileResponse) => {
-      console.log(id, 'id', item);
       toggleDocumentModal();
       getSelectedDocumentId(id, item);
     },
     [getSelectedDocumentId, toggleDocumentModal],
   );
 
-  const removeItem = (id: string) => {
-    removeFile({ id });
+  const removeItem = (_: string, data: IUploadFileResponse) => {
+    removeFile({ id: data.uuid });
   };
 
   useEffect(() => {

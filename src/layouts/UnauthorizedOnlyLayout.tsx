@@ -4,6 +4,7 @@ import { useAuthSelector } from 'reducers/auth-reducer';
 
 const UnauthorizedOnlyLayout = () => {
   const { isAuthorized } = useAuthSelector();
+  console.log(isAuthorized, 'isAuthorized');
 
   if (isAuthorized) return <Navigate to='/' />;
 

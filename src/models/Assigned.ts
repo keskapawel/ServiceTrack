@@ -1,7 +1,8 @@
 import { IUploadFileResponse } from './File';
 
 export interface Assigned {
-  id: string;
+  id: number;
+  uuid: string;
   userName: string;
   name: string;
   surname: string;

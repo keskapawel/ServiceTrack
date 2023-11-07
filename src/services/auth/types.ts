@@ -1,5 +1,5 @@
 export type TLoginRequest = {
-  login: string;
+  userName: string;
   password: string;
 };
 

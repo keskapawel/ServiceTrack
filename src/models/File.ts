@@ -1,5 +1,6 @@
 export interface IUploadFileResponse {
-  id: string;
+  id: number;
+  uuid: string;
   objectId: string;
   name: string;
   fileExtension: string;

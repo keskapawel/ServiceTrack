@@ -20,11 +20,8 @@ interface IProps {
 export const Document = ({ formik, subTitle, note }: IProps) => {
   const { values, errors, touched, handleChange, setFieldValue, handleBlur, setFieldTouched } = formik;
 
-  console.log(values, 'valuesXDD');
-
   const handleDocumentChange = useCallback(
     (file?: File) => {
-      console.log(file, 'file');
       setFieldValue('documentFileName', file?.name);
       setFieldValue('file', file);
     },

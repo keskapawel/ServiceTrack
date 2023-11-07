@@ -1,0 +1,294 @@
+@import './../settings';
+
+@media print {
+  @page {
+    margin: $pdf-padding;
+    size: 28cm 38cm;
+  }
+}
+
+.color {
+  &-primary {
+    color: $primary-color;
+  }
+
+  &-secondary {
+    color: $secondary-color;
+  }
+
+  &-gray {
+    color: $gray-color;
+  }
+}
+
+.h-line {
+  width: $hr-width !important;
+}
+
+.pdf-container {
+  // padding handled by @page now
+  width: 100% !important;
+
+  .h-line {
+    width: 100% !important;
+    margin-bottom: 6px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  th.columns {
+    padding-bottom: 0;
+    padding: 10px;
+
+    & th.columns {
+      padding: 0 !important;
+    }
+
+    .row:last-child {
+      & th.columns {
+        padding-bottom: 6px !important;
+      }
+    }
+  }
+
+  #repeatable-header {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
+    .shipment-information {
+      p {
+        max-height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* number of lines to show */
+        -webkit-box-orient: vertical;
+      }
+    }
+  }
+
+  #repeatable-header-block {
+    height: 312px;
+    width: 100%;
+    background-color: white;
+    z-index: 9;
+    position: relative;
+  }
+
+  thead,
+  tbody:first-child {
+    display: table-header-group;
+  }
+
+  .text {
+    &-header-document {
+      font-size: 20px;
+      line-height: 20px;
+      font-weight: 600;
+    }
+
+    &-header-section {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 600;
+      vertical-align: middle;
+    }
+
+    &-header-table {
+      font-size: 12px;
+      line-height: 20px;
+      font-weight: 700;
+    }
+
+    &-normal {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .border {
+    border-width: 2px;
+    border-color: black;
+
+    &-table > tbody > tr > th {
+      border-right-width: 2px;
+      border-right-color: black;
+      border-right-style: solid;
+    }
+
+    &-sides {
+      border-left-style: solid;
+      border-right-style: solid;
+    }
+
+    &-top {
+      border-top-style: solid;
+    }
+
+    &-bottom {
+      border-bottom-style: solid;
+    }
+
+    &-all {
+      border-style: solid;
+    }
+  }
+
+  .section {
+    &-header-program {
+      background-color: #675ce9;
+      border: 2px solid #675ce9;
+      p {
+        color: white;
+      }
+    }
+
+    &-header {
+      background-color: black;
+      border: 2px solid black;
+      p {
+        color: white;
+      }
+    }
+
+    &-padding {
+      padding-left: $section-info-text-padding !important;
+      padding-right: $section-info-text-padding !important;
+    }
+
+    &-padding-left {
+      padding-left: $section-info-text-padding !important;
+    }
+
+    &-padding-right {
+      padding-right: $section-info-text-padding !important;
+    }
+  }
+
+  .invoice-number {
+    width: 22%;
+  }
+
+  .air-waybill-number {
+    width: 55%;
+  }
+
+  .shipment-date {
+    width: 22%;
+  }
+
+  .pages {
+    width: 15%;
+  }
+
+  .header-package-contents {
+    padding-bottom: 6px;
+  }
+
+  .line-item {
+    width: 12%;
+  }
+
+  .description {
+    width: 43%;
+  }
+
+  .unit-size {
+    width: 10%;
+  }
+
+  .quantity {
+    width: 10%;
+  }
+
+  .unit-value {
+    width: 11%;
+  }
+
+  .total-value {
+    width: 14%;
+  }
+
+  .sidra-group {
+    width: 15%;
+  }
+
+  .total-packages {
+    width: 17%;
+  }
+
+  .total-weight {
+    width: 15%;
+  }
+
+  .shipment-type {
+    width: 33%;
+  }
+
+  .total-invoice-value {
+    width: 20%;
+  }
+
+  .signature-shipper {
+    width: 50%;
+  }
+
+  .signature-title {
+    width: 35%;
+  }
+
+  .signature-date {
+    width: 15%;
+  }
+
+  .no-margin {
+    margin: 0 !important;
+  }
+
+  .single-item-list {
+    background-color: #efefef;
+  }
+
+  .single-item,
+  .signature,
+  .ship-summary {
+    break-inside: avoid-page;
+  }
+
+  img.logo {
+    max-height: 81px;
+    max-width: 500px;
+    height: auto;
+    width: auto;
+    padding-bottom: 10px;
+  }
+
+  .signature-column {
+    padding-top: 50px !important;
+  }
+
+  .note-header {
+    width: 100%;
+    color: #fff;
+    background-color: #cb2d20;
+    border-radius: 8px;
+    margin-bottom: 24px;
+
+    & > div {
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    img {
+      height: max-content;
+      width: max-content;
+    }
+  }
+}

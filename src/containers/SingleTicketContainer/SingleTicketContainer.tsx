@@ -20,13 +20,12 @@ interface IProps {
 export const SingleTicketContainer = ({ createNew, data }: IProps) => {
   const { id } = useParams();
   const { isEditMode } = useTicketSelector();
-  const { data: activityData } = useGetTicketActivitiesQuery(!createNew ? { id: data?.id ?? id ?? '' } : skipToken);
+  const { data: activityData } = useGetTicketActivitiesQuery(!createNew ? { id: data?.uuid ?? id ?? '' } : skipToken);
   const [documentData, setDocumentData] = useState<IUploadFileResponse>();
 
-  const showLoader = createNew ? !createNew : !data?.id;
+  const showLoader = createNew ? !createNew : !data?.uuid;
 
   const getDocumentData = (docData) => {
-    console.log(docData, 'docData x');
     setDocumentData(docData);
   };
 
@@ -38,7 +37,7 @@ export const SingleTicketContainer = ({ createNew, data }: IProps) => {
         <Header
           data={{
             createdAt: data?.creationDate,
-            editedAt: data?.LastModificationDate,
+            editedAt: data?.lastModificationDate,
             status: data.state,
             priority: data.priority,
           }}
@@ -46,13 +45,13 @@ export const SingleTicketContainer = ({ createNew, data }: IProps) => {
       )}
       <MainSection data={data} createNewMode={createNew} documentData={documentData} />
       <SingleTicketDocumentContainer
-        id={data?.id ?? ''}
+        id={data?.uuid ?? ''}
         getDocumentData={getDocumentData}
         createNew={createNew}
         editMode={isEditMode}
         ticketData={data}
       />
-      {!createNew && <Comments commentsList={activityData?.data?.activities} ticketId={data?.id ?? id ?? ''} />}
+      {!createNew && <Comments commentsList={activityData?.data?.activities} ticketId={data?.uuid ?? id ?? ''} />}
     </>
   );
 };

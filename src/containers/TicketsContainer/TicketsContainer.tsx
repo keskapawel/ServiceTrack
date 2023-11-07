@@ -17,12 +17,14 @@ const TicketsContainer = ({ tickets }: IProps) => {
 
   const handleRowClick = (value: ISingleTicket) => {
     dispatch(setSelectedTicket({ selectedTicket: value }));
-    navigation(`/${EPageType.TICKETS}/${value.id}`);
+    navigation(`/${EPageType.TICKETS}/${value.uuid}`);
   };
 
   useEffect(() => {
     dispatch(setSelectedTicket({ selectedTicket: undefined }));
   }, []);
+
+  console.log(tickets, 'tickets');
 
   return (
     <>

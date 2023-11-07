@@ -9,13 +9,13 @@ interface IProps {
   data: {
     creationDate?: Date | null | string;
     lastLogin?: string | null;
-    isEnabled?: string;
-    isExpired?: string;
+    enabled?: string;
+    expired?: string;
   };
 }
 
 export const Header = ({ data }: IProps) => {
-  const { creationDate, lastLogin, isEnabled, isExpired } = data;
+  const { creationDate, lastLogin, enabled, expired } = data;
 
   return (
     <S.Wrapper>
@@ -29,17 +29,17 @@ export const Header = ({ data }: IProps) => {
         <Typography>{formatAppDate(lastLogin, EDateFormat.YEAR)}</Typography>
       </S.SingleItem>
 
-      {!!isEnabled && (
+      {!!enabled && (
         <S.SingleItem>
           <Typography type='secondary'>Enabled:&nbsp;</Typography>
-          <Status status={isEnabled} />
+          <Status status={enabled} />
         </S.SingleItem>
       )}
 
-      {!!isExpired && (
+      {!!expired && (
         <S.SingleItem>
           <Typography type='secondary'>Expired:&nbsp;</Typography>
-          <Status status={isExpired} />
+          <Status status={expired} />
         </S.SingleItem>
       )}
     </S.Wrapper>

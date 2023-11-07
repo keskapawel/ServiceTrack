@@ -16,7 +16,7 @@ export const ManageUsersContainer = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
   const handleRowClick = (value: ISIngleUser) => {
-    navigation(`/${EPageType.SETTINGS}/${EPageType.MANAGE_USERS}/${value.id}`);
+    navigation(`/${EPageType.SETTINGS}/${EPageType.MANAGE_USERS}/${value.uuid}`);
     dispatch(setSelectedUser({ selectedUser: value }));
   };
 
@@ -29,7 +29,7 @@ export const ManageUsersContainer = () => {
       <Table
         columns={tableData.columns}
         enableSortBy
-        data={data?.data.users.filter(({ id }) => id !== '00000000-0000-0000-0003-000000000001') ?? []}
+        data={data?.data.users.filter(({ uuid }) => uuid !== '00000000-0000-0000-0003-000000000001') ?? []}
         isLoading={false}
         itemIdAccessor={'id'}
         lastCellBorder

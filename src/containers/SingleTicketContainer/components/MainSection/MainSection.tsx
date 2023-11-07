@@ -48,14 +48,13 @@ export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
 
   const onSubmit = useCallback(
     (submitData: ISingleTicketForm) => {
-      console.log(documentData, 'documentData XD', uploadedDocumentData);
       const sendData = {
-        id: createNewMode ? null : submitData.id,
-        title: submitData.title,
-        description: submitData.description,
-        client: submitData.client || constantClientId,
-        creator: submitData.creator.id || constantUserId,
-        assigned: data?.assigned.id === submitData.assigned.id ? null : submitData.assigned.id || constantUserId,
+        id: createNewMode ? null : submitData.uuid,
+        title: submitData.title === data?.title ? null : submitData.title,
+        description: submitData.description === data?.description ? null : submitData.description,
+        client: submitData.client === data?.client ? null : submitData.client || constantClientId,
+        creator: submitData.creator.uuid === data?.creator.uuid ? null : submitData.creator.uuid || constantUserId,
+        assigned: data?.assigned.uuid === submitData.assigned.uuid ? null : submitData.assigned.uuid || constantUserId,
         state: data?.state === submitData.state?.key ? null : submitData.state?.key || null,
         priority: data?.priority === submitData.priority?.key ? null : submitData.priority?.key || null,
         note: data?.note === submitData.note ? null : submitData.note,
@@ -63,31 +62,20 @@ export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
       };
       createNewMode ? createSingleTicket(sendData) : updateSingleTicket(sendData);
     },
-    [
-      createNewMode,
-      createSingleTicket,
-      data?.assigned.id,
-      data?.note,
-      data?.priority,
-      data?.state,
-      documentData,
-      updateSingleTicket,
-      uploadedDocumentData,
-    ],
+    [createNewMode, createSingleTicket, data, updateSingleTicket, uploadedDocumentData],
   );
 
   useEffect(() => {
-    console.log(documentData?.id, 'documentData?.id');
-    documentData?.id && setUploadedDocumentData((prev) => [...prev, documentData?.id]);
-  }, [documentData?.id]);
+    documentData?.uuid && setUploadedDocumentData((prev) => [...prev, documentData?.uuid]);
+  }, [documentData?.uuid]);
 
   const formik = useFormik({
     validationSchema,
     initialValues: data
       ? {
           ...data,
-          creatorId: data.creator.id,
-          assignedId: data.assigned.id,
+          creatorId: data.creator.uuid,
+          assignedId: data.assigned.uuid,
           assignedName: `${data?.assigned.name} ${data.assigned.surname}`,
           creatorName: `${data?.creator.name} ${data.creator.surname}`,
           priority: {
@@ -167,7 +155,8 @@ export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
                   showRequiredAfter
                   horizontalLabel
                   label='Reporter name:'
-                  value={`${values?.creator.name} ${values.creator.surname}`}
+                  value={'Jane Doe'}
+                  // value={`${values?.creator.name} ${values.creator.surname}`}
                   disabled
                   name='customerName'
                   onChange={handleChange}

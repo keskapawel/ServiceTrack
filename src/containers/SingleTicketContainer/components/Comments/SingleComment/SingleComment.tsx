@@ -2,24 +2,26 @@ import { Header } from './components/Header';
 import { Message } from './components/Message';
 
 import * as S from './styled';
-import { ISingleActivity } from 'models/Activity';
+import { EFieldName, ISingleActivity } from 'models/Activity';
 
-export const SingleComment = ({ id, oldValue, newValue, creator, creationDate, fieldName, activityType, className }: ISingleActivity) => {
+export const SingleComment = ({ oldValue, newValue, creator, creationDate, fieldName }: ISingleActivity) => {
+  const user = [EFieldName.COMMENTS, EFieldName.NOTE].includes(fieldName);
+  const system = [EFieldName.STATE, EFieldName.PRIORITY, EFieldName.ASSIGNED].includes(fieldName);
+
   return (
     <S.Wrapper>
       <Header
-        id={id}
         user={{
-          id: creator?.id ?? '',
+          uuid: creator?.uuid ?? '',
           username: creator?.name ?? '',
           surname: creator?.surname ?? '',
-          photo: creator?.photo ?? undefined,
+          photo: creator?.avatar ?? undefined,
         }}
         createdAt={creationDate}
-        source={activityType}
-        $className={className}
+        systemActivity={system}
+        userActivity={user}
       />
-      <Message oldValue={oldValue} newValue={newValue} fieldName={fieldName} $className={className} />
+      <Message oldValue={oldValue} newValue={newValue} fieldName={fieldName} systemActivity={system} userActivity={user} />
     </S.Wrapper>
   );
 };

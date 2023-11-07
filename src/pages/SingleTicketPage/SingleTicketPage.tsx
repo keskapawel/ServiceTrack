@@ -8,7 +8,7 @@ const SingleTicketPage = () => {
   const { selectedTicket } = useTicketSelector();
   const { id } = useParams();
 
-  const { data } = useGetSingleTicketQuery({ id: id ?? selectedTicket?.id ?? '' });
+  const { data } = useGetSingleTicketQuery({ id: id ?? selectedTicket?.uuid ?? '' });
 
   return (
     <>

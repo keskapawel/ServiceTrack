@@ -17,7 +17,7 @@ const TicketsContainer = ({ tickets }: IProps) => {
 
   const handleRowClick = (value: ISingleTicket) => {
     dispatch(setSelectedTicket({ selectedTicket: value }));
-    navigation(`/${EPageType.TICKETS}/${value.uuid}`);
+    // navigation(`/${EPageType.TICKETS}/${value.uuid}`);
   };
 
   useEffect(() => {
@@ -30,10 +30,11 @@ const TicketsContainer = ({ tickets }: IProps) => {
         columns={tableData.columns}
         data={tickets ?? []}
         isLoading={!tickets}
-        itemIdAccessor={'id'}
+        itemIdAccessor={'uuid'}
         lastCellBorder
-        redirectOnClick
+        // redirectOnClick
         onRowClick={handleRowClick}
+        // openableOnRowClick
       />
     </>
   );

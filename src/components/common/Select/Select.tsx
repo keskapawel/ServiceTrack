@@ -27,6 +27,7 @@ export type SelectProps<T, Multiple extends boolean = false, DisableClearable ex
   inline?: boolean;
   showRequiredAfter?: boolean;
   disableBackspaceDeleting?: boolean;
+  hideSelect?: boolean;
 } & Pick<TextInputType, 'placeholder' | 'InputProps' | 'helperText' | 'label' | 'name' | 'horizontalLabel'> &
   Pick<
     AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>,
@@ -49,6 +50,7 @@ export type SelectProps<T, Multiple extends boolean = false, DisableClearable ex
     | 'limitTags'
     | 'onBlur'
     | 'getOptionDisabled'
+    | 'open'
   >;
 
 // eslint-disable-next-line react/display-name
@@ -79,6 +81,7 @@ const Component = <T, Multiple extends boolean = false, DisableClearable extends
     showRequiredAfter,
     getOptionDisabled,
     disableBackspaceDeleting,
+    hideSelect,
     ...autocompleteProps
   }: SelectProps<T, Multiple, DisableClearable, FreeSolo>,
   ref: Ref<HTMLElement>,
@@ -217,6 +220,7 @@ const Component = <T, Multiple extends boolean = false, DisableClearable extends
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       /* @ts-ignore */ // => generic type is broken with styled-components
       $isNaShown={isNaShown}
+      $hideSelect={hideSelect}
     />
   );
 };

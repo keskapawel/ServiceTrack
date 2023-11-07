@@ -27,23 +27,27 @@ export const columns: Column<ISIngleUser>[] = [
       );
     }),
     width: 216,
+    redirectOnClick: true,
   },
   {
     Header: 'Enabled',
     id: 'enabled',
     accessor: 'enabled',
     Cell: memo(({ value }: CellProps) => <Status status={String(value)} />),
+    redirectOnClick: true,
   },
   {
     Header: 'Expired',
     id: 'expired',
     accessor: 'expired',
     Cell: memo(({ value }: CellProps) => <Status status={String(value)} />),
+    redirectOnClick: true,
   },
   {
     Header: 'Roles',
     id: 'rules',
     accessor: 'rules',
     Cell: memo(({ value }: CellProps) => value?.map((item, index) => <Status key={index} status={item.name} />)),
+    redirectOnClick: true,
   },
 ];

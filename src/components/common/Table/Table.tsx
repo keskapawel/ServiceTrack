@@ -25,7 +25,7 @@ export const Table = <ItemType extends object, IdType extends string>({
   commentCell = false,
   lastCellBorder = false,
   maxRows,
-  redirectOnClick,
+  redirectOnClick = true,
   isLoading,
   onRowClick,
   menuOpenerButtonVariant = 'outlined',
@@ -61,6 +61,8 @@ export const Table = <ItemType extends object, IdType extends string>({
     useSortBy,
     useExpanded,
   );
+
+  console.log(dataXDD, 'dataXDD', rows);
 
   const isExpandable = !!Expandable;
 
@@ -131,7 +133,6 @@ export const Table = <ItemType extends object, IdType extends string>({
                 rows.map((row) => {
                   prepareRow(row);
                   const { key: rowKey, ...rowProps } = row.getRowProps();
-
                   return (
                     <TableRow
                       openableOnRowClick={openableOnRowClick && isExpandable}
@@ -145,6 +146,7 @@ export const Table = <ItemType extends object, IdType extends string>({
                       {row.cells.map((cell) => {
                         const { key: cellKey, ...cellProps } = cell.getCellProps();
                         const isWidthInfinite = cell.column.maxWidth !== Number.MAX_SAFE_INTEGER;
+                        console.log(cell.column.redirectOnClick, 'cell.column.redirectOnClick', row.original, itemIdAccessor);
 
                         return (
                           <S.StyledTableCell
@@ -154,9 +156,9 @@ export const Table = <ItemType extends object, IdType extends string>({
                             border={cell.column['border']}
                             $sticky={cell.column['sticky']}
                             $isWidthInfinite={isWidthInfinite}
-                            $redirectOnClick={redirectOnClick}
+                            $redirectOnClick={cell.column.redirectOnClick}
                           >
-                            {redirectOnClick ? (
+                            {cell.column.redirectOnClick ? (
                               <Link href={row.original[itemIdAccessor] as unknown as IdType} target='_self' rel='noreferrer'>
                                 <S.CellWrapper onClick={handleCellWrapperClick}>{cell.render('Cell')}</S.CellWrapper>
                               </Link>

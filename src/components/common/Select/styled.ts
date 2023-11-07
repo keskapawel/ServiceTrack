@@ -37,7 +37,15 @@ export const StyledPopper = styled(Popper).attrs((props) => ({
   }
 `;
 
-export const StyledAutocomplete = styled(Autocomplete)<{ $isNaShown?: boolean }>`
+export const StyledAutocomplete = styled(Autocomplete)<{ $isNaShown?: boolean; $hideSelect?: boolean }>`
+  .MuiFormControl-root {
+    ${({ $hideSelect }) =>
+      $hideSelect &&
+      css`
+        /* display: none !important; */
+        opacity: 0.4;
+      `}
+  }
   & {
     .MuiFormControl-root,
     .MuiInputBase-formControl {

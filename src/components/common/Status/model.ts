@@ -8,6 +8,7 @@ export enum StatusesList {
   close = 'close',
   new = 'new',
   done = 'done',
+  open = 'open',
 
   low = 'low',
   medium = 'medium',
@@ -35,11 +36,12 @@ const { orange, red, green, grey } = {
 export const Colors: Record<StatusesList, string[]> = {
   // [status]: [color, background]
   [StatusesList.ongoing]: green,
+  [StatusesList.open]: green,
   [StatusesList.archived]: grey,
   [StatusesList.paused]: grey,
   [StatusesList.reopened]: green,
   [StatusesList.close]: grey,
-  [StatusesList.new]: green,
+  [StatusesList.new]: grey,
   [StatusesList.done]: grey,
 
   [StatusesList.low]: green,

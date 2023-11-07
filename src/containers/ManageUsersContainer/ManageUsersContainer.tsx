@@ -31,7 +31,7 @@ export const ManageUsersContainer = () => {
         enableSortBy
         data={data?.data.users.filter(({ uuid }) => uuid !== '00000000-0000-0000-0003-000000000001') ?? []}
         isLoading={false}
-        itemIdAccessor={'id'}
+        itemIdAccessor={'uuid'}
         lastCellBorder
         redirectOnClick
         onRowClick={handleRowClick}

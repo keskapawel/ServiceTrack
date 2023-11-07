@@ -8,6 +8,9 @@ import { Typography } from 'components/common/Typography';
 import { Status } from 'components/common/Status';
 import { formatDate } from 'utils/common';
 import { Avatar } from 'components/common/Avatar';
+import { PRIORITY_OPTIONS, STATUS_OPTIONS } from 'utils/constants';
+import { EPageType } from 'pages/PageType';
+import { EFieldType } from 'components/common/Status/constants';
 
 export const columns: Column<ISingleTicket>[] = [
   {
@@ -17,7 +20,7 @@ export const columns: Column<ISingleTicket>[] = [
     accessor: 'id',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>#{value}</Typography>),
     width: 100,
-    // redirectOnClick: true,
+    redirectOnClick: true,
   },
   {
     Header: 'Title',
@@ -25,6 +28,7 @@ export const columns: Column<ISingleTicket>[] = [
     accessor: 'title',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
     width: 200,
+    redirectOnClick: true,
   },
   {
     Header: 'Description',
@@ -32,6 +36,7 @@ export const columns: Column<ISingleTicket>[] = [
     accessor: 'description',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
     width: 220,
+    redirectOnClick: true,
   },
   {
     Header: 'Creator',
@@ -41,6 +46,7 @@ export const columns: Column<ISingleTicket>[] = [
       return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended picture={value?.avatar?.url} />;
     }),
     width: 250,
+    redirectOnClick: true,
   },
   {
     Header: 'Assigned to',
@@ -50,19 +56,45 @@ export const columns: Column<ISingleTicket>[] = [
       return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended picture={value?.avatar?.url} />;
     }),
     width: 250,
+    redirectOnClick: true,
   },
   {
     Header: 'Status',
     id: 'state',
     accessor: 'state',
-    Cell: memo(({ value }: CellProps) => <Status status={value} changeEnable />),
-    // redirectOnClick: false,
+    Cell: memo((props: CellProps) => {
+      return (
+        <Status
+          status={props.row.original.state}
+          changeEnable
+          options={STATUS_OPTIONS}
+          changableId={props.row.original.uuid}
+          type={EPageType.TICKETS}
+          field={EFieldType.STATE}
+        />
+      );
+    }),
+    redirectOnClick: false,
+    width: 200,
   },
   {
     Header: 'Priority',
     id: 'priority',
     accessor: 'priority',
-    Cell: memo(({ value }: CellProps) => <Status status={value} />),
+    Cell: memo((props: CellProps) => {
+      return (
+        <Status
+          status={props.row.original.priority}
+          changeEnable
+          options={PRIORITY_OPTIONS}
+          changableId={props.row.original.uuid}
+          type={EPageType.TICKETS}
+          field={EFieldType.PRIORITY}
+        />
+      );
+    }),
+    redirectOnClick: false,
+    width: 200,
   },
   {
     Header: 'Creation date',
@@ -70,6 +102,7 @@ export const columns: Column<ISingleTicket>[] = [
     accessor: 'creationDate',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{formatDate(value)}</Typography>),
     width: 220,
+    redirectOnClick: true,
   },
   {
     Header: 'Last edit date',
@@ -77,5 +110,6 @@ export const columns: Column<ISingleTicket>[] = [
     accessor: 'lastModificationDate',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{formatDate(value)}</Typography>),
     width: 220,
+    redirectOnClick: true,
   },
 ];

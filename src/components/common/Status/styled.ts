@@ -25,12 +25,13 @@ export const ToolTipBox = styled.div<{ $color: string }>`
 
 export const ChangableWrapper = styled.div`
   position: relative;
-  z-index: 9999;
-  left: -100px;
-  top: -20px;
+  overflow: hidden;
+  width: 130px;
   > div {
+    overflow: hidden;
+    width: 130px;
     position: absolute;
-    display: flex;
-    flex-direction: column;
+    left: -80px;
+    top: -20px;
   }
 `;

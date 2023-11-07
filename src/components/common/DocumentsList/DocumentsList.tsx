@@ -69,7 +69,7 @@ export const DocumentsList = ({ isVisible, toggleDocumentModal, getSelectedDocum
             { clickHandler: removeItem, label: 'Remove Item', icon: <Icon icon='TrashIcon' /> },
           ]}
           data={data ?? []}
-          itemIdAccessor={'id'}
+          itemIdAccessor={'uuid'}
           menuOpenerButtonVariant='text'
         />
       </S.TableWrapper>

@@ -38,7 +38,7 @@ export const ticketsApi = api.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: [BASE_TAGS.TICKET, BASE_TAGS.TICKET_ACTIVITY],
+      invalidatesTags: [BASE_TAGS.TICKET, BASE_TAGS.TICKET_ACTIVITY, BASE_TAGS.TICKETS],
     }),
     createSingleTicket: build.mutation<IApiData<{ ticket: ISingleTicket }>, ISingleTicketUpdate>({
       query: (data) => {

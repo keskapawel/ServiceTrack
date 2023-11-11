@@ -7,6 +7,7 @@ import ticketReducer from './ticket-reducer';
 import locationReducer from './location-reducer';
 import navigationButtonsReducer from './navigationButtons-reducer';
 import { popupAlertReducer } from './popup-alert-reducer';
+import clientReducer from './client-reducer';
 
 export const resetState = createAction('root/resetState');
 
@@ -18,6 +19,7 @@ const combinedReducer = combineReducers({
   location: locationReducer,
   navigationButtons: navigationButtonsReducer,
   popupAlert: popupAlertReducer,
+  client: clientReducer,
 });
 
 export const rootReducer: typeof combinedReducer = (state, action) => {

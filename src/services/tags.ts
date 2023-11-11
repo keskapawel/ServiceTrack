@@ -5,6 +5,7 @@ export enum BASE_TAGS {
   TICKET = 'Ticket',
   USER_TICKETS = 'UserTickets',
   USERS = 'Users',
+  CLIENTS = 'Clients',
   SINGLE_USER = 'SingleUser',
   TICKET_COMMENTS = 'TicketComments',
   TICKET_ACTIVITY = 'TicketActivity',

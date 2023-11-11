@@ -5,7 +5,7 @@ import { useAppDispatch } from 'hooks/store-hook';
 
 import * as tableData from './constants';
 import { ISIngleUser } from 'models/User';
-import { EPageType } from 'pages/PageType';
+import { EPageType } from 'reducers/location-reducer';
 import { setSelectedUser } from 'reducers/user-reducer';
 import { useUsersQuery } from 'services/users';
 import { useEffect } from 'react';

@@ -15,6 +15,7 @@ export type TableProps<ItemType extends object, IdType = string> = Pick<TableOpt
   menuOptions?: TableMenuOption<ItemType, IdType>[];
   itemIdAccessor: keyof ItemType;
   enableSortBy?: boolean;
+  linkConstructor?: string;
   commentCell?: boolean;
   headerHeight?: number;
   rowHeight?: number;

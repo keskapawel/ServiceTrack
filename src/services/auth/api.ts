@@ -3,6 +3,7 @@ import { BASE_TAGS } from '../../services/tags';
 import type { IApiData } from '../../models/Api';
 
 import type { TLoginRequest, TLogoutResponse } from './types';
+import { ISingleProfile } from 'models/Profile';
 
 export const authApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -19,8 +20,9 @@ export const authApi = api.injectEndpoints({
         url: 'auth/logout',
         method: 'POST',
       }),
+      invalidatesTags: [],
     }),
-    profile: build.query<IApiData<any>, void>({
+    profile: build.query<IApiData<ISingleProfile>, void>({
       query: () => ({ url: 'profile' }),
       providesTags: [BASE_TAGS.PROFILE],
     }),

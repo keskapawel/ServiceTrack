@@ -6,10 +6,12 @@ import { useState } from 'react';
 import { Avatar } from 'components/common/Avatar';
 import { useLogOutMutation } from 'services/auth';
 import { useNavigate } from 'react-router-dom';
-import { EPageType } from 'pages/PageType';
+import { EPageType } from 'reducers/location-reducer';
+import { useAuthUserSelector } from 'reducers/auth-reducer';
 
 export const UserMenu = () => {
   const navigation = useNavigate();
+  const { uuid } = useAuthUserSelector();
   const [logOut] = useLogOutMutation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -26,6 +28,10 @@ export const UserMenu = () => {
 
   const handleSettingsRedirect = () => {
     navigation(`/${EPageType.SETTINGS}`);
+  };
+
+  const handleProfileRedirect = () => {
+    navigation(`/${EPageType.PROFILE}/${uuid}`);
   };
 
   return (
@@ -79,7 +85,7 @@ export const UserMenu = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleProfileRedirect}>
           <ListItemIcon>
             <PersonIcon fontSize='small' />
           </ListItemIcon>

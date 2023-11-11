@@ -8,7 +8,7 @@ import { LoginPage } from 'pages/LoginPage';
 import { ProtectedLayout } from 'components/ProtectedLayout/ProtectedLayout';
 import { HomePage } from 'pages/HomePage';
 import { RegisterPage } from 'pages/RegisterPage';
-import { EPageType } from 'pages/PageType';
+import { EPageType } from 'reducers/location-reducer';
 import { ManageUsersPage } from 'pages/ManageUsersPage';
 import { SingleUserPage } from 'pages/SingleUserPage';
 import { SettingsPage } from 'pages/SettingsPage/SettingsPage';
@@ -32,6 +32,10 @@ function App() {
           <Route element={<ProtectedLayout />}>
             <Route element={<Layout />}>
               <Route index element={<HomePage />} />
+
+              <Route path={`/${EPageType.PROFILE}`}>
+                <Route path={`:id`} element={<SingleUserPage />} />
+              </Route>
 
               <Route path={`/${EPageType.SETTINGS}`}>
                 <Route index element={<SettingsPage />} />

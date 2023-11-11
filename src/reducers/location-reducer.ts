@@ -37,6 +37,7 @@ export enum EPageType {
   TICKETS = 'tickets',
   SINGLE_USER = 'singleUser',
   CREATE_TICKET = 'createTicket',
+  PROFILE = 'profile',
 }
 
 const initialState: TLocationState = {
@@ -102,6 +103,10 @@ const locationSlice = createSlice({
         case id:
           // * If general type is not enough, specific page type may be implemented
           if (customDetails.pageType === EPageType.SINGLE_USER) {
+            state.locationHeader = customHeader;
+            state.options = [EOption.SingleUserHeader, EOption.UserActions];
+          }
+          if (customDetails.pageType === EPageType.PROFILE) {
             state.locationHeader = customHeader;
             state.options = [EOption.SingleUserHeader, EOption.UserActions];
           }

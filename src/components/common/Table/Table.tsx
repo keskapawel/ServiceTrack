@@ -21,6 +21,7 @@ export const Table = <ItemType extends object, IdType extends string>({
   data,
   menuOptions,
   itemIdAccessor,
+  linkConstructor,
   enableSortBy = false,
   commentCell = false,
   lastCellBorder = false,
@@ -61,8 +62,6 @@ export const Table = <ItemType extends object, IdType extends string>({
     useSortBy,
     useExpanded,
   );
-
-  console.log(dataXDD, 'dataXDD', rows);
 
   const isExpandable = !!Expandable;
 
@@ -146,7 +145,6 @@ export const Table = <ItemType extends object, IdType extends string>({
                       {row.cells.map((cell) => {
                         const { key: cellKey, ...cellProps } = cell.getCellProps();
                         const isWidthInfinite = cell.column.maxWidth !== Number.MAX_SAFE_INTEGER;
-                        console.log(cell.column.redirectOnClick, 'cell.column.redirectOnClick', row.original, itemIdAccessor);
 
                         return (
                           <S.StyledTableCell
@@ -159,7 +157,15 @@ export const Table = <ItemType extends object, IdType extends string>({
                             $redirectOnClick={cell.column.redirectOnClick}
                           >
                             {cell.column.redirectOnClick ? (
-                              <Link href={row.original[itemIdAccessor] as unknown as IdType} target='_self' rel='noreferrer'>
+                              <Link
+                                href={
+                                  linkConstructor
+                                    ? `${linkConstructor}/${row.original[itemIdAccessor]}`
+                                    : (row.original[itemIdAccessor] as unknown as IdType)
+                                }
+                                target='_self'
+                                rel='noreferrer'
+                              >
                                 <S.CellWrapper onClick={handleCellWrapperClick}>{cell.render('Cell')}</S.CellWrapper>
                               </Link>
                             ) : (

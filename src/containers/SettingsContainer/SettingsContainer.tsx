@@ -1,6 +1,6 @@
 import { SettingsBox } from 'components/common/SettingsBox/SettingsBox';
 import * as S from './styled';
-import { EPageType } from 'pages/PageType';
+import { EPageType } from 'reducers/location-reducer';
 import { Icon } from 'components/common/Icon';
 
 const SettingsContainer = () => {

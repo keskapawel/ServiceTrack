@@ -1,10 +1,10 @@
 import { Icon } from 'components/common/Icon';
 import * as S from './styled';
 import { SettingsBox } from 'components/common/SettingsBox/SettingsBox';
-import { EPageType } from 'pages/PageType';
+import { EPageType } from 'reducers/location-reducer';
 import { TicketsContainer } from 'containers/TicketsContainer';
 import { useGetUserTicketsQuery } from 'services/tickets';
-import { constantUserId } from '../../constants';
+import { useAuthUserSelector } from 'reducers/auth-reducer';
 
 const dummyData = [
   {
@@ -24,7 +24,8 @@ const dummyData = [
 ];
 
 export const HomePageContainer = () => {
-  const { data } = useGetUserTicketsQuery({ id: constantUserId });
+  const { uuid } = useAuthUserSelector();
+  const { data } = useGetUserTicketsQuery({ id: uuid });
   return (
     <S.Wrapper>
       <S.BoxesWrapper>
@@ -40,7 +41,7 @@ export const HomePageContainer = () => {
       </S.BoxesWrapper>
       <S.TicketListWrapper>
         <S.TicketListHeader>Your tickets</S.TicketListHeader>
-        <TicketsContainer tickets={data?.data.tickets} />
+        <TicketsContainer tickets={data?.data.tickets} linkConstructor={EPageType.TICKETS} />
       </S.TicketListWrapper>
     </S.Wrapper>
   );

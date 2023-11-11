@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { useAppSelector } from '../../hooks/store-hook';
 import { authApi } from '../../services/auth';
 import { setToken, deleteToken } from './actions';
+import { MyProfile } from 'models/Profile';
 
 export const AUTH_BASE_STATES = {};
 
@@ -54,7 +55,7 @@ const authSlice = createSlice({
     });
 
     builder.addMatcher(authApi.endpoints.profile.matchFulfilled, (state, { payload: { data } }) => {
-      state.profile = data;
+      state.profile = data.myProfile;
     });
   },
 });
@@ -64,5 +65,5 @@ export const authReducerReducerName = authSlice.name;
 export const useAuthSelector = () => useAppSelector((state) => state[authReducerReducerName]);
 // non-null assertion for use inside ProtectedLayout -> there is a safety check
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-export const useUserSelector = (): any => useAuthSelector().profile!;
+export const useAuthUserSelector = (): MyProfile => useAuthSelector().profile!;
 export default authReducer;

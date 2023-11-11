@@ -3,13 +3,13 @@ import { AddComment } from './AddComment';
 import * as S from './styled';
 import { SingleComment } from './SingleComment';
 import { useCreateNewCommentMutation } from 'services/comments';
-import { constantUserId } from '../../../../constants';
 import { AlertMessages } from 'components/common/PopupAlert';
 import { AlertVariants } from 'components/common/PopupAlert/constants';
 import { useEffect } from 'react';
 import { showAlertPopup } from 'reducers/popup-alert-reducer';
 import { useDispatch } from 'react-redux';
 import { ISingleActivity } from 'models/Activity';
+import { useAuthUserSelector } from 'reducers/auth-reducer';
 
 interface CommentsProps {
   commentsList?: ISingleActivity[];
@@ -17,6 +17,7 @@ interface CommentsProps {
 }
 
 export const Comments = ({ commentsList, ticketId }: CommentsProps) => {
+  const { uuid } = useAuthUserSelector();
   const dispatch = useDispatch();
   const [createNewComment, { isSuccess, error }] = useCreateNewCommentMutation();
 
@@ -24,7 +25,7 @@ export const Comments = ({ commentsList, ticketId }: CommentsProps) => {
     createNewComment({
       content: data,
       subject: ticketId,
-      creator: constantUserId,
+      creator: uuid,
     });
   };
 

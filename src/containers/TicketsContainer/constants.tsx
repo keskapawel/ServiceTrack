@@ -9,7 +9,7 @@ import { Status } from 'components/common/Status';
 import { formatDate } from 'utils/common';
 import { Avatar } from 'components/common/Avatar';
 import { PRIORITY_OPTIONS, STATUS_OPTIONS } from 'utils/constants';
-import { EPageType } from 'pages/PageType';
+import { EPageType } from 'reducers/location-reducer';
 import { EFieldType } from 'components/common/Status/constants';
 
 export const columns: Column<ISingleTicket>[] = [

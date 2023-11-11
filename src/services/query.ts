@@ -83,7 +83,6 @@ const refreshTokenAsync: TBaseQueryWithResult = async (previousResult, args, api
   // try to get a new token
   try {
     const refreshResult = await baseQueryCamelize({ url: 'auth/refresh-token', method: 'POST' }, api, extraOptions);
-    console.log(refreshResult, 'refreshResult');
     if (refreshResult.data) {
       setTokenFromResponse(refreshResult, api);
 
@@ -101,11 +100,10 @@ const refreshTokenAsync: TBaseQueryWithResult = async (previousResult, args, api
 
 const setTokenFromResponse = (result: UnwrapPromise<ReturnType<any>>, api: BaseQueryApi): void => {
   const { data } = result ?? {};
-  console.log(data, 'data');
   if (data && data.data) {
-    const token = data.data.token.accessToken;
+    const token = `Bearer ${data.data.token.accessToken}`;
 
-    api.dispatch(setToken(token));
+    if (data.data.token.accessToken) api.dispatch(setToken(token));
   }
   return;
 };

@@ -15,15 +15,17 @@ import { useAppDispatch } from 'hooks/store-hook';
 import { validationSchema, initialFormValues, requiredFields } from './constants';
 import { clearSelection, setIsValid, setSelectedButton, useNavigationButtonsSelector } from 'reducers/navigationButtons-reducer';
 import { EOption, EPageType } from 'reducers/location-reducer';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AlertMessages } from 'components/common/PopupAlert';
 import { showAlertPopup } from 'reducers/popup-alert-reducer';
 import { useCreateSingleTicketMutation, useUpdateSingleTicketMutation } from 'services/tickets';
 import { AlertVariants } from 'components/common/PopupAlert/constants';
-import { constantClientId, constantUserId } from '../../../../constants';
+// import { constantClientId } from '../../../../constants';
 import { Select } from 'components/common/Select';
 import { PRIORITY_OPTIONS, STATUS_OPTIONS } from 'utils/constants';
 import { IUploadFileResponse } from 'models/File';
+import { useAuthUserSelector } from 'reducers/auth-reducer';
+import { useClientSelector } from 'reducers/client-reducer';
 
 interface IProps {
   data?: ISingleTicket | null;
@@ -32,6 +34,8 @@ interface IProps {
 }
 
 export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
+  const { uuid: authUserUUID } = useAuthUserSelector();
+  const { activeClient } = useClientSelector();
   const [updateSingleTicket, { isSuccess, error }] = useUpdateSingleTicketMutation();
   const [createSingleTicket, { isSuccess: isCreateSuccess, error: isCreateError }] = useCreateSingleTicketMutation();
   const [uploadedDocumentData, setUploadedDocumentData] = useState<string[]>([]);
@@ -52,9 +56,9 @@ export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
         id: createNewMode ? null : submitData.uuid,
         title: submitData.title === data?.title ? null : submitData.title,
         description: submitData.description === data?.description ? null : submitData.description,
-        client: submitData.client === data?.client ? null : submitData.client || constantClientId,
-        creator: submitData.creator.uuid === data?.creator.uuid ? null : submitData.creator.uuid || constantUserId,
-        assigned: data?.assigned.uuid === submitData.assigned.uuid ? null : submitData.assigned.uuid || constantUserId,
+        client: submitData.client === data?.client ? null : submitData.client || activeClient?.uuid,
+        creator: submitData.creator.uuid === data?.creator.uuid ? null : submitData.creator.uuid || authUserUUID,
+        assigned: data?.assigned.uuid === submitData.assigned.uuid ? null : submitData.assigned.uuid || authUserUUID,
         state: data?.state === submitData.state?.key ? null : submitData.state?.key || null,
         priority: data?.priority === submitData.priority?.key ? null : submitData.priority?.key || null,
         note: data?.note === submitData.note ? null : submitData.note,
@@ -62,7 +66,22 @@ export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
       };
       createNewMode ? createSingleTicket(sendData) : updateSingleTicket(sendData);
     },
-    [createNewMode, createSingleTicket, data, updateSingleTicket, uploadedDocumentData],
+    [
+      activeClient?.uuid,
+      authUserUUID,
+      createNewMode,
+      createSingleTicket,
+      data?.assigned.uuid,
+      data?.client,
+      data?.creator.uuid,
+      data?.description,
+      data?.note,
+      data?.priority,
+      data?.state,
+      data?.title,
+      updateSingleTicket,
+      uploadedDocumentData,
+    ],
   );
 
   useEffect(() => {

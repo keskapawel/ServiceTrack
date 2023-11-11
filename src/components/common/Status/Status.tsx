@@ -2,9 +2,6 @@ import { palette } from 'styles/palette';
 import { Tooltip } from '../Tooltip';
 import { StatusesList, Colors } from './model';
 
-import * as S from './styled';
-import { ToggleButtonGroup, ToggleButton } from '@mui/material';
-import { STATUS_OPTIONS } from 'utils/constants';
 import { Select } from '../Select';
 import { IKeyValue } from 'models/Key_Value';
 import { useFormik } from 'formik';
@@ -15,6 +12,8 @@ import { EFieldType } from './constants';
 import { showAlertPopup } from 'reducers/popup-alert-reducer';
 import { AlertVariants, AlertMessages } from '../PopupAlert';
 import { useDispatch } from 'react-redux';
+
+import * as S from './styled';
 
 interface IProps {
   status: string;
@@ -109,7 +108,6 @@ const ChangableStatus = ({ status, options, subTitle, changableId, type, field =
   };
 
   const handleClick = () => {
-    console.log('handleClick');
     setIsOpen((prev) => !prev);
   };
 

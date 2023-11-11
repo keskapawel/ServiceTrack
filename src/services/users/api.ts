@@ -29,7 +29,7 @@ export const usersApi = api.injectEndpoints({
           body: { ...data, id: data.uuid },
         };
       },
-      invalidatesTags: [BASE_TAGS.SINGLE_USER],
+      invalidatesTags: [BASE_TAGS.SINGLE_USER, BASE_TAGS.PROFILE],
     }),
     createSingleUser: build.mutation<IApiData<{ user: ISIngleUser }>, ISIngleUserUpdate>({
       query: (data) => {

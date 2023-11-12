@@ -44,6 +44,12 @@ const authSlice = createSlice({
       state.profile = null;
     });
 
+    builder.addMatcher(authApi.endpoints.profile.matchRejected, (state) => {
+      state.token = null;
+      state.isAuthorized = false;
+      state.profile = null;
+    });
+
     builder.addMatcher(authApi.endpoints.logOut.matchFulfilled, (state) => {
       state.token = null;
       state.isAuthorized = false;

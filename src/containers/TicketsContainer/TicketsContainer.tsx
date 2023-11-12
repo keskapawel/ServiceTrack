@@ -31,9 +31,10 @@ const TicketsContainer = ({ tickets, linkConstructor }: IProps) => {
         linkConstructor={linkConstructor}
         lastCellBorder
         onRowClick={handleRowClick}
-        // openableOnRowClick
       />
     </>
   );
 };
 export default TicketsContainer;
+
+// https://tanstack.com/table/v8/docs/examples/react/column-sizing

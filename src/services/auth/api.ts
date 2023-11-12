@@ -2,7 +2,7 @@ import { api } from '../../services/api';
 import { BASE_TAGS } from '../../services/tags';
 import type { IApiData } from '../../models/Api';
 
-import type { TLoginRequest, TLogoutResponse } from './types';
+import type { TLoginRequest, TLogoutResponse, TRegisterRequest } from './types';
 import { ISingleProfile } from 'models/Profile';
 
 export const authApi = api.injectEndpoints({
@@ -14,6 +14,14 @@ export const authApi = api.injectEndpoints({
         body: { email, password },
       }),
       invalidatesTags: [BASE_TAGS.PROFILE],
+    }),
+    register: build.mutation<IApiData<any>, TRegisterRequest>({
+      query: (data) => ({
+        url: 'auth/register',
+        method: 'POST',
+        body: data,
+      }),
+      // invalidatesTags: [BASE_TAGS.PROFILE],
     }),
     logOut: build.mutation<TLogoutResponse, void>({
       query: () => ({
@@ -30,4 +38,4 @@ export const authApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useLogInMutation, useProfileQuery, useLogOutMutation } = authApi;
+export const { useLogInMutation, useProfileQuery, useLogOutMutation, useRegisterMutation } = authApi;

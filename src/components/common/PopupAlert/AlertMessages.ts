@@ -13,4 +13,5 @@ export enum AlertMessages {
   IMAGE_REMOVED = 'Image removed',
   ATTACHMENT_DOWNLOADED = 'File downloaded',
   ATTACHMENT_REMOVED = 'File removed',
+  ACCOUNT_CREATED = 'Account created successfully, now you can log in',
 }

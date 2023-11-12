@@ -3,6 +3,13 @@ export type TLoginRequest = {
   password: string;
 };
 
+export type TRegisterRequest = {
+  email: string;
+  password: string;
+  name: string;
+  surname: string;
+};
+
 export type TLogoutResponse = {
   message: string;
 };

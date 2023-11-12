@@ -102,8 +102,7 @@ const setTokenFromResponse = (result: UnwrapPromise<ReturnType<any>>, api: BaseQ
   const { data } = result ?? {};
   if (data && data.data) {
     const token = `Bearer ${data.data.token.accessToken}`;
-
-    if (data.data.token.accessToken) api.dispatch(setToken(token));
+    if (data.data?.token?.accessToken) api.dispatch(setToken(token));
   }
   return;
 };

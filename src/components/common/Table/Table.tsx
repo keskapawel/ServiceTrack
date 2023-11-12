@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback } from 'react';
-import { useTable, useFlexLayout, useSortBy, useExpanded } from 'react-table';
+import { useCallback, useState } from 'react';
+import { useTable, useFlexLayout, useSortBy, useExpanded, TableOptions } from 'react-table';
 import MaterialTable from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import { TableRow as MuiTableRow } from '@mui/material';
@@ -15,6 +15,7 @@ import { generateTableLoaderOptions } from './constants';
 import * as S from './styled';
 import { Link } from '../Link';
 import { TableMenuCell } from './TableMenuCell';
+import { ColumnsSettings } from './components/ColumnsSettings';
 
 export const Table = <ItemType extends object, IdType extends string>({
   columns,
@@ -35,23 +36,10 @@ export const Table = <ItemType extends object, IdType extends string>({
   pageDataKey,
   openableOnRowClick,
 }: TableProps<ItemType, IdType>) => {
+  const [newColumns, setNewColumns] = useState<Pick<TableOptions<ItemType>, 'columns'>>(columns);
   const { getTableProps, headerGroups, rows, prepareRow } = useTable(
     {
-      columns,
-      data,
-      disableMultiSort: true,
-      disableSortRemove: true,
-      disableSortBy: !enableSortBy,
-      expandSubRows: false,
-    },
-    useFlexLayout,
-    useSortBy,
-    useExpanded,
-  );
-
-  const dataXDD = useTable(
-    {
-      columns,
+      columns: newColumns,
       data,
       disableMultiSort: true,
       disableSortRemove: true,
@@ -82,6 +70,7 @@ export const Table = <ItemType extends object, IdType extends string>({
     <S.MainTableWrapper>
       <S.TableWrapper $fullHeight={noResults}>
         <S.StyledTableContainer $fullHeight={noResults}>
+          {data?.length > 0 && <ColumnsSettings columns={newColumns} setNewColumns={setNewColumns} defaultColumns={columns} />}
           <MaterialTable {...getTableProps()} stickyHeader data-cy={`${pageDataKey}-list`}>
             {!noResults && (
               <TableHead>

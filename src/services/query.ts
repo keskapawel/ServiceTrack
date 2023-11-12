@@ -100,7 +100,7 @@ const refreshTokenAsync: TBaseQueryWithResult = async (previousResult, args, api
 
 const setTokenFromResponse = (result: UnwrapPromise<ReturnType<any>>, api: BaseQueryApi): void => {
   const { data } = result ?? {};
-  if (data && data.data) {
+  if (data && data.data && data?.data?.token?.accessToken) {
     const token = `Bearer ${data.data.token.accessToken}`;
     if (data.data?.token?.accessToken) api.dispatch(setToken(token));
   }

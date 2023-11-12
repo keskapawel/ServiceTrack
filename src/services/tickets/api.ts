@@ -1,23 +1,32 @@
-import { IApiData } from 'models/Api';
+import { IApiData, IPaginationApiData, IQuery } from 'models/Api';
 import { api } from 'services/api';
 import { BASE_TAGS } from 'services/tags';
 import { ISingleTicket, ISingleTicketUpdate, ITicket } from 'models/Ticket';
-import { invalidatesItem, invalidatesList, providesItem, providesList } from 'services/utils';
 
 export const ticketsApi = api.injectEndpoints({
   endpoints: (build) => ({
-    tickets: build.query<IApiData<ITicket>, object>({
-      query: () => {
+    tickets: build.query<IPaginationApiData<ITicket>, IQuery>({
+      query: ({ paginationQuery, sortQuery }) => {
         return {
           url: `serviceModule/tickets`,
+          params: {
+            ...paginationQuery,
+            ...sortQuery,
+            size: 15,
+          },
         };
       },
       providesTags: [BASE_TAGS.TICKETS],
     }),
-    getUserTickets: build.query<IApiData<ITicket>, { id: string }>({
-      query: ({ id }) => {
+    getUserTickets: build.query<IPaginationApiData<ITicket>, IQuery & { id: string }>({
+      query: ({ paginationQuery, sortQuery, id }) => {
         return {
           url: `serviceModule/tickets/${id}`,
+          params: {
+            ...paginationQuery,
+            ...sortQuery,
+            size: 5,
+          },
         };
       },
       providesTags: [BASE_TAGS.USER_TICKETS],
@@ -38,7 +47,7 @@ export const ticketsApi = api.injectEndpoints({
           body: data,
         };
       },
-      invalidatesTags: [BASE_TAGS.TICKET, BASE_TAGS.TICKET_ACTIVITY, BASE_TAGS.TICKETS],
+      invalidatesTags: [BASE_TAGS.TICKET, BASE_TAGS.TICKET_ACTIVITY, BASE_TAGS.TICKETS, BASE_TAGS.USER_TICKETS],
     }),
     createSingleTicket: build.mutation<IApiData<{ ticket: ISingleTicket }>, ISingleTicketUpdate>({
       query: (data) => {

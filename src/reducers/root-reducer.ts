@@ -8,12 +8,14 @@ import locationReducer from './location-reducer';
 import navigationButtonsReducer from './navigationButtons-reducer';
 import { popupAlertReducer } from './popup-alert-reducer';
 import clientReducer from './client-reducer';
+import pageDataReducer, { pageDataReducerName } from './pageData-reducer';
 
 export const resetState = createAction('root/resetState');
 
 const combinedReducer = combineReducers({
   [api.reducerPath]: api.reducer,
   [authReducerReducerName]: authReducer,
+  [pageDataReducerName]: pageDataReducer,
   user: userReducer,
   ticket: ticketReducer,
   location: locationReducer,

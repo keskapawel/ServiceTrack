@@ -78,10 +78,10 @@ export const getUrlFromArgs = (args: string | FetchArgs) => {
 
 export const isAuthRequiredForUrl = (url: string) => !REAUTHENTICATE_SKIP.some((skipUrl) => url.endsWith(skipUrl));
 
-export const shouldReauthenticate = (result: UnwrapPromise<ReturnType<TBaseQueryFunc>>): boolean => {
+export const shouldReauthenticate = (result: UnwrapPromise<ReturnType<any>>): boolean => {
   const { error, meta } = result;
 
-  if (meta && error?.status === 401) {
+  if ((meta && error?.status === 401) || result.data?.statusCode === 401) {
     const {
       request: { url },
     } = meta;

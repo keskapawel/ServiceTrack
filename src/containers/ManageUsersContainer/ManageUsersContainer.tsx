@@ -8,13 +8,18 @@ import { ISIngleUser } from 'models/User';
 import { EPageType } from 'reducers/location-reducer';
 import { setSelectedUser } from 'reducers/user-reducer';
 import { useUsersQuery } from 'services/users';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
+import { SortQuery } from 'models/Api';
+import { setPagination, setSort, usePageDataSelector } from 'reducers/pageData-reducer';
 
 export const ManageUsersContainer = () => {
-  const { data } = useUsersQuery({});
-
   const dispatch = useAppDispatch();
   const navigation = useNavigate();
+
+  const { sortQuery, paginationQuery } = usePageDataSelector(EPageType.MANAGE_USERS);
+
+  const { data } = useUsersQuery({ paginationQuery, sortQuery });
+
   const handleRowClick = (value: ISIngleUser) => {
     navigation(`/${EPageType.SETTINGS}/${EPageType.MANAGE_USERS}/${value.uuid}`);
     dispatch(setSelectedUser({ selectedUser: value }));
@@ -24,17 +29,52 @@ export const ManageUsersContainer = () => {
     dispatch(setSelectedUser({ selectedUser: undefined }));
   }, []);
 
+  const onChangeSort = useCallback(
+    (sortBy?: SortQuery) => {
+      dispatch(
+        setSort({
+          key: EPageType.MANAGE_USERS,
+          sort: sortBy,
+        }),
+      );
+    },
+    [dispatch],
+  );
+
+  const onChangePage = useCallback((page: number) => {
+    changePage(page);
+  }, []);
+
+  const changePage = useCallback(
+    (page: number) => {
+      dispatch(
+        setPagination({
+          key: EPageType.MANAGE_USERS,
+          pagination: { page },
+        }),
+      );
+    },
+    [dispatch],
+  );
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => changePage(1), []);
+
   return (
     <>
       <Table
         columns={tableData.columns}
         enableSortBy
-        data={data?.data.users.filter(({ uuid }) => uuid !== '00000000-0000-0000-0003-000000000001') ?? []}
+        data={data?.data.users ?? []}
         isLoading={false}
         itemIdAccessor={'uuid'}
         lastCellBorder
+        onChangeSort={onChangeSort}
         redirectOnClick
         onRowClick={handleRowClick}
+        pagination={data?.meta}
+        onPageChange={onChangePage}
+        initialSortBy={sortQuery}
       />
     </>
   );

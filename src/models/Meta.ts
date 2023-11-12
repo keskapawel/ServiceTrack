@@ -1,5 +1,12 @@
 export interface IMeta {
-  count: number;
-  page: number;
-  pages: number;
+  pageInfo: PageInfo;
+}
+
+export interface PageInfo {
+  pageNumber: number;
+  pageSize: number;
+  sorted: boolean;
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
 }

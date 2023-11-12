@@ -5,6 +5,7 @@ import { EPageType } from 'reducers/location-reducer';
 import { TicketsContainer } from 'containers/TicketsContainer';
 import { useGetUserTicketsQuery } from 'services/tickets';
 import { useAuthUserSelector } from 'reducers/auth-reducer';
+import { usePageDataSelector } from 'reducers/pageData-reducer';
 
 const dummyData = [
   {
@@ -24,8 +25,10 @@ const dummyData = [
 ];
 
 export const HomePageContainer = () => {
+  const { sortQuery, paginationQuery } = usePageDataSelector(EPageType.TICKETS);
   const { uuid } = useAuthUserSelector();
-  const { data } = useGetUserTicketsQuery({ id: uuid });
+  const { data } = useGetUserTicketsQuery({ id: uuid, sortQuery, paginationQuery });
+
   return (
     <S.Wrapper>
       <S.BoxesWrapper>
@@ -41,7 +44,7 @@ export const HomePageContainer = () => {
       </S.BoxesWrapper>
       <S.TicketListWrapper>
         <S.TicketListHeader>Your tickets</S.TicketListHeader>
-        <TicketsContainer tickets={data?.data.tickets} linkConstructor={EPageType.TICKETS} />
+        <TicketsContainer tickets={data?.data.tickets} linkConstructor={EPageType.TICKETS} meta={data?.meta} initialSortBy={sortQuery} />
       </S.TicketListWrapper>
     </S.Wrapper>
   );

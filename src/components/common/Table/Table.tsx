@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTable, useFlexLayout, useSortBy, useExpanded, TableOptions } from 'react-table';
 import MaterialTable from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
@@ -11,11 +11,17 @@ import { TableRow } from './TableRow';
 import { NoResults } from './NoResults';
 
 import { TableLoader, TableProps } from './types';
+import { isEqual } from 'lodash-es';
 import { generateTableLoaderOptions } from './constants';
 import * as S from './styled';
 import { Link } from '../Link';
 import { TableMenuCell } from './TableMenuCell';
 import { ColumnsSettings } from './components/ColumnsSettings';
+import { mapSortQueryToSortingRule, mapSortingRuleToSortQuery } from './utils';
+import { Icon } from '../Icon';
+import { HeaderSortingArrow } from './components/HeaderSortingArrow/HeaderSortingArrow';
+import OpenableMenu from '../OpenableMenu';
+import { Typography } from '../Typography';
 
 export const Table = <ItemType extends object, IdType extends string>({
   columns,
@@ -23,12 +29,18 @@ export const Table = <ItemType extends object, IdType extends string>({
   menuOptions,
   itemIdAccessor,
   linkConstructor,
+  manualSortBy = true,
+  initialState,
   enableSortBy = false,
   commentCell = false,
   lastCellBorder = false,
   maxRows,
   redirectOnClick = true,
+  initialSortBy,
   isLoading,
+  onChangeSort,
+  pagination,
+  onPageChange,
   onRowClick,
   menuOpenerButtonVariant = 'outlined',
   Expandable,
@@ -36,20 +48,44 @@ export const Table = <ItemType extends object, IdType extends string>({
   pageDataKey,
   openableOnRowClick,
 }: TableProps<ItemType, IdType>) => {
+  const memoizedInitialState: typeof initialState = useMemo(
+    () => ({ ...initialState, sortBy: mapSortQueryToSortingRule(initialSortBy) }),
+    [initialState, initialSortBy],
+  );
+
   const [newColumns, setNewColumns] = useState<Pick<TableOptions<ItemType>, 'columns'>>(columns);
-  const { getTableProps, headerGroups, rows, prepareRow } = useTable(
+  const {
+    getTableProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state: { sortBy },
+    setSortBy,
+  } = useTable(
     {
       columns: newColumns,
       data,
       disableMultiSort: true,
       disableSortRemove: true,
       disableSortBy: !enableSortBy,
+      manualSortBy,
+      initialState: memoizedInitialState,
       expandSubRows: false,
     },
     useFlexLayout,
     useSortBy,
     useExpanded,
   );
+
+  useEffect(() => {
+    if (!isEqual(memoizedInitialState.sortBy, sortBy)) setSortBy(memoizedInitialState.sortBy ?? []);
+  }, [memoizedInitialState]);
+
+  useEffect(() => {
+    if (onChangeSort && !isEqual(memoizedInitialState.sortBy, sortBy)) {
+      onChangeSort(mapSortingRuleToSortQuery(sortBy));
+    }
+  }, [sortBy]);
 
   const isExpandable = !!Expandable;
 
@@ -65,6 +101,39 @@ export const Table = <ItemType extends object, IdType extends string>({
     (event) => openableOnRowClick && isExpandable && event.stopPropagation(), // to avoid a row expanding when a user copies a text
     [],
   );
+
+  const getSortingMenu = (column) => {
+    return [
+      ...(column.isSorted
+        ? [
+            {
+              clickHandler: () => column.clearSortBy(),
+              label: 'Clear Sorting',
+              icon: <Icon icon='XIcon' />,
+            },
+          ]
+        : []),
+      {
+        clickHandler: () => column.toggleSortBy(false),
+        label: 'Sort Ascending',
+        icon: <Icon icon='SortAscendingIcon' />,
+      },
+      {
+        clickHandler: () => column.toggleSortBy(true),
+        label: 'Sort Descending',
+        icon: <Icon icon='SortDescendingIcon' />,
+      },
+    ];
+  };
+
+  const getSortingArrow = (column) => {
+    return (
+      <>
+        {column.render('Header')}
+        <HeaderSortingArrow canSort={column.canSort} isSorted={column.isSorted} isSortedDesc={column.isSortedDesc} />
+      </>
+    );
+  };
 
   return (
     <S.MainTableWrapper>
@@ -91,7 +160,17 @@ export const Table = <ItemType extends object, IdType extends string>({
                             $isWidthInfinite={isWidthInfinite}
                             {...columnHeaderProps}
                           >
-                            {column.render('Header')}
+                            {!column.canSort ? (
+                              // column.render('Header')
+                              <Typography textAlign='center'>{column.render('Header')}</Typography>
+                            ) : (
+                              <OpenableMenu
+                                isIconOpener
+                                openerProps={{ children: getSortingArrow(column) }}
+                                menuId={'menu' + column.id}
+                                childArray={getSortingMenu(column)}
+                              />
+                            )}
                           </S.StyledTableHeaderCell>
                         );
                       })}
@@ -185,6 +264,14 @@ export const Table = <ItemType extends object, IdType extends string>({
             </S.StyledTableBody>
           </MaterialTable>
         </S.StyledTableContainer>
+        {pagination && onPageChange && (
+          <S.StyledPagination
+            page={pagination.pageInfo?.pageNumber}
+            pages={pagination.pageInfo?.totalPages}
+            changePage={onPageChange}
+            disabled={data.length === 0}
+          />
+        )}
       </S.TableWrapper>
     </S.MainTableWrapper>
   );

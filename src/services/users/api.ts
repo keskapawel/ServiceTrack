@@ -1,14 +1,19 @@
-import { IApiData } from 'models/Api';
+import { IApiData, IPaginationApiData, IQuery } from 'models/Api';
 import { api } from 'services/api';
 import { BASE_TAGS } from 'services/tags';
 import { ISIngleUser, ISIngleUserUpdate, IUsers } from 'models/User';
 
 export const usersApi = api.injectEndpoints({
   endpoints: (build) => ({
-    users: build.query<IApiData<IUsers>, object>({
-      query: () => {
+    users: build.query<IPaginationApiData<IUsers>, IQuery>({
+      query: ({ paginationQuery, sortQuery }) => {
         return {
           url: `adminModule/users`,
+          params: {
+            ...paginationQuery,
+            ...sortQuery,
+            size: 15,
+          },
         };
       },
       providesTags: [BASE_TAGS.USERS],

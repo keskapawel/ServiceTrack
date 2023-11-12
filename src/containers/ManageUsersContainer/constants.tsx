@@ -53,5 +53,6 @@ export const columns: Column<ISIngleUser>[] = [
     Cell: memo(({ value }: CellProps) => value?.map((item, index) => <Status key={index} status={item.name} />)),
     redirectOnClick: true,
     order: 4,
+    disableSortBy: true,
   },
 ];

@@ -27,21 +27,16 @@ export const RegisterContainer = () => {
   const onSubmit = (data: TRegisterRequest) => {
     register({ ...data });
   };
-
+  console.log(error, 'error', isSuccess);
   useEffect(() => {
-    if (data?.statusCode === 200) {
-      navigation('/login', { replace: true });
-    }
-  }, [data?.statusCode, isSuccess, navigation]);
-
-  useEffect(() => {
-    if (isSuccess && data?.statusCode === 200) {
+    if ((isSuccess && data?.statusCode === 200) || data?.statusCode === 201) {
       dispatch(showAlertPopup({ variant: AlertVariants.SUCCESS, message: AlertMessages.ACCOUNT_CREATED }));
+      navigation('/login', { replace: true });
     }
     if (error) {
       dispatch(showAlertPopup({ variant: AlertVariants.ERROR, message: AlertMessages.ERROR }));
     }
-  }, [data?.statusCode, dispatch, error, isSuccess]);
+  }, [data?.statusCode, dispatch, error, isSuccess, navigation]);
 
   const formik = useFormik({
     validationSchema,
@@ -137,7 +132,7 @@ export const RegisterContainer = () => {
                 />
               </Grid>
             </Grid>
-            {data?.statusCode !== 200 && isSuccess && <Alert severity='error'>{data?.reason}</Alert>}
+            {data?.statusCode !== 200 && error && <Alert severity='error'>{data?.reason}</Alert>}
             <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }} disabled={!isValid}>
               Sign Up
             </Button>

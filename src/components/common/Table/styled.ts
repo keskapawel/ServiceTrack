@@ -6,6 +6,7 @@ import { fontSize, fontWeight } from 'styles/font';
 
 import { Icon } from 'components/common/Icon';
 import { Button } from 'components/common/Button';
+import { PagePagination } from '../PagePagination';
 
 export const CellWrapper = styled.div`
   display: flex;
@@ -36,7 +37,6 @@ export const MainTableWrapper = styled.div`
 
 export const TableWrapper = styled(Box)<{ $fullHeight?: boolean }>`
   width: 100%;
-  height: 100%;
 
   ${({ $fullHeight }) =>
     $fullHeight &&
@@ -386,4 +386,8 @@ export const NoResultsWrapper = styled.div`
   > button {
     margin-top: 20px !important;
   }
+`;
+
+export const StyledPagination = styled(PagePagination)`
+  padding-top: 40px;
 `;

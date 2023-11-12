@@ -28,6 +28,7 @@ export const columns: Column<ISIngleUser>[] = [
     }),
     width: 216,
     redirectOnClick: true,
+    order: 1,
   },
   {
     Header: 'Enabled',
@@ -35,6 +36,7 @@ export const columns: Column<ISIngleUser>[] = [
     accessor: 'enabled',
     Cell: memo(({ value }: CellProps) => <Status status={String(value)} />),
     redirectOnClick: true,
+    order: 2,
   },
   {
     Header: 'Expired',
@@ -42,6 +44,7 @@ export const columns: Column<ISIngleUser>[] = [
     accessor: 'expired',
     Cell: memo(({ value }: CellProps) => <Status status={String(value)} />),
     redirectOnClick: true,
+    order: 3,
   },
   {
     Header: 'Roles',
@@ -49,5 +52,6 @@ export const columns: Column<ISIngleUser>[] = [
     accessor: 'rules',
     Cell: memo(({ value }: CellProps) => value?.map((item, index) => <Status key={index} status={item.name} />)),
     redirectOnClick: true,
+    order: 4,
   },
 ];

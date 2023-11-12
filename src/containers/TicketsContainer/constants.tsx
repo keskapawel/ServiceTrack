@@ -21,6 +21,7 @@ export const columns: Column<ISingleTicket>[] = [
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>#{value}</Typography>),
     width: 100,
     redirectOnClick: true,
+    order: 1,
   },
   {
     Header: 'Title',
@@ -29,6 +30,7 @@ export const columns: Column<ISingleTicket>[] = [
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
     width: 200,
     redirectOnClick: true,
+    order: 2,
   },
   {
     Header: 'Description',
@@ -37,6 +39,7 @@ export const columns: Column<ISingleTicket>[] = [
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{value}</Typography>),
     width: 220,
     redirectOnClick: true,
+    order: 3,
   },
   {
     Header: 'Creator',
@@ -47,6 +50,7 @@ export const columns: Column<ISingleTicket>[] = [
     }),
     width: 250,
     redirectOnClick: true,
+    order: 4,
   },
   {
     Header: 'Assigned to',
@@ -57,6 +61,7 @@ export const columns: Column<ISingleTicket>[] = [
     }),
     width: 250,
     redirectOnClick: true,
+    order: 5,
   },
   {
     Header: 'Status',
@@ -76,6 +81,7 @@ export const columns: Column<ISingleTicket>[] = [
     }),
     redirectOnClick: false,
     width: 200,
+    order: 6,
   },
   {
     Header: 'Priority',
@@ -95,6 +101,7 @@ export const columns: Column<ISingleTicket>[] = [
     }),
     redirectOnClick: false,
     width: 200,
+    order: 7,
   },
   {
     Header: 'Creation date',
@@ -103,6 +110,7 @@ export const columns: Column<ISingleTicket>[] = [
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{formatDate(value)}</Typography>),
     width: 220,
     redirectOnClick: true,
+    order: 8,
   },
   {
     Header: 'Last edit date',
@@ -111,5 +119,6 @@ export const columns: Column<ISingleTicket>[] = [
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>{formatDate(value)}</Typography>),
     width: 220,
     redirectOnClick: true,
+    order: 9,
   },
 ];

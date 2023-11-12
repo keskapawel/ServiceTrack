@@ -1,5 +1,6 @@
-import { FormControl, Select, MenuItem, Checkbox, ListItemText, OutlinedInput, InputLabel } from '@mui/material';
+import { FormControl, Select, MenuItem, Checkbox, ListItemText } from '@mui/material';
 import { MenuProps } from './constants';
+import { orderByField } from '../../utils';
 
 interface ColumnsSettingsProps {
   columns?: any;
@@ -17,7 +18,7 @@ export const ColumnsSettings = ({ columns, setNewColumns, defaultColumns }: Colu
     } else {
       newArray.push(column);
     }
-    setNewColumns(newArray);
+    setNewColumns(orderByField(newArray, 'order'));
   };
 
   return (

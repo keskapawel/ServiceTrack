@@ -15,7 +15,7 @@ interface ChartProps {
   height?: number | string;
 }
 
-export const Component = ({ data, height }: ChartProps) => {
+export const Component = ({ data = [], height }: ChartProps) => {
   const formatData = useMemo(() => {
     if (data?.[0]?.chart?.headers)
       return {
@@ -35,8 +35,9 @@ export const Component = ({ data, height }: ChartProps) => {
     <div>
       {formatData?.labels && formatData?.labels?.length > 0 && (
         <Line
-          redraw
+          redraw={false}
           key={'chart-in-period'}
+          hidden={!formatData}
           id={'chart-in-period'}
           data={formatData}
           height={height}

@@ -4,7 +4,7 @@ import type { IApiData } from '../../models/Api';
 
 import type { TChangePasswordRequest, TLoginRequest, TLogoutResponse, TRegisterRequest } from './types';
 import { ISingleProfile } from 'models/Profile';
-import { ISIngleUser } from 'models/User';
+import { ISIngleUser, ISIngleUserUpdate } from 'models/User';
 
 export const authApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -43,8 +43,17 @@ export const authApi = api.injectEndpoints({
       }),
       invalidatesTags: [BASE_TAGS.PROFILE],
     }),
+    updateLoggedUser: build.mutation<IApiData<{ user: ISIngleUser }>, ISIngleUserUpdate>({
+      query: (data) => ({
+        url: 'profile/change-details',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [BASE_TAGS.PROFILE],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useLogInMutation, useProfileQuery, useLogOutMutation, useRegisterMutation, useChangePasswordMutation } = authApi;
+export const { useLogInMutation, useProfileQuery, useLogOutMutation, useRegisterMutation, useChangePasswordMutation, useUpdateLoggedUserMutation } =
+  authApi;

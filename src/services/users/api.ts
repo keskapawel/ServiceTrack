@@ -53,7 +53,7 @@ export const usersApi = api.injectEndpoints({
       query: ({ id }) => {
         return {
           url: `adminModule/user/state/${id}`,
-          method: 'POST',
+          method: 'PATCH',
         };
       },
       invalidatesTags: [BASE_TAGS.SINGLE_USER],

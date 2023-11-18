@@ -144,20 +144,20 @@ export const createMenuItems =
   (options: TMenuOptions, callback: (modal: EModalType) => (id: string) => void) =>
   (ticketData: ISingleTicket): TableMenuOption<ISingleTicket, string>[] => {
     const menu: TableMenuOption<ISingleTicket, string>[] = [];
-    // console.log('modal', options, ticketData);
-    if (options.turnOnNotifications)
-      menu.push(
-        {
-          clickHandler: callback(EModalType.TURN_ON_NOTIFICATIONS),
-          label: 'Turn on notifications for this ticket',
-          icon: <Icon icon='BellIcon' />,
-        },
-        {
+
+    const notificationObject = ticketData.currentUserSubscribed
+      ? {
           clickHandler: callback(EModalType.TURN_OFF_NOTIFICATIONS),
           label: 'Turn off notifications for this ticket',
           icon: <Icon icon='BellIcon' />,
-        },
-      );
+        }
+      : {
+          clickHandler: callback(EModalType.TURN_ON_NOTIFICATIONS),
+          label: 'Turn on notifications for this ticket',
+          icon: <Icon icon='BellIcon' />,
+        };
+
+    if (options.turnOnNotifications) menu.push({ ...notificationObject });
 
     return menu.length ? menu : [];
   };

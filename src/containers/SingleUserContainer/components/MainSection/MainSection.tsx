@@ -13,7 +13,7 @@ import { useAppDispatch } from 'hooks/store-hook';
 import { validationSchema, initialFormValues, requiredFields } from './constants';
 import { clearSelection, setIsValid, setSelectedButton, useNavigationButtonsSelector } from 'reducers/navigationButtons-reducer';
 import { EOption, EPageType } from 'reducers/location-reducer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AlertMessages } from 'components/common/PopupAlert';
 import { showAlertPopup } from 'reducers/popup-alert-reducer';
 import { AlertVariants } from 'components/common/PopupAlert/constants';
@@ -23,6 +23,8 @@ import { toggleEditMode, useUserSelector } from 'reducers/user-reducer';
 import { RULES_OPTIONS, YES_NO_SELECT_OPTIONS } from 'utils/constants';
 import { Select } from 'components/common/Select';
 import { UserImage } from '../UserImage';
+import { useUpdateLoggedUserMutation } from 'services/auth';
+import { useAuthUserSelector } from 'reducers/auth-reducer';
 
 interface IProps {
   data?: ISIngleUser;
@@ -30,8 +32,11 @@ interface IProps {
 }
 
 export const MainSection = ({ data, createNewMode }: IProps) => {
+  const { uuid } = useAuthUserSelector();
+  const { id } = useParams();
   const [updateSingleUser, { isSuccess, error }] = useUpdateSingleUserMutation();
   const [createSingleUser, { isSuccess: isCreateSuccess, error: isCreateError }] = useCreateSingleUserMutation();
+  const [updateLoggedUser, { isSuccess: isUpdateLoggedInUserSuccess, error: isUpdateLoggedInUserError }] = useUpdateLoggedUserMutation();
   const [changeUserState] = useChangeUserStateMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -65,15 +70,23 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
         rules: submitData?.rules?.map((item) => ({ id: item.id })),
       };
 
-      createNewMode
-        ? createSingleUser(newSubmitData)
-        : updateSingleUser(newSubmitData).then(() => {
-            if (!createNewMode && submitData.enabled !== data?.enabled) {
-              changeUserState({ id: submitData.uuid });
-            }
-          });
+      if (uuid === id) {
+        updateLoggedUser(newSubmitData).then(() => {
+          if (!createNewMode && submitData.enabled !== data?.enabled) {
+            changeUserState({ id: submitData.uuid });
+          }
+        });
+      } else {
+        createNewMode
+          ? createSingleUser(newSubmitData)
+          : updateSingleUser(newSubmitData).then(() => {
+              if (!createNewMode && submitData.enabled !== data?.enabled) {
+                changeUserState({ id: submitData.uuid });
+              }
+            });
+      }
     },
-    [changeUserState, createNewMode, createSingleUser, data?.enabled, updateSingleUser],
+    [changeUserState, createNewMode, createSingleUser, data?.enabled, id, updateLoggedUser, updateSingleUser, uuid],
   );
 
   const formik = useFormik({
@@ -118,18 +131,19 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
   }, [createNewMode, dispatch, isValid, navigate, onSubmit, resetForm, selectedButton, values]);
 
   useEffect(() => {
-    if (isSuccess || isCreateSuccess) {
+    if (isSuccess || isCreateSuccess || isUpdateLoggedInUserSuccess) {
       dispatch(setSelectedButton({ selectedButton: EOption.Cancel }));
       dispatch(
         showAlertPopup({ variant: AlertVariants.SUCCESS, message: isCreateSuccess ? AlertMessages.USER_CREATED : AlertMessages.USER_UPDATED }),
       );
       dispatch(toggleEditMode({ editMode: false }));
     }
-    if (error || isCreateError) {
+    if (error || isCreateError || isUpdateLoggedInUserError) {
       dispatch(clearSelection());
       validateForm();
+      dispatch(showAlertPopup({ variant: AlertVariants.ERROR, message: AlertMessages.ERROR }));
     }
-  }, [isSuccess, error, validateForm, dispatch, isCreateSuccess, isCreateError]);
+  }, [isSuccess, error, validateForm, dispatch, isCreateSuccess, isCreateError, isUpdateLoggedInUserSuccess, isUpdateLoggedInUserError]);
 
   const isDisabled = createNewMode ? !createNewMode : !isEditMode;
 

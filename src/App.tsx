@@ -36,8 +36,8 @@ function App() {
               <Route index element={<HomePage />} />
 
               <Route path={`/${EPageType.PROFILE}`}>
-                <Route path={`/${EPageType.PROFILE}`} element={<SingleUserPage />} />
-                <Route path={`:id`} element={<SingleUserPage />} />
+                <Route path={`/${EPageType.PROFILE}`} element={<SingleUserPage profilePage />} />
+                <Route path={`:id`} element={<SingleUserPage profilePage />} />
               </Route>
 
               <Route path={`/${EPageType.SETTINGS}`}>

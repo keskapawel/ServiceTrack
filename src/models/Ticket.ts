@@ -21,6 +21,7 @@ export interface ISingleTicket {
   id: number;
   note: string;
   files?: IUploadFileResponse[];
+  currentUserSubscribed: boolean;
 }
 
 export interface ISingleTicketUpdate {
@@ -44,4 +45,9 @@ export interface ISingleTicketForm extends Pick<ISingleTicket, 'title' | 'client
   creatorId: string;
   assignedName: string;
   creatorName: string;
+}
+
+export enum SubscribeMethod {
+  SUBSCRIBE = 'subscribe',
+  UNSUBSCRIBE = 'unsubscribe',
 }

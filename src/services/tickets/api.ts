@@ -1,7 +1,7 @@
 import { IApiData, IPaginationApiData, IQuery } from 'models/Api';
 import { api } from 'services/api';
 import { BASE_TAGS } from 'services/tags';
-import { ISingleTicket, ISingleTicketUpdate, ITicket } from 'models/Ticket';
+import { ISingleTicket, ISingleTicketUpdate, ITicket, SubscribeMethod } from 'models/Ticket';
 
 export const ticketsApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -17,6 +17,15 @@ export const ticketsApi = api.injectEndpoints({
         };
       },
       providesTags: [BASE_TAGS.TICKETS],
+    }),
+    manageSubscribtion: build.mutation<IPaginationApiData<ITicket>, { ticketId: string; userId: string; applyMethod: SubscribeMethod }>({
+      query: ({ ticketId, userId, applyMethod }) => {
+        return {
+          url: `serviceModule/tickets/${ticketId}/${userId}/${applyMethod}`,
+          method: 'PATCH',
+        };
+      },
+      invalidatesTags: [BASE_TAGS.TICKETS, BASE_TAGS.TICKET],
     }),
     getUserTickets: build.query<IPaginationApiData<ITicket>, IQuery & { id: string }>({
       query: ({ paginationQuery, sortQuery, id }) => {
@@ -63,5 +72,11 @@ export const ticketsApi = api.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useTicketsQuery, useGetUserTicketsQuery, useGetSingleTicketQuery, useUpdateSingleTicketMutation, useCreateSingleTicketMutation } =
-  ticketsApi;
+export const {
+  useTicketsQuery,
+  useGetUserTicketsQuery,
+  useGetSingleTicketQuery,
+  useUpdateSingleTicketMutation,
+  useCreateSingleTicketMutation,
+  useManageSubscribtionMutation,
+} = ticketsApi;

@@ -1,11 +1,15 @@
 import { HelmetTags } from 'components/common/HelmetTags';
 import { SingleUserContainer } from 'containers/SingleUserContainer';
 
-const SingleUserPage = () => {
+interface IProps {
+  profilePage?: boolean;
+}
+
+const SingleUserPage = ({ profilePage }: IProps) => {
   return (
     <>
       <HelmetTags title={'Profile'} />
-      <SingleUserContainer />
+      <SingleUserContainer profilePage={profilePage} />
     </>
   );
 };

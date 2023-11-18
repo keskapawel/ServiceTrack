@@ -13,16 +13,19 @@ import { ActivityChartInPeriod } from 'components/common/Charts';
 import { graphColorPalette } from 'styles/palette';
 import * as S from './styled';
 import { BarChartCounts } from 'components/common/Charts/BarChartCounts';
+import { useAuthUserSelector } from 'reducers/auth-reducer';
 
 interface IProps {
   createNew?: boolean;
   showAnalitics?: boolean;
+  profilePage?: boolean;
 }
 
-export const SingleUserContainer = ({ createNew, showAnalitics = true }: IProps) => {
+export const SingleUserContainer = ({ createNew, showAnalitics = true, profilePage }: IProps) => {
   const { selectedUser } = useUserSelector();
+  const { uuid } = useAuthUserSelector();
   const { id } = useParams();
-  const { data } = useGetSingleUserQuery(!createNew ? { id: id ?? selectedUser?.uuid ?? '' } : skipToken);
+  const { data, isLoading } = useGetSingleUserQuery(!createNew ? { id: profilePage ? uuid : id ?? selectedUser?.uuid ?? '' } : skipToken);
 
   const { data: generalUserActivityInPeriodChartData } = useGeneralUserActivityInPeriodQuery({
     userId: selectedUser?.uuid ?? id ?? data?.data.user.uuid ?? '',
@@ -34,9 +37,9 @@ export const SingleUserContainer = ({ createNew, showAnalitics = true }: IProps)
     userId: selectedUser?.uuid ?? id ?? data?.data.user.uuid ?? '',
   });
 
-  const isLoading = isLoadingByStatusCode(data?.status);
+  const isLoadingByStatus = isLoadingByStatusCode(data?.status);
 
-  return isLoading ? (
+  return isLoadingByStatus || isLoading ? (
     <Loader />
   ) : (
     <>
@@ -50,7 +53,7 @@ export const SingleUserContainer = ({ createNew, showAnalitics = true }: IProps)
           }}
         />
       )}
-      <MainSection data={createNew ? undefined : data?.data.user ?? selectedUser} createNewMode={createNew} />
+      <MainSection data={createNew ? undefined : data?.data.user} createNewMode={createNew} />
       {showAnalitics && !createNew && (
         <>
           <S.UserActivityHeader>User activity</S.UserActivityHeader>

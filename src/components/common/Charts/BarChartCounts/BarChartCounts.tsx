@@ -35,7 +35,7 @@ export const Component = ({ data, height }: ChartProps) => {
     <S.Wrapper>
       {formatData?.labels && formatData?.labels?.length > 0 && (
         <Bar
-          redraw
+          redraw={false}
           key={'chart-counts'}
           id={'chart-counts'}
           data={formatData}

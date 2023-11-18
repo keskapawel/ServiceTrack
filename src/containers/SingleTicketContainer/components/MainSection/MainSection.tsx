@@ -34,7 +34,7 @@ interface IProps {
 }
 
 export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
-  const { uuid: authUserUUID } = useAuthUserSelector();
+  const { uuid: authUserUUID, name: authUserName, surname: authUserSurname } = useAuthUserSelector();
   const { activeClient } = useClientSelector();
   const [updateSingleTicket, { isSuccess, error }] = useUpdateSingleTicketMutation();
   const [createSingleTicket, { isSuccess: isCreateSuccess, error: isCreateError }] = useCreateSingleTicketMutation();
@@ -106,7 +106,7 @@ export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
             value: data.state,
           },
         }
-      : initialFormValues,
+      : { ...initialFormValues, creator: { ...initialFormValues.creator, name: authUserName, surname: authUserSurname } },
     onSubmit,
     enableReinitialize: true,
     validateOnMount: true,
@@ -174,8 +174,7 @@ export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
                   showRequiredAfter
                   horizontalLabel
                   label='Reporter name:'
-                  value={'Jane Doe'}
-                  // value={`${values?.creator.name} ${values.creator.surname}`}
+                  value={`${values?.creator.name} ${values.creator.surname}`}
                   disabled
                   name='customerName'
                   onChange={handleChange}

@@ -17,6 +17,8 @@ export enum EFieldName {
   NOTE = 'Note',
   PRIORITY = 'Priority',
   ASSIGNED = 'Assigned',
+  NEW_TICKET = 'New Ticket',
+  ADD_COMMENT = 'Add Comment',
 }
 
 export interface IActivity {

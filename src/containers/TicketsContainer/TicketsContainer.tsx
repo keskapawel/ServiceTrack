@@ -6,8 +6,8 @@ import { ISingleTicket } from 'models/Ticket';
 import { useCallback, useEffect } from 'react';
 import { SortQuery } from 'models/Api';
 import { EPageType } from 'reducers/location-reducer';
-import { setPagination, setSort, usePageDataSelector } from 'reducers/pageData-reducer';
-import { IMeta, PageInfo } from 'models/Meta';
+import { setPagination, setSort } from 'reducers/pageData-reducer';
+import { IMeta } from 'models/Meta';
 
 interface IProps {
   tickets?: ISingleTicket[];
@@ -81,3 +81,5 @@ const TicketsContainer = ({ tickets, linkConstructor, meta, initialSortBy }: IPr
 export default TicketsContainer;
 
 // https://tanstack.com/table/v8/docs/examples/react/column-sizing
+// https://tanstack.com/table/v8/docs/examples/react/column-dnd
+// https://tanstack.com/table/v8/docs/examples/react/column-visibility

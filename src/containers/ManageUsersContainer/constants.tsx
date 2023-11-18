@@ -16,17 +16,17 @@ export const columns: Column<ISIngleUser>[] = [
     id: 'name',
     border: 'right',
     accessor: (value) => value,
-    Cell: memo(({ value: { userName, surname, id, avatar } }: CellProps<ISIngleUser, ISIngleUser>) => {
+    Cell: memo(({ value: { name, surname, id, avatar } }: CellProps<ISIngleUser, ISIngleUser>) => {
       return (
         <S.UserNameWrapper>
-          <Avatar id={id} picture={avatar?.url || undefined} firstName={userName} lastName={surname} size={24} />
+          <Avatar id={id} picture={avatar?.url || undefined} firstName={name} lastName={surname} size={24} />
           <Typography ellipsis>
-            {userName}&nbsp;{surname}
+            {name}&nbsp;{surname}
           </Typography>
         </S.UserNameWrapper>
       );
     }),
-    width: 216,
+    width: 320,
     redirectOnClick: true,
     order: 1,
   },

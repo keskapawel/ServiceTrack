@@ -15,12 +15,13 @@ import { IUploadFileResponse } from 'models/File';
 interface IProps {
   createNew?: boolean;
   data?: ISingleTicket;
+  showAnalitics?: boolean;
 }
 
-export const SingleTicketContainer = ({ createNew, data }: IProps) => {
+export const SingleTicketContainer = ({ createNew, data, showAnalitics = false }: IProps) => {
   const { id } = useParams();
   const { isEditMode } = useTicketSelector();
-  const { data: activityData } = useGetTicketActivitiesQuery(!createNew ? { id: data?.uuid ?? id ?? '' } : skipToken);
+  const { data: activityData, isLoading } = useGetTicketActivitiesQuery(!createNew ? { id: data?.uuid ?? id ?? '' } : skipToken);
   const [documentData, setDocumentData] = useState<IUploadFileResponse>();
 
   const showLoader = createNew ? !createNew : !data?.uuid;
@@ -51,7 +52,12 @@ export const SingleTicketContainer = ({ createNew, data }: IProps) => {
         editMode={isEditMode}
         ticketData={data}
       />
-      {!createNew && <Comments commentsList={activityData?.data?.activities} ticketId={data?.uuid ?? id ?? ''} />}
+      {!createNew && <Comments commentsList={activityData?.data?.activities} isLoading={isLoading} ticketId={data?.uuid ?? id ?? ''} />}
+      {showAnalitics && (
+        <>
+          <p>xd</p>
+        </>
+      )}
     </>
   );
 };

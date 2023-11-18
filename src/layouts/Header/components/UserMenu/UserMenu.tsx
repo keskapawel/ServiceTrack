@@ -11,7 +11,7 @@ import { useAuthUserSelector } from 'reducers/auth-reducer';
 
 export const UserMenu = () => {
   const navigation = useNavigate();
-  const { uuid } = useAuthUserSelector();
+  const { uuid, name, surname, avatar } = useAuthUserSelector();
   const [logOut] = useLogOutMutation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -46,7 +46,7 @@ export const UserMenu = () => {
             aria-haspopup='true'
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar size={32} firstName={'M'} lastName={'A'} id={''} />
+            <Avatar size={32} firstName={name} lastName={surname} id={uuid} picture={avatar?.url} />
           </IconButton>
         </Tooltip>
       </Box>

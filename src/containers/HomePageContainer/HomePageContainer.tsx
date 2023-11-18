@@ -6,6 +6,11 @@ import { TicketsContainer } from 'containers/TicketsContainer';
 import { useGetUserTicketsQuery } from 'services/tickets';
 import { useAuthUserSelector } from 'reducers/auth-reducer';
 import { usePageDataSelector } from 'reducers/pageData-reducer';
+import { ActivityChartInPeriod } from 'components/common/Charts';
+import { useGetUserActivityCountrInPeriodQuery } from 'services/analiticsData';
+import { EActivityType } from 'models/AnaliticsData';
+import { EDateType, formatDate } from 'utils/common';
+import { colors } from 'styles/palette';
 
 const dummyData = [
   {
@@ -28,6 +33,24 @@ export const HomePageContainer = () => {
   const { sortQuery, paginationQuery } = usePageDataSelector(EPageType.TICKETS);
   const { uuid } = useAuthUserSelector();
   const { data } = useGetUserTicketsQuery({ id: uuid, sortQuery, paginationQuery });
+  const { data: chartDataTicket } = useGetUserActivityCountrInPeriodQuery({
+    userId: uuid,
+    contentType: EActivityType.TICKET,
+    endDate: formatDate(new Date().setDate(new Date().getDate() + 1), EDateType.YYMMDD) ?? '',
+    startDate: formatDate(new Date().setDate(new Date().getDate() - 7), EDateType.YYMMDD) ?? '',
+  });
+  const { data: chartDataComment } = useGetUserActivityCountrInPeriodQuery({
+    userId: uuid,
+    contentType: EActivityType.COMMENT,
+    endDate: formatDate(new Date().setDate(new Date().getDate() + 1), EDateType.YYMMDD) ?? '',
+    startDate: formatDate(new Date().setDate(new Date().getDate() - 7), EDateType.YYMMDD) ?? '',
+  });
+  const { data: chartDataAll } = useGetUserActivityCountrInPeriodQuery({
+    userId: uuid,
+    contentType: EActivityType.ALL,
+    endDate: formatDate(new Date().setDate(new Date().getDate() + 1), EDateType.YYMMDD) ?? '',
+    startDate: formatDate(new Date().setDate(new Date().getDate() - 7), EDateType.YYMMDD) ?? '',
+  });
 
   return (
     <S.Wrapper>
@@ -46,6 +69,37 @@ export const HomePageContainer = () => {
         <S.TicketListHeader>Your tickets</S.TicketListHeader>
         <TicketsContainer tickets={data?.data.tickets} linkConstructor={EPageType.TICKETS} meta={data?.meta} initialSortBy={sortQuery} />
       </S.TicketListWrapper>
+      {chartDataTicket?.data.chart && chartDataComment?.data.chart && chartDataAll?.data.chart && (
+        <S.ChartsWrapper>
+          <S.TicketListHeader>Your activity</S.TicketListHeader>
+          <ActivityChartInPeriod
+            data={[
+              {
+                chart: chartDataTicket?.data.chart,
+                lineLabel: 'Tickets activity',
+                borderColor: colors.carminePink,
+                backgroundColor: colors.carminePink,
+                fill: false,
+              },
+              {
+                chart: chartDataComment?.data.chart,
+                lineLabel: 'Comments',
+                borderColor: colors.blueberry,
+                backgroundColor: colors.blueberry,
+                fill: false,
+              },
+              {
+                chart: chartDataAll?.data.chart,
+                lineLabel: 'Whole activity',
+                borderColor: colors.myrtleGreen,
+                backgroundColor: colors.myrtleGreen,
+                fill: false,
+              },
+            ]}
+            height={70}
+          />
+        </S.ChartsWrapper>
+      )}
     </S.Wrapper>
   );
 };

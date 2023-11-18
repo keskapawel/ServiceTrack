@@ -2,6 +2,7 @@ import { Typography } from 'components/common/Typography';
 
 import * as S from './styled';
 import { EFieldName } from 'models/Activity';
+import { useTicketSelector } from 'reducers/ticket-reducer';
 
 interface IProps {
   newValue: string;
@@ -12,9 +13,18 @@ interface IProps {
 }
 
 export const Message = ({ oldValue, newValue, fieldName, systemActivity, userActivity }: IProps) => {
+  const { selectedTicket } = useTicketSelector();
   return (
     <S.Wrapper>
       {userActivity && <Typography>{newValue}</Typography>}
+      {fieldName === EFieldName.NEW_TICKET && (
+        <Typography>
+          Ticket <b>{selectedTicket?.id}</b> was created by{' '}
+          <b>
+            {selectedTicket?.creator.name} {selectedTicket?.creator.surname}
+          </b>
+        </Typography>
+      )}
       {systemActivity && (
         <>
           <Typography>

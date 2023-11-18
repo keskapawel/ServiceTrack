@@ -47,7 +47,7 @@ export const getParentPath = (currentPath: string) => {
 };
 
 export const formatDate = (
-  date: string | Date | undefined | null,
+  date: string | Date | undefined | null | number,
   dateType: EDateType = EDateType.YYMMDD,
   splitType: EDateSplitType = EDateSplitType.Dash,
 ) => {

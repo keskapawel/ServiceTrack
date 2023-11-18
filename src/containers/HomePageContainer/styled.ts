@@ -16,6 +16,11 @@ export const TicketListWrapper = styled.div`
   margin-top: 60px;
 `;
 
+export const ChartsWrapper = styled.div`
+  margin-top: 60px;
+  margin-bottom: 30px;
+`;
+
 export const TicketListHeader = styled.div`
   font-size: ${fontSize[32]};
   text-align: center;

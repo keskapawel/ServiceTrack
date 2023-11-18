@@ -10,13 +10,15 @@ import { showAlertPopup } from 'reducers/popup-alert-reducer';
 import { useDispatch } from 'react-redux';
 import { ISingleActivity } from 'models/Activity';
 import { useAuthUserSelector } from 'reducers/auth-reducer';
+import { Loader } from 'components/common/Loader';
 
 interface CommentsProps {
   commentsList?: ISingleActivity[];
   ticketId: string;
+  isLoading?: boolean;
 }
 
-export const Comments = ({ commentsList, ticketId }: CommentsProps) => {
+export const Comments = ({ commentsList, ticketId, isLoading }: CommentsProps) => {
   const { uuid } = useAuthUserSelector();
   const dispatch = useDispatch();
   const [createNewComment, { isSuccess, error }] = useCreateNewCommentMutation();
@@ -42,14 +44,18 @@ export const Comments = ({ commentsList, ticketId }: CommentsProps) => {
     <S.Wrapper>
       <S.Header>Activity</S.Header>
       <AddComment onCommentSubmit={onComponentsSubmit} />
-      <S.ListWrapper>
-        {commentsList
-          ?.slice()
-          ?.reverse()
-          .map((comment) => (
-            <SingleComment key={comment.id} {...comment} />
-          ))}
-      </S.ListWrapper>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <S.ListWrapper>
+          {commentsList
+            ?.slice()
+            ?.reverse()
+            .map((comment) => (
+              <SingleComment key={comment.id} {...comment} />
+            ))}
+        </S.ListWrapper>
+      )}
     </S.Wrapper>
   );
 };

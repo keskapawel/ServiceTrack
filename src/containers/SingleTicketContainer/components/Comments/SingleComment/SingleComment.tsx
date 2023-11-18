@@ -5,7 +5,7 @@ import * as S from './styled';
 import { EFieldName, ISingleActivity } from 'models/Activity';
 
 export const SingleComment = ({ oldValue, newValue, creator, creationDate, fieldName }: ISingleActivity) => {
-  const user = [EFieldName.COMMENTS, EFieldName.NOTE].includes(fieldName);
+  const user = [EFieldName.COMMENTS, EFieldName.NOTE, EFieldName.NEW_TICKET, EFieldName.ADD_COMMENT].includes(fieldName);
   const system = [EFieldName.STATE, EFieldName.PRIORITY, EFieldName.ASSIGNED].includes(fieldName);
 
   return (

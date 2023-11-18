@@ -15,7 +15,7 @@ import { EFieldType } from 'components/common/Status/constants';
 export const columns: Column<ISingleTicket>[] = [
   {
     Header: 'Ticket Id',
-    id: 'id',
+    id: 'ID',
     border: 'right',
     accessor: 'id',
     Cell: memo(({ value }: CellProps) => <Typography ellipsis>#{value}</Typography>),

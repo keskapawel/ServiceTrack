@@ -27,7 +27,7 @@ export const RegisterContainer = () => {
   const onSubmit = (data: TRegisterRequest) => {
     register({ ...data });
   };
-  console.log(error, 'error', isSuccess);
+
   useEffect(() => {
     if ((isSuccess && data?.statusCode === 200) || data?.statusCode === 201) {
       dispatch(showAlertPopup({ variant: AlertVariants.SUCCESS, message: AlertMessages.ACCOUNT_CREATED }));

@@ -2,14 +2,13 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { UnwrapPromise } from '@reduxjs/toolkit/dist/query/tsHelpers';
 import { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
-import { camelizeKeys } from 'humps';
 import { stringify } from 'query-string';
 
 import { RootState } from 'store';
 import { deleteToken, setToken } from 'reducers/auth-reducer/actions';
 
 import { TBaseQueryFunc, TBaseQueryWithResult } from './types';
-import { getUrlFromArgs, isAuthRequiredForUrl, mutex, shouldReauthenticate } from './utils';
+import { getUrlFromArgs, isAuthRequiredForUrl, shouldReauthenticate } from './utils';
 import { AUTH_HEADER } from './constants';
 
 const getToken = ({ getState }: Partial<BaseQueryApi>) => {
@@ -103,6 +102,10 @@ const setTokenFromResponse = (result: UnwrapPromise<ReturnType<any>>, api: BaseQ
   if (data && data.data && data?.data?.token?.accessToken) {
     const token = `Bearer ${data.data.token.accessToken}`;
     if (data.data?.token?.accessToken) api.dispatch(setToken(token));
+  }
+  if (data && data?.accessToken) {
+    const token = `Bearer ${data.accessToken}`;
+    if (data.accessToken) api.dispatch(setToken(token));
   }
   return;
 };

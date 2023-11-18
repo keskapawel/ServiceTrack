@@ -38,6 +38,7 @@ export enum EPageType {
   SINGLE_USER = 'singleUser',
   CREATE_TICKET = 'createTicket',
   PROFILE = 'profile',
+  CHANGE_PASSWORD = 'change_password',
 }
 
 const initialState: TLocationState = {

@@ -27,7 +27,7 @@ export const filesApi = api.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: [BASE_TAGS.UPLOAD_FILE, BASE_TAGS.SINGLE_USER, BASE_TAGS.TICKET],
+      invalidatesTags: [BASE_TAGS.UPLOAD_FILE, BASE_TAGS.SINGLE_USER, BASE_TAGS.TICKET, BASE_TAGS.PROFILE],
     }),
     editFile: build.mutation<IApiData<{ file: IUploadFileResponse }>, IUploadFile & { id: string }>({
       query: ({ id, file, description }) => {

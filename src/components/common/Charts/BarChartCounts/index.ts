@@ -1,0 +1,1 @@
+export { BarChartCounts } from './BarChartCounts';

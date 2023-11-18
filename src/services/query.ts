@@ -17,6 +17,7 @@ const getToken = ({ getState }: Partial<BaseQueryApi>) => {
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_URL,
+  mode: 'cors',
   paramsSerializer: (params) => {
     const snakeKeysParams = params;
 

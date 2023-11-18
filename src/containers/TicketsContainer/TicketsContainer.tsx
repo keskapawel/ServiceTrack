@@ -3,7 +3,7 @@ import { Table } from 'components/common/Table';
 import { useAppDispatch } from 'hooks/store-hook';
 import { setSelectedTicket } from 'reducers/ticket-reducer';
 import { ISingleTicket } from 'models/Ticket';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { SortQuery } from 'models/Api';
 import { EPageType } from 'reducers/location-reducer';
 import { setPagination, setSort } from 'reducers/pageData-reducer';
@@ -14,9 +14,10 @@ interface IProps {
   linkConstructor?: string;
   meta?: IMeta;
   initialSortBy?: SortQuery;
+  isLoading?: boolean;
 }
 
-const TicketsContainer = ({ tickets, linkConstructor, meta, initialSortBy }: IProps) => {
+const TicketsContainer = ({ tickets, linkConstructor, meta, initialSortBy, isLoading }: IProps) => {
   const dispatch = useAppDispatch();
 
   const handleRowClick = (value: ISingleTicket) => {
@@ -58,15 +59,28 @@ const TicketsContainer = ({ tickets, linkConstructor, meta, initialSortBy }: IPr
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => changePage(1), []);
 
+  const onSelect = useCallback((id: string, option: tableData.EModalType) => {
+    if (option === tableData.EModalType.TURN_ON_NOTIFICATIONS) {
+      console.log('ON', id);
+    }
+    if (option === tableData.EModalType.TURN_OFF_NOTIFICATIONS) {
+      console.log('OFF', id);
+    }
+    // setIsOpen({ id, type: option });
+  }, []);
+
+  const handleItemSelect = useCallback((modalType: tableData.EModalType) => (id: string) => onSelect(id, modalType), [onSelect]);
+
+  const availableMenuOptions = useMemo(() => tableData.createMenuItems(tableData.availableMenuOptions, handleItemSelect), [handleItemSelect]);
+
   return (
     <>
       <Table
         columns={tableData.columns}
         data={tickets ?? []}
-        isLoading={!tickets}
+        isLoading={isLoading}
         itemIdAccessor={'uuid'}
         linkConstructor={linkConstructor}
-        lastCellBorder
         initialSortBy={initialSortBy}
         enableSortBy
         pagination={meta}
@@ -74,6 +88,7 @@ const TicketsContainer = ({ tickets, linkConstructor, meta, initialSortBy }: IPr
         onRowClick={handleRowClick}
         onChangeSort={onChangeSort}
         pageDataKey={EPageType.TICKETS}
+        menuOptions={availableMenuOptions}
       />
     </>
   );

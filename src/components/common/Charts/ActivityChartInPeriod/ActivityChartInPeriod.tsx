@@ -1,7 +1,9 @@
 import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import 'chart.js/auto';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
+ChartJS.register(ArcElement, Tooltip, Legend);
 interface ChartProps {
   data: {
     chart: { name: string; headers: string[]; data: number[]; analiseDateTime: string };
@@ -13,7 +15,7 @@ interface ChartProps {
   height?: number | string;
 }
 
-export const ActivityChartInPeriod = ({ data, height }: ChartProps) => {
+export const Component = ({ data, height }: ChartProps) => {
   const formatData = useMemo(() => {
     if (data?.[0]?.chart?.headers)
       return {
@@ -33,6 +35,7 @@ export const ActivityChartInPeriod = ({ data, height }: ChartProps) => {
     <div>
       {formatData?.labels && formatData?.labels?.length > 0 && (
         <Line
+          redraw
           key={'chart-in-period'}
           id={'chart-in-period'}
           data={formatData}
@@ -64,3 +67,7 @@ export const ActivityChartInPeriod = ({ data, height }: ChartProps) => {
     </div>
   );
 };
+
+Component.displayName = 'ActivityChartInPeriod';
+
+export const ActivityChartInPeriod = memo(Component);

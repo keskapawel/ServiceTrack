@@ -23,3 +23,9 @@ export type TForgotPasswordChangePasswordRequest = {
   password: string;
   passwordConfirmation: string;
 };
+
+export type TChangePasswordRequest = {
+  password: string;
+  newPassword: string;
+  newPasswordConfirmation: string;
+};

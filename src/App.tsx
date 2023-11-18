@@ -16,6 +16,8 @@ import { TicketsPage } from 'pages/TicketsPage';
 import { SingleTicketPage } from 'pages/SingleTicketPage';
 import { CreateTicketPage } from 'pages/CreateTicketPage';
 import { CreateUserPage } from 'pages/CreateUserPage';
+import { ManageNotificationsPage } from 'pages/ManageNotificationsPage';
+import { ChangePasswordPage } from 'pages/ChangePasswordPage';
 
 function App() {
   return (
@@ -34,8 +36,8 @@ function App() {
               <Route index element={<HomePage />} />
 
               <Route path={`/${EPageType.PROFILE}`}>
+                <Route path={`/${EPageType.PROFILE}`} element={<SingleUserPage />} />
                 <Route path={`:id`} element={<SingleUserPage />} />
-                {/* <Route path={`:id`} element={<SingleUserPage />} /> */}
               </Route>
 
               <Route path={`/${EPageType.SETTINGS}`}>
@@ -43,6 +45,10 @@ function App() {
                 <Route path={`${EPageType.MANAGE_USERS}`} element={<ManageUsersPage />} />
                 <Route path={`${EPageType.MANAGE_USERS}/:id`} element={<SingleUserPage />} />
                 <Route path={`${EPageType.MANAGE_USERS}/${EPageType.CREATE_USER}`} element={<CreateUserPage />} />
+
+                <Route path={`${EPageType.MANAGE_USERS}/:id/${EPageType.CHANGE_PASSWORD}`} element={<ChangePasswordPage />} />
+
+                <Route path={`${EPageType.MANAGE_NOTIFICATIONS}`} element={<ManageNotificationsPage />} />
               </Route>
 
               <Route path={`/${EPageType.TICKETS}`}>

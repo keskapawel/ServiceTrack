@@ -19,7 +19,7 @@ export const Message = ({ oldValue, newValue, fieldName, systemActivity, userAct
       {userActivity && <Typography>{newValue}</Typography>}
       {fieldName === EFieldName.NEW_TICKET && (
         <Typography>
-          Ticket <b>{selectedTicket?.id}</b> was created by{' '}
+          Ticket <b>#{selectedTicket?.id}</b> was created by{' '}
           <b>
             {selectedTicket?.creator.name} {selectedTicket?.creator.surname}
           </b>

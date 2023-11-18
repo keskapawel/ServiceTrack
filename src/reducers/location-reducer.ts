@@ -4,16 +4,19 @@ import { useAppSelector } from 'hooks/store-hook';
 export enum EMenuItem {
   Dashboard = 'Dashboard',
   Settings = 'Settings',
-  NanageUsers = 'Manage Users',
+  ManageUsers = 'Manage Users',
   CreateUser = 'Create User',
   Tickets = 'Tickets',
   CreteTicket = 'Create Ticket',
+  ManageNotifications = 'Manage Notifications',
+  ChangePassword = 'Change Password',
 }
 
 export enum EOption {
   Settings = 'settings',
   SingleUserHeader = 'SingleUserHeader',
   UserActions = 'UserActions',
+  LoggedInUserActions = 'LoggedInUserActions',
   UsersActions = 'UsersActions',
   TicketActions = 'TicketActions',
   TicketsActions = 'TicketsActions',
@@ -38,7 +41,8 @@ export enum EPageType {
   SINGLE_USER = 'singleUser',
   CREATE_TICKET = 'createTicket',
   PROFILE = 'profile',
-  CHANGE_PASSWORD = 'change_password',
+  CHANGE_PASSWORD = 'changePassword',
+  MANAGE_NOTIFICATIONS = 'manageNotifications',
 }
 
 const initialState: TLocationState = {
@@ -79,8 +83,20 @@ const locationSlice = createSlice({
 
         case EPageType.MANAGE_USERS:
           state.pageType = EPageType.MANAGE_USERS;
-          state.locationHeader = EMenuItem.NanageUsers;
+          state.locationHeader = EMenuItem.ManageUsers;
           state.options = [EOption.UsersActions];
+          break;
+
+        case EPageType.MANAGE_NOTIFICATIONS:
+          state.pageType = EPageType.MANAGE_NOTIFICATIONS;
+          state.locationHeader = EMenuItem.ManageNotifications;
+          state.options = [];
+          break;
+
+        case EPageType.CHANGE_PASSWORD:
+          state.pageType = EPageType.CHANGE_PASSWORD;
+          state.locationHeader = EMenuItem.ChangePassword;
+          state.options = [];
           break;
 
         case EPageType.CREATE_USER:
@@ -101,6 +117,11 @@ const locationSlice = createSlice({
           state.options = [EOption.Save, EOption.Cancel];
           break;
 
+        case EPageType.PROFILE:
+          state.locationHeader = customHeader;
+          state.options = [EOption.SingleUserHeader, EOption.LoggedInUserActions];
+          break;
+
         case id:
           // * If general type is not enough, specific page type may be implemented
           if (customDetails.pageType === EPageType.SINGLE_USER) {
@@ -109,7 +130,7 @@ const locationSlice = createSlice({
           }
           if (customDetails.pageType === EPageType.PROFILE) {
             state.locationHeader = customHeader;
-            state.options = [EOption.SingleUserHeader, EOption.UserActions];
+            state.options = [EOption.SingleUserHeader, EOption.LoggedInUserActions];
           }
           if (customDetails.pageType === EPageType.TICKETS) {
             state.locationHeader = customHeader;

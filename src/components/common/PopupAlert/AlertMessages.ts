@@ -6,6 +6,7 @@ export enum AlertMessages {
   ERROR = 'Error occurred',
   USER_CREATED = 'User created',
   USER_UPDATED = 'User updated',
+  PASSWORD_CHANGED = 'Password changed',
   TICKET_CREATED = 'Ticket created',
   ATTACHMENT_UPLOADED = 'File uploaded',
   COMMENT_ADDED = 'Comment added',

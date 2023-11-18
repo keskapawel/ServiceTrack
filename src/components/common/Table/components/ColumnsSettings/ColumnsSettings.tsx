@@ -28,7 +28,7 @@ export const ColumnsSettings = ({ columns, setNewColumns, defaultColumns }: Colu
           <Select id='select-columns-multiple-checkbox' multiple value={['']} renderValue={() => 'Select Columns'} MenuProps={MenuProps} hidden>
             {defaultColumns.map((column) => (
               <MenuItem key={column.id} value={column.Header} onClick={() => handleClick(column)}>
-                <Checkbox checked={columns.find((item) => item.id === column.id)} />
+                <Checkbox checked={!!columns.find((item) => item.id === column.id)} />
                 <ListItemText primary={column.Header} />
               </MenuItem>
             ))}

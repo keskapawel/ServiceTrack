@@ -9,6 +9,7 @@ import { useAuthUserSelector } from 'reducers/auth-reducer';
 
 const Location = () => {
   const location = useLocation();
+  const { uuid } = useAuthUserSelector();
   const { program, id } = useParams();
   const dispatch = useAppDispatch();
 
@@ -24,7 +25,7 @@ const Location = () => {
         switch (location.pathname.split('/').at(2)) {
           case EPageType.MANAGE_USERS:
             header = `${selectedUser?.name} ${selectedUser?.surname}`;
-            details = { pageType: EPageType.SINGLE_USER };
+            details = id === uuid ? { pageType: EPageType.PROFILE } : { pageType: EPageType.SINGLE_USER };
             break;
           default:
             header = '';

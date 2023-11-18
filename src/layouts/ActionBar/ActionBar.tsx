@@ -8,6 +8,7 @@ import * as S from './styled';
 import { Cancel } from './components/Cancel';
 import { Save } from './components/Save';
 import { UsersActions } from './components/UsersActions';
+import { LoggedInUserActions } from './components/LoggedInUserActions';
 
 export const ActionBar = () => {
   const { locationHeader, options, path } = useLocationSelector();
@@ -22,6 +23,7 @@ export const ActionBar = () => {
         {options.includes(EOption.Save) && <Save />}
 
         {options.includes(EOption.UserActions) && <UserActions />}
+        {options.includes(EOption.LoggedInUserActions) && <LoggedInUserActions />}
         {options.includes(EOption.UsersActions) && <UsersActions />}
 
         {options.includes(EOption.TicketActions) && <TicketActions />}

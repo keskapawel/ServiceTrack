@@ -1,7 +1,10 @@
 import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import 'chart.js/auto';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import * as S from './styled';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface ChartProps {
   data: {
@@ -13,7 +16,7 @@ interface ChartProps {
   height?: number | string;
 }
 
-export const BarChartCounts = ({ data, height }: ChartProps) => {
+export const Component = ({ data, height }: ChartProps) => {
   const formatData = useMemo(() => {
     if (data?.[0]?.chart?.headers)
       return {
@@ -32,6 +35,7 @@ export const BarChartCounts = ({ data, height }: ChartProps) => {
     <S.Wrapper>
       {formatData?.labels && formatData?.labels?.length > 0 && (
         <Bar
+          redraw
           key={'chart-counts'}
           id={'chart-counts'}
           data={formatData}
@@ -63,3 +67,7 @@ export const BarChartCounts = ({ data, height }: ChartProps) => {
     </S.Wrapper>
   );
 };
+
+Component.displayName = 'BarChartCounts';
+
+export const BarChartCounts = memo(Component);

@@ -13,7 +13,7 @@ export type TableMenuOption<ItemType extends object, IdType> = Omit<OpenableMenu
 };
 
 export type TableProps<ItemType extends object, IdType = string> = Pick<TableOptions<ItemType>, 'columns' | 'data'> & {
-  menuOptions?: TableMenuOption<ItemType, IdType>[];
+  menuOptions?: TableMenuOption<ItemType, IdType>[] | ((row: ItemType) => TableMenuOption<ItemType, IdType>[]);
   itemIdAccessor: keyof ItemType;
   enableSortBy?: boolean;
   manualSortBy?: boolean;

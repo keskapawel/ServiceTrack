@@ -8,13 +8,14 @@ import { TableMenuOption } from './types';
 import { Icon } from '../Icon';
 import { ButtonType } from '../Button';
 import OpenableMenu from '../OpenableMenu';
+import { isFunction } from 'lodash-es';
 
 export type TableMenuCellProps<ItemType extends object, IdType> = {
   row: Row<ItemType>;
   itemId: IdType;
   hasBorder: boolean;
   menuOpener?: ReactElement;
-  menuOptions: TableMenuOption<ItemType, IdType>[];
+  menuOptions: any;
   onlyMenu?: boolean;
   menuOpenerButtonVariant: ButtonType['variant'];
   hasMultipleActions?: boolean;
@@ -30,10 +31,11 @@ export const TableMenuCellComponent = <ItemType extends object, IdType>({
   menuOpenerButtonVariant,
 }: TableMenuCellProps<ItemType, IdType>) => {
   const options: TableMenuOption<ItemType, IdType>[] = useMemo(() => {
-    // if (_.isFunction(menuOptions)) return menuOptions(row.original);
+    if (isFunction(menuOptions)) return menuOptions(row.original);
 
     return menuOptions;
-  }, [menuOptions]);
+  }, [menuOptions, row.original]);
+
   return (
     <IconCell
       $hasMenu

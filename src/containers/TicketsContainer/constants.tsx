@@ -11,6 +11,8 @@ import { Avatar } from 'components/common/Avatar';
 import { PRIORITY_OPTIONS, STATUS_OPTIONS } from 'utils/constants';
 import { EPageType } from 'reducers/location-reducer';
 import { EFieldType } from 'components/common/Status/constants';
+import { TableMenuOption } from 'components/common/Table';
+import { Icon } from 'components/common/Icon';
 
 export const columns: Column<ISingleTicket>[] = [
   {
@@ -122,3 +124,40 @@ export const columns: Column<ISingleTicket>[] = [
     order: 9,
   },
 ];
+
+export type TMenuOptions = {
+  turnOnNotifications?: boolean;
+  turnoffNotifications?: boolean;
+};
+
+export const availableMenuOptions: TMenuOptions = {
+  turnOnNotifications: true,
+  turnoffNotifications: true,
+};
+
+export enum EModalType {
+  TURN_ON_NOTIFICATIONS = 'TurnOnNotifications',
+  TURN_OFF_NOTIFICATIONS = 'TurnOffNotifications',
+}
+
+export const createMenuItems =
+  (options: TMenuOptions, callback: (modal: EModalType) => (id: string) => void) =>
+  (ticketData: ISingleTicket): TableMenuOption<ISingleTicket, string>[] => {
+    const menu: TableMenuOption<ISingleTicket, string>[] = [];
+    // console.log('modal', options, ticketData);
+    if (options.turnOnNotifications)
+      menu.push(
+        {
+          clickHandler: callback(EModalType.TURN_ON_NOTIFICATIONS),
+          label: 'Turn on notifications for this ticket',
+          icon: <Icon icon='BellIcon' />,
+        },
+        {
+          clickHandler: callback(EModalType.TURN_OFF_NOTIFICATIONS),
+          label: 'Turn off notifications for this ticket',
+          icon: <Icon icon='BellIcon' />,
+        },
+      );
+
+    return menu.length ? menu : [];
+  };

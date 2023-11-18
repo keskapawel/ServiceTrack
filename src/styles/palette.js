@@ -66,4 +66,6 @@ export const palette = {
   redBackLight: colors.jasperLight,
 };
 
+export const graphColorPalette = ['#ff8c8c', '	#d1dd93', '#c2d5f4', '#f68f3c', '#5e8d5a', '	#bdeeed'];
+
 // names from https://www.color-name.com/

@@ -25,9 +25,10 @@ export interface ISIngleUser {
   avatar: IUploadFileResponse | null;
 }
 
-export interface ISIngleUserUpdate extends Pick<ISIngleUser, 'uuid' | 'userName' | 'name' | 'surname' | 'email'> {
+export interface ISIngleUserUpdate extends Pick<ISIngleUser, 'name' | 'surname' | 'email'> {
   rules: { id: string }[] | undefined;
-  photoId: string;
+  photoId: string | null;
+  id: string;
 }
 
 export interface ISingleUserForm extends Omit<ISIngleUser, 'rules' | 'enabled' | 'id'> {

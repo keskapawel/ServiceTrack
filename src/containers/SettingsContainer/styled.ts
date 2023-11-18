@@ -21,7 +21,7 @@ export const BoxWrapper = styled.div`
 
 export const Title = styled.div`
   color: ${palette.baseColor};
-  font-size: ${fontSize[14]};
+  font-size: ${fontSize[16]};
   margin-left: 5px;
   font-weight: ${fontWeight.medium};
 `;

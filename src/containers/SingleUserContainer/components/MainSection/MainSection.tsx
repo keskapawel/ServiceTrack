@@ -57,8 +57,11 @@ export const MainSection = ({ data, createNewMode }: IProps) => {
   const onSubmit = useCallback(
     (submitData: ISingleUserForm) => {
       const newSubmitData = {
-        ...submitData,
-        photoId: submitData?.avatar?.uuid ?? submitData?.uploadFileData?.uuid ?? '',
+        id: submitData.uuid,
+        email: submitData.email,
+        name: submitData.name,
+        surname: submitData.surname,
+        photoId: submitData?.avatar?.uuid ?? submitData?.uploadFileData?.uuid ?? null,
         rules: submitData?.rules?.map((item) => ({ id: item.id })),
       };
 

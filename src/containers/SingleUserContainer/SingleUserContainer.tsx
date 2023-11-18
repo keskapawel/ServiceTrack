@@ -10,7 +10,7 @@ import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useGeneralUserActivityCountsQuery, useGeneralUserActivityInPeriodQuery } from 'services/analiticsData';
 import { formatDate, EDateType } from 'utils/common';
 import { ActivityChartInPeriod } from 'components/common/Charts';
-import { colors } from 'styles/palette';
+import { graphColorPalette } from 'styles/palette';
 import * as S from './styled';
 import { BarChartCounts } from 'components/common/Charts/BarChartCounts';
 
@@ -18,8 +18,6 @@ interface IProps {
   createNew?: boolean;
   showAnalitics?: boolean;
 }
-
-const colorPalette = [colors.darkOrchid, colors.carminePink, colors.blueberry, colors.myrtleGreen];
 
 export const SingleUserContainer = ({ createNew, showAnalitics = true }: IProps) => {
   const { selectedUser } = useUserSelector();
@@ -52,8 +50,8 @@ export const SingleUserContainer = ({ createNew, showAnalitics = true }: IProps)
           }}
         />
       )}
-      <MainSection data={data?.data.user ?? selectedUser} createNewMode={createNew} />
-      {showAnalitics && (
+      <MainSection data={createNew ? undefined : data?.data.user ?? selectedUser} createNewMode={createNew} />
+      {showAnalitics && !createNew && (
         <>
           <S.UserActivityHeader>User activity</S.UserActivityHeader>
           <S.ChartWrapper>
@@ -64,8 +62,8 @@ export const SingleUserContainer = ({ createNew, showAnalitics = true }: IProps)
                     data={generalUserActivityInPeriodChartData?.data.multiChart.dataSets.map((item, index) => ({
                       chart: item,
                       lineLabel: `User activity on ${item?.name?.split('(')?.at(-1)?.split(')')?.at(0) ?? 'Dataset'}`,
-                      borderColor: colorPalette[index],
-                      backgroundColor: colorPalette[index],
+                      borderColor: graphColorPalette[index],
+                      backgroundColor: graphColorPalette[index],
                       fill: false,
                     }))}
                   />
@@ -79,7 +77,7 @@ export const SingleUserContainer = ({ createNew, showAnalitics = true }: IProps)
                     {
                       chart: generalUserActivityCountsChartData?.data.chart,
                       lineLabel: 'Tickets activity',
-                      backgroundColor: colorPalette,
+                      backgroundColor: graphColorPalette,
                       fill: false,
                     },
                   ]}

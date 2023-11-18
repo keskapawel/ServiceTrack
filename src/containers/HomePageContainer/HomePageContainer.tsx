@@ -10,7 +10,7 @@ import { ActivityChartInPeriod } from 'components/common/Charts';
 import { useGetUserActivityCountrInPeriodQuery } from 'services/analiticsData';
 import { EActivityType } from 'models/AnaliticsData';
 import { EDateType, formatDate } from 'utils/common';
-import { colors } from 'styles/palette';
+import { colors, graphColorPalette } from 'styles/palette';
 
 const dummyData = [
   {
@@ -32,7 +32,7 @@ const dummyData = [
 export const HomePageContainer = () => {
   const { sortQuery, paginationQuery } = usePageDataSelector(EPageType.TICKETS);
   const { uuid } = useAuthUserSelector();
-  const { data } = useGetUserTicketsQuery({ id: uuid, sortQuery, paginationQuery });
+  const { data, isLoading } = useGetUserTicketsQuery({ id: uuid, sortQuery, paginationQuery });
   const { data: chartDataTicket } = useGetUserActivityCountrInPeriodQuery({
     userId: uuid,
     contentType: EActivityType.TICKET,
@@ -67,7 +67,13 @@ export const HomePageContainer = () => {
       </S.BoxesWrapper>
       <S.TicketListWrapper>
         <S.TicketListHeader>Your tickets</S.TicketListHeader>
-        <TicketsContainer tickets={data?.data.tickets} linkConstructor={EPageType.TICKETS} meta={data?.meta} initialSortBy={sortQuery} />
+        <TicketsContainer
+          isLoading={isLoading}
+          tickets={data?.data.tickets}
+          linkConstructor={EPageType.TICKETS}
+          meta={data?.meta}
+          initialSortBy={sortQuery}
+        />
       </S.TicketListWrapper>
       {chartDataTicket?.data.chart && chartDataComment?.data.chart && chartDataAll?.data.chart && (
         <S.ChartsWrapper>
@@ -77,22 +83,22 @@ export const HomePageContainer = () => {
               {
                 chart: chartDataTicket?.data.chart,
                 lineLabel: 'Tickets activity',
-                borderColor: colors.carminePink,
-                backgroundColor: colors.carminePink,
+                borderColor: graphColorPalette[0],
+                backgroundColor: graphColorPalette[0],
                 fill: false,
               },
               {
                 chart: chartDataComment?.data.chart,
                 lineLabel: 'Comments',
-                borderColor: colors.blueberry,
-                backgroundColor: colors.blueberry,
+                borderColor: graphColorPalette[4],
+                backgroundColor: graphColorPalette[4],
                 fill: false,
               },
               {
                 chart: chartDataAll?.data.chart,
                 lineLabel: 'Whole activity',
-                borderColor: colors.myrtleGreen,
-                backgroundColor: colors.myrtleGreen,
+                borderColor: graphColorPalette[3],
+                backgroundColor: graphColorPalette[3],
                 fill: false,
               },
             ]}

@@ -31,7 +31,7 @@ export const usersApi = api.injectEndpoints({
         return {
           url: `adminModule/user`,
           method: 'PUT',
-          body: { ...data, id: data.uuid },
+          body: data,
         };
       },
       invalidatesTags: [BASE_TAGS.SINGLE_USER, BASE_TAGS.PROFILE],

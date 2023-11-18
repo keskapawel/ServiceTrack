@@ -6,12 +6,12 @@ import { useTicketsQuery } from 'services/tickets';
 
 const TicketsPage = () => {
   const { sortQuery, paginationQuery } = usePageDataSelector(EPageType.TICKETS);
-  const { data } = useTicketsQuery({ sortQuery, paginationQuery });
+  const { data, isLoading } = useTicketsQuery({ sortQuery, paginationQuery });
 
   return (
     <>
       <HelmetTags title={'Tickets'} />
-      <TicketsContainer tickets={data?.data.tickets} meta={data?.meta} initialSortBy={sortQuery} />
+      <TicketsContainer isLoading={isLoading} tickets={data?.data.tickets} meta={data?.meta} initialSortBy={sortQuery} />
     </>
   );
 };

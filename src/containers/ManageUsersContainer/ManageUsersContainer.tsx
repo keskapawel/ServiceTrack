@@ -25,10 +25,6 @@ export const ManageUsersContainer = () => {
     dispatch(setSelectedUser({ selectedUser: value }));
   };
 
-  useEffect(() => {
-    dispatch(setSelectedUser({ selectedUser: undefined }));
-  }, []);
-
   const onChangeSort = useCallback(
     (sortBy?: SortQuery) => {
       dispatch(

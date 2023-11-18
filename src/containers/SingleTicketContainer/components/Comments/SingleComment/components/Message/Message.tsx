@@ -16,10 +16,20 @@ export const Message = ({ oldValue, newValue, fieldName, systemActivity, userAct
   const { selectedTicket } = useTicketSelector();
   return (
     <S.Wrapper>
-      {userActivity && <Typography>{newValue}</Typography>}
+      {userActivity && ![EFieldName.ATTACHMENTS, EFieldName.NEW_TICKET].includes(fieldName) && <Typography>{newValue}</Typography>}
       {fieldName === EFieldName.NEW_TICKET && (
         <Typography>
           Ticket <b>#{selectedTicket?.id}</b> was created by{' '}
+          <b>
+            {selectedTicket?.creator.name} {selectedTicket?.creator.surname}
+          </b>
+        </Typography>
+      )}
+      {fieldName === EFieldName.ATTACHMENTS && (
+        <Typography>
+          New file&nbsp;
+          <b>{newValue}</b>
+          &nbsp;was uploaded by&nbsp;
           <b>
             {selectedTicket?.creator.name} {selectedTicket?.creator.surname}
           </b>

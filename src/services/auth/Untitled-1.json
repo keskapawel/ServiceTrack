@@ -1,0 +1,148 @@
+{
+  "notificationOptions": [
+    {
+      "uuid": "8c6f105c-170b-4d49-8eef-f889fa0ad1c3",
+      "id": 0,
+      "lastModificationDate": "2023-11-18T18:08:10.76385",
+      "user": {
+        "uuid": "52c0e9ee-02b1-45fa-86c1-256a7cb835aa",
+        "id": 5,
+        "name": "Sam",
+        "surname": "Witwity",
+        "avatar": {
+          "id": 0
+        },
+        "credentialsExpired": false
+      },
+      "app": false,
+      "email": false,
+      "type": "Note"
+    },
+    {
+      "uuid": "06e747fe-6422-4383-b212-dfd486acd474",
+      "id": 0,
+      "lastModificationDate": "2023-11-18T18:08:10.78043",
+      "user": {
+        "uuid": "52c0e9ee-02b1-45fa-86c1-256a7cb835aa",
+        "id": 5,
+        "name": "Sam",
+        "surname": "Witwity",
+        "avatar": {
+          "id": 0
+        },
+        "credentialsExpired": false
+      },
+      "app": false,
+      "email": false,
+      "type": "Title"
+    },
+    {
+      "uuid": "c61324b0-2d6f-4794-849d-882c329c353c",
+      "id": 0,
+      "lastModificationDate": "2023-11-18T18:08:10.790257",
+      "user": {
+        "uuid": "52c0e9ee-02b1-45fa-86c1-256a7cb835aa",
+        "id": 5,
+        "name": "Sam",
+        "surname": "Witwity",
+        "avatar": {
+          "id": 0
+        },
+        "credentialsExpired": false
+      },
+      "app": false,
+      "email": false,
+      "type": "State"
+    },
+    {
+      "uuid": "159bfec0-ed8a-454d-bf9a-618f185da7f0",
+      "id": 0,
+      "lastModificationDate": "2023-11-18T18:08:10.800324",
+      "user": {
+        "uuid": "52c0e9ee-02b1-45fa-86c1-256a7cb835aa",
+        "id": 5,
+        "name": "Sam",
+        "surname": "Witwity",
+        "avatar": {
+          "id": 0
+        },
+        "credentialsExpired": false
+      },
+      "app": false,
+      "email": false,
+      "type": "Attachments"
+    },
+    {
+      "uuid": "2c688895-2e40-4f66-ab5a-a0cacd198de9",
+      "id": 0,
+      "lastModificationDate": "2023-11-18T18:08:10.809599",
+      "user": {
+        "uuid": "52c0e9ee-02b1-45fa-86c1-256a7cb835aa",
+        "id": 5,
+        "name": "Sam",
+        "surname": "Witwity",
+        "avatar": {
+          "id": 0
+        },
+        "credentialsExpired": false
+      },
+      "app": false,
+      "email": false,
+      "type": "Assigned"
+    },
+    {
+      "uuid": "9ddd089f-df70-4144-9ad2-7db65dc5661e",
+      "id": 0,
+      "lastModificationDate": "2023-11-18T18:08:10.820536",
+      "user": {
+        "uuid": "52c0e9ee-02b1-45fa-86c1-256a7cb835aa",
+        "id": 5,
+        "name": "Sam",
+        "surname": "Witwity",
+        "avatar": {
+          "id": 0
+        },
+        "credentialsExpired": false
+      },
+      "app": false,
+      "email": false,
+      "type": "Description"
+    },
+    {
+      "uuid": "18a7b701-17d6-4efd-bc94-116b67fc2d5d",
+      "id": 0,
+      "lastModificationDate": "2023-11-18T18:08:10.828699",
+      "user": {
+        "uuid": "52c0e9ee-02b1-45fa-86c1-256a7cb835aa",
+        "id": 5,
+        "name": "Sam",
+        "surname": "Witwity",
+        "avatar": {
+          "id": 0
+        },
+        "credentialsExpired": false
+      },
+      "app": false,
+      "email": false,
+      "type": "Add Comment"
+    },
+    {
+      "uuid": "c12771d9-37be-46b2-849c-feb77b70a48f",
+      "id": 0,
+      "lastModificationDate": "2023-11-18T18:08:10.837406",
+      "user": {
+        "uuid": "52c0e9ee-02b1-45fa-86c1-256a7cb835aa",
+        "id": 5,
+        "name": "Sam",
+        "surname": "Witwity",
+        "avatar": {
+          "id": 0
+        },
+        "credentialsExpired": false
+      },
+      "app": false,
+      "email": false,
+      "type": "Priority"
+    }
+  ]
+}

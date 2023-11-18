@@ -1,6 +1,7 @@
 export enum BASE_TAGS {
   ERROR = 'Error',
   PROFILE = 'Profile',
+  USER_NOTIFICATIONS_LIST = 'UserNotificationsList',
   TICKETS = 'Tickets',
   TICKET = 'Ticket',
   USER_TICKETS = 'UserTickets',

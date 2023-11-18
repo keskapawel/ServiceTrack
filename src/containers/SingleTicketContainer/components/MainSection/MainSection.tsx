@@ -53,12 +53,12 @@ export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
   const onSubmit = useCallback(
     (submitData: ISingleTicketForm) => {
       const sendData = {
-        id: createNewMode ? null : submitData.uuid,
+        id: createNewMode ? null : submitData?.uuid,
         title: submitData.title === data?.title ? null : submitData.title,
         description: submitData.description === data?.description ? null : submitData.description,
         client: submitData.client === data?.client ? null : submitData.client || activeClient?.uuid,
-        creator: submitData.creator.uuid === data?.creator.uuid ? null : submitData.creator.uuid || authUserUUID,
-        assigned: data?.assigned.uuid === submitData.assigned.uuid ? null : submitData.assigned.uuid || authUserUUID,
+        creator: submitData.creator?.uuid === data?.creator?.uuid ? null : submitData.creator?.uuid || authUserUUID,
+        assigned: data?.assigned?.uuid === submitData.assigned?.uuid ? null : submitData.assigned?.uuid || authUserUUID,
         state: data?.state === submitData.state?.key ? null : submitData.state?.key || null,
         priority: data?.priority === submitData.priority?.key ? null : submitData.priority?.key || null,
         note: data?.note === submitData.note ? null : submitData.note,
@@ -71,9 +71,9 @@ export const MainSection = ({ data, createNewMode, documentData }: IProps) => {
       authUserUUID,
       createNewMode,
       createSingleTicket,
-      data?.assigned.uuid,
+      data?.assigned?.uuid,
       data?.client,
-      data?.creator.uuid,
+      data?.creator?.uuid,
       data?.description,
       data?.note,
       data?.priority,

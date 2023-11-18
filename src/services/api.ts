@@ -18,6 +18,7 @@ export const api = createApi({
   // refetch threshold X seconds (for new subscriptions)
   refetchOnMountOrArgChange: true,
   refetchOnReconnect: true,
+  refetchOnFocus: true,
 });
 
 export const { useRefetchErroredQueriesMutation } = api;

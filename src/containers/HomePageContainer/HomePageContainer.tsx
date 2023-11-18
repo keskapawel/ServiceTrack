@@ -3,7 +3,7 @@ import * as S from './styled';
 import { SettingsBox } from 'components/common/SettingsBox/SettingsBox';
 import { EPageType } from 'reducers/location-reducer';
 import { TicketsContainer } from 'containers/TicketsContainer';
-import { useGetUserTicketsQuery } from 'services/tickets';
+import { useGetUserFollowingTicketsQuery, useGetUserTicketsQuery } from 'services/tickets';
 import { useAuthUserSelector } from 'reducers/auth-reducer';
 import { usePageDataSelector } from 'reducers/pageData-reducer';
 import { ActivityChartInPeriod } from 'components/common/Charts';
@@ -33,6 +33,11 @@ export const HomePageContainer = () => {
   const { sortQuery, paginationQuery } = usePageDataSelector(EPageType.TICKETS);
   const { uuid } = useAuthUserSelector();
   const { data, isLoading } = useGetUserTicketsQuery({ id: uuid, sortQuery, paginationQuery });
+  const { data: userFollowingTickets, isLoading: isUserFollowingTicketsLoading } = useGetUserFollowingTicketsQuery({
+    id: uuid,
+    sortQuery,
+    paginationQuery,
+  });
   const { data: chartDataTicket } = useGetUserActivityCountrInPeriodQuery({
     userId: uuid,
     contentType: EActivityType.TICKET,
@@ -70,6 +75,16 @@ export const HomePageContainer = () => {
         <TicketsContainer
           isLoading={isLoading}
           tickets={data?.data.tickets}
+          linkConstructor={EPageType.TICKETS}
+          meta={data?.meta}
+          initialSortBy={sortQuery}
+        />
+      </S.TicketListWrapper>
+      <S.TicketListWrapper>
+        <S.TicketListHeader>Tickets you are following</S.TicketListHeader>
+        <TicketsContainer
+          isLoading={isUserFollowingTicketsLoading}
+          tickets={userFollowingTickets?.data.tickets}
           linkConstructor={EPageType.TICKETS}
           meta={data?.meta}
           initialSortBy={sortQuery}

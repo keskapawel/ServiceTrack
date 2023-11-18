@@ -19,6 +19,7 @@ export enum EFieldName {
   ASSIGNED = 'Assigned',
   NEW_TICKET = 'New Ticket',
   ADD_COMMENT = 'Add Comment',
+  ATTACHMENTS = 'Attachments',
 }
 
 export interface IActivity {

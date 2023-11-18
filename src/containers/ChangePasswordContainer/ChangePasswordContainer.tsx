@@ -21,7 +21,6 @@ export const ChangePasswordContainer = () => {
 
   const onSubmit = useCallback(
     (submitData: TChangePasswordRequest) => {
-      console.log(submitData, 'submitData XDDDD');
       changePassword(submitData);
     },
     [changePassword],

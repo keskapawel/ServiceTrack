@@ -44,6 +44,8 @@ export const usersApi = api.injectEndpoints({
           body: {
             ...data,
             uuid: null,
+            id: null,
+            password: 'admin',
           },
         };
       },

@@ -1,7 +1,7 @@
 import { HelmetTags } from 'components/common/HelmetTags';
 import { ManageUsersContainer } from 'containers/ManageUsersContainer';
 
-const ManageNotificationsPage = () => {
+const ManageUsersPage = () => {
   return (
     <>
       <HelmetTags title={'Manage Notifications'} />
@@ -10,4 +10,4 @@ const ManageNotificationsPage = () => {
   );
 };
 
-export default ManageNotificationsPage;
+export default ManageUsersPage;

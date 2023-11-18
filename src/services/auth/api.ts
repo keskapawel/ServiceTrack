@@ -5,6 +5,7 @@ import type { IApiData } from '../../models/Api';
 import type { TChangePasswordRequest, TLoginRequest, TLogoutResponse, TRegisterRequest } from './types';
 import { ISingleProfile } from 'models/Profile';
 import { ISIngleUser, ISIngleUserUpdate } from 'models/User';
+import { INotificationsList, IUpdateNotification } from 'models/UserNotificationList';
 
 export const authApi = api.injectEndpoints({
   endpoints: (build) => ({
@@ -51,9 +52,33 @@ export const authApi = api.injectEndpoints({
       }),
       invalidatesTags: [BASE_TAGS.PROFILE],
     }),
+    updateNotificationsSettings: build.mutation<IApiData<INotificationsList>, IUpdateNotification[]>({
+      query: (data) => ({
+        url: 'profile/notifications',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [BASE_TAGS.PROFILE, BASE_TAGS.USER_NOTIFICATIONS_LIST],
+    }),
+    getNotificationsSettings: build.query<IApiData<INotificationsList>, void>({
+      query: () => ({
+        url: 'profile/notifications',
+        method: 'GET',
+      }),
+      keepUnusedDataFor: 0.000001,
+      providesTags: [BASE_TAGS.USER_NOTIFICATIONS_LIST],
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useLogInMutation, useProfileQuery, useLogOutMutation, useRegisterMutation, useChangePasswordMutation, useUpdateLoggedUserMutation } =
-  authApi;
+export const {
+  useLogInMutation,
+  useProfileQuery,
+  useLogOutMutation,
+  useRegisterMutation,
+  useChangePasswordMutation,
+  useUpdateLoggedUserMutation,
+  useGetNotificationsSettingsQuery,
+  useUpdateNotificationsSettingsMutation,
+} = authApi;

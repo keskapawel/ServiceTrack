@@ -59,7 +59,7 @@ export const columns: Column<ISingleTicket>[] = [
     id: 'assigned',
     accessor: 'assigned',
     Cell: memo(({ value }: CellProps) => {
-      return <Avatar firstName={value.name} lastName={value.surname} id={value.id} extended picture={value?.avatar?.url} />;
+      return <Avatar firstName={value?.name} lastName={value?.surname} id={value?.id} extended picture={value?.avatar?.url} />;
     }),
     width: 250,
     redirectOnClick: true,
@@ -102,6 +102,17 @@ export const columns: Column<ISingleTicket>[] = [
       );
     }),
     redirectOnClick: false,
+    width: 200,
+    order: 7,
+  },
+  {
+    Header: 'Following',
+    id: 'currentUserSubscribed',
+    accessor: 'currentUserSubscribed',
+    Cell: memo((props: CellProps) => {
+      return <Status status={String(props.row.original.currentUserSubscribed)} />;
+    }),
+    redirectOnClick: true,
     width: 200,
     order: 7,
   },

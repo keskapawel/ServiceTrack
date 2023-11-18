@@ -25,12 +25,25 @@ export const ticketsApi = api.injectEndpoints({
           method: 'PATCH',
         };
       },
-      invalidatesTags: [BASE_TAGS.TICKETS, BASE_TAGS.TICKET],
+      invalidatesTags: [BASE_TAGS.TICKETS, BASE_TAGS.TICKET, BASE_TAGS.USER_TICKETS],
     }),
     getUserTickets: build.query<IPaginationApiData<ITicket>, IQuery & { id: string }>({
       query: ({ paginationQuery, sortQuery, id }) => {
         return {
           url: `serviceModule/tickets/${id}`,
+          params: {
+            ...paginationQuery,
+            ...sortQuery,
+            size: 5,
+          },
+        };
+      },
+      providesTags: [BASE_TAGS.USER_TICKETS],
+    }),
+    getUserFollowingTickets: build.query<IPaginationApiData<ITicket>, IQuery & { id: string }>({
+      query: ({ paginationQuery, sortQuery, id }) => {
+        return {
+          url: `serviceModule/tickets/${id}/subscribed`,
           params: {
             ...paginationQuery,
             ...sortQuery,
@@ -79,4 +92,5 @@ export const {
   useUpdateSingleTicketMutation,
   useCreateSingleTicketMutation,
   useManageSubscribtionMutation,
+  useGetUserFollowingTicketsQuery,
 } = ticketsApi;

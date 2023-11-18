@@ -27,7 +27,14 @@ export const filesApi = api.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: [BASE_TAGS.UPLOAD_FILE, BASE_TAGS.SINGLE_USER, BASE_TAGS.TICKET, BASE_TAGS.PROFILE],
+      invalidatesTags: [
+        BASE_TAGS.UPLOAD_FILE,
+        BASE_TAGS.SINGLE_USER,
+        BASE_TAGS.TICKET,
+        BASE_TAGS.PROFILE,
+        BASE_TAGS.TICKET_ACTIVITY,
+        BASE_TAGS.TICKET_COMMENTS,
+      ],
     }),
     editFile: build.mutation<IApiData<{ file: IUploadFileResponse }>, IUploadFile & { id: string }>({
       query: ({ id, file, description }) => {
@@ -41,7 +48,7 @@ export const filesApi = api.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: [BASE_TAGS.UPLOAD_FILE, BASE_TAGS.SINGLE_USER, BASE_TAGS.TICKET],
+      invalidatesTags: [BASE_TAGS.UPLOAD_FILE, BASE_TAGS.SINGLE_USER, BASE_TAGS.TICKET, BASE_TAGS.TICKET_ACTIVITY, BASE_TAGS.TICKET_COMMENTS],
     }),
     uploadFileToNewResource: build.mutation<IApiData<{ file: IUploadFileResponse }>, IUploadFile>({
       query: ({ file, description }) => {
@@ -55,7 +62,7 @@ export const filesApi = api.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: [BASE_TAGS.UPLOAD_FILE, BASE_TAGS.SINGLE_USER, BASE_TAGS.TICKET],
+      invalidatesTags: [BASE_TAGS.UPLOAD_FILE, BASE_TAGS.SINGLE_USER, BASE_TAGS.TICKET, BASE_TAGS.TICKET_ACTIVITY, BASE_TAGS.TICKET_COMMENTS],
     }),
     removeFile: build.mutation<IApiData<unknown>, { id: string }>({
       query: ({ id }) => {
@@ -64,7 +71,7 @@ export const filesApi = api.injectEndpoints({
           method: 'DELETE',
         };
       },
-      invalidatesTags: [BASE_TAGS.TICKET, BASE_TAGS.SINGLE_USER],
+      invalidatesTags: [BASE_TAGS.TICKET, BASE_TAGS.SINGLE_USER, BASE_TAGS.TICKET_ACTIVITY, BASE_TAGS.TICKET_COMMENTS],
     }),
     downloadFile: build.mutation<IApiData<unknown>, { id: string; fileName: string }>({
       query: ({ id, fileName }) => {

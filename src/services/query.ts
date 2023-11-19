@@ -38,7 +38,6 @@ export const baseQuery = fetchBaseQuery({
     headers.set('Accept', 'application/json');
     headers.set('Access-Control-Allow-Origin', '*');
 
-    console.log(token, 'token');
     if (token) {
       headers.set(AUTH_HEADER, token);
     }

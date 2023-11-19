@@ -29,8 +29,6 @@ export const ManageNotificationContainer = ({ data, isLoading }: IProps) => {
 
   const onSubmit = useCallback(
     (submitData) => {
-      console.log(submitData, 'submitData');
-
       const sendData = [
         {
           id: data?.find((item) => item.type === EFIELD.ASSIGNED)?.uuid ?? '',
@@ -74,14 +72,10 @@ export const ManageNotificationContainer = ({ data, isLoading }: IProps) => {
         },
       ];
 
-      console.log(sendData, 'sendData');
-
       updateNotificationsSettings(sendData);
     },
     [data, updateNotificationsSettings],
   );
-
-  console.log(data, 'data');
 
   const formik = useFormik({
     initialValues: {
@@ -129,8 +123,6 @@ export const ManageNotificationContainer = ({ data, isLoading }: IProps) => {
 
   const getOptionLabel = (option) => option?.name ?? '';
   const isOptionEqualToValue = (option1, option2) => option1?.value === option2?.value;
-
-  console.log(values);
 
   return (
     <>

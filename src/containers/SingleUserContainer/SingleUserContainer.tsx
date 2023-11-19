@@ -47,7 +47,7 @@ export const SingleUserContainer = ({ createNew, showAnalitics = true, profilePa
         <Header
           data={{
             creationDate: data?.data.user?.creationDate,
-            lastLogin: data?.data.user?.lastLoginDateTime,
+            lastLogin: data?.data.user?.lastLoginDate,
             enabled: String(data?.data.user?.enabled),
             expired: String(data?.data.user?.expired),
           }}

@@ -21,7 +21,7 @@ export const initialFormValues: ISingleUserForm = {
   name: null,
   surname: '',
   email: '',
-  lastLoginDateTime: null,
+  lastLoginDate: null,
   credentialExpireDate: null,
   accountExpireDate: null,
   enabled: true,

@@ -12,7 +12,7 @@ export interface ISIngleUser {
   name: string | null;
   surname: string;
   email: string;
-  lastLoginDateTime: null;
+  lastLoginDate: null;
   credentialExpireDate: null;
   accountExpireDate: null;
   enabled: boolean;

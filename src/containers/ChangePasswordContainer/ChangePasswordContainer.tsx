@@ -55,8 +55,6 @@ export const ChangePasswordContainer = () => {
     }
   }, [isSuccess, error, validateForm, dispatch, navigate, data?.status]);
 
-  console.log(values);
-
   return (
     <>
       <S.Wrapper>
